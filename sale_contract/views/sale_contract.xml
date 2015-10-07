@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
+        <!-- show terms on quotation page -->
         <template id="terms_page_in_quotation" inherit_id="website_quote.pricing" name="Terms Page in Quotation">
             <xpath expr="//section[@id='terms']" position="replace">
                 <section id="terms" class="container" t-if="quotation.project_id.description">
