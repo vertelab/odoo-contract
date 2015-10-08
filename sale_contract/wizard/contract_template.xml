@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="create_contract" model="ir.ui.view">
+            <field name="name">sale.contract.wizard.form</field>
+            <field name="model">sale.contract.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Contract">
+                    <field name="template_id" domain="[('type','=','template')]" context="{'default_type' : 'template'}"/>
+                    <footer>
+                        <button type="object" name="create_contract" string="Create contract" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Create Contract"
+            res_model="sale.contract.wizard"
+            src_model="sale.order"
+            key2="client_action_multi"
+            view_mode="form"
+            view_type="form"
+            id="sale_contract.contract_templates"
+            target="new"
+        />
+
+        <record id="contract_template" model="ir.actions.act_window">
+            <field name="name">Connect to a contract</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="create_contract"/>
+            <field name="target">new</field>
+        </record>
+
+
+    </data>
+</openerp>

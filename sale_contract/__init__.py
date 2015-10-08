@@ -1,1 +1,2 @@
-# import sale_contract
+import sale_contract
+import wizard

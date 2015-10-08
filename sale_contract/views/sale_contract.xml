@@ -7,11 +7,13 @@
                 <section id="terms" class="container" t-if="quotation.project_id.description">
                     <h2 class="page-header">Terms &amp; Conditions</h2>
                     <p t-field="quotation.project_id.description"/>
+                    <a t-att-href="'/page/%s' % quotation.project_id.terms_page.name">View more</a>
                 </section>
                 <section id="terms" class="container" t-if="not quotation.project_id.description">
                     <div t-if="quotation.note">
                         <h2 class="page-header">Terms &amp; Conditions</h2>
                         <p t-field="quotation.note"/>
+                        <!--<a t-att-href="'page/%s' %quotation.project_id.description">View more</a>-->
                     </div>
                 </section>
             </xpath>

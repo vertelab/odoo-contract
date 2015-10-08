@@ -18,6 +18,7 @@ Manage your contract.
     'depends': ['account_analytic_analysis', 'website_quote'],
     'data': [
         'views/sale_contract.xml',
+        'wizard/contract_template.xml',
        ],
     'installable': True,
 }
