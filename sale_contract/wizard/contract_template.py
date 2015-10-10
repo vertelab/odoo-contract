@@ -1,6 +1,9 @@
 from openerp import models, fields, api, _
 from datetime import datetime
 from openerp import tools
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class sale_contract_wizard(models.TransientModel):
@@ -10,12 +13,19 @@ class sale_contract_wizard(models.TransientModel):
 
     @api.one
     def create_contract(self):
+        service = self.env['product.product'].search([('type', '=', 'service')])
+        goods = self.env['product.product'].search([('type', '=', 'consu')])
+        _logger.warning('<<<<<<<<<<< SERVICE >>>>>>>>>>>: %s' % service)
+        _logger.warning('<<<<<<<<<<< GOODS >>>>>>>>>>>: %s' % goods)
+
         for order in self.env['sale.order'].browse(self._context.get('active_ids')):
-            # skapa en record fran template (copy)
+            # copy a record from a template to a contract
             contract = self.template_id.copy({
                 'date_start': fields.date.today(),
-                'hours_qtt_est': sum([l.price_subtotal for l in order.order_line]),
+                # 'amount_max': sum([l.price_subtotal for l in order.order_line.product_id]),  # TODO: find out the product ids of goods
+                # 'hours_qtt_est': sum([l.price_subtotal for l in order.order_line.product_id]),  # TODO: find out the product ids of service
                 'invoice_on_timesheets': True,
+                'type': 'template',
             })
             if self.template_id.date_start and self.template_id.date:
                 from_dt = datetime.strptime(self.template_id.date_start, tools.DEFAULT_SERVER_DATE_FORMAT)
@@ -26,3 +36,7 @@ class sale_contract_wizard(models.TransientModel):
                 contract.date_start = fields.date.today()
             contract.name = order.name
             order.project_id = contract
+
+
+class project(models.Model):
+    _inherit = 'project.project'

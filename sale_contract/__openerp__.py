@@ -18,6 +18,8 @@ Manage your contract.
     'depends': ['account_analytic_analysis', 'website_quote'],
     'data': [
         'views/sale_contract.xml',
+        'security/ir.model.access.csv',
+        'security/sale_contract_security.xml',
         'wizard/contract_template.xml',
        ],
     'installable': True,
