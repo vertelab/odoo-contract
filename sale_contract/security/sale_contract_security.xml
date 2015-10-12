@@ -2,6 +2,16 @@
 <openerp>
     <data>
 
+    <!--<record model="ir.rule" id="ir_values_my_costume_rule">-->
+        <!--<field name="name">My Rule Name</field>-->
+        <!--<field name="model_id" ref="model_your_model_name"/>-->
+        <!--<field name="domain_force">[('field','operator','value'),('user_id','=',user.id)]</field>-->
+        <!--<field name="perm_read" eval="True"/>-->
+        <!--<field name="perm_write" eval="True"/>-->
+        <!--<field name="perm_unlink" eval="True"/>-->
+        <!--<field name="perm_create" eval="True"/>-->
+    <!--</record>-->
+
     <!--<record model="ir.rule" id="account_analytic_account_rules">-->
         <!--<field name="name">Analytic Account</field>-->
         <!--<field name="model_id" ref="model_account_analytic_account"/>-->
@@ -12,27 +22,27 @@
                                     <!--]</field>-->
     <!--</record>-->
 
-    <record model="ir.rule" id="ir_project_rules">
-        <field name="name">Project Rules</field>
-        <field name="model_id" ref="model_project_project"/>
-        <field name="domain_force">[('company_id','=','False'),('company_id', 'child_of', [user.company_id.id]),]</field>
-        <field name="perm_read" eval="True"/>
-        <field name="perm_write" eval="True"/>
-        <field name="perm_unlink" eval="True"/>
-        <field name="perm_create" eval="True"/>
-        <field name="global" eval="True"/>
-    </record>
+    <!--<record model="ir.rule" id="ir_project_rules">-->
+        <!--<field name="name">Project Rules</field>-->
+        <!--<field name="model_id" ref="model_project_project"/>-->
+        <!--<field name="domain_force">['|',('company_id','=','False'),('company_id', 'child_of', [user.company_id.id])]</field>-->
+        <!--<field name="perm_read" eval="True"/>-->
+        <!--<field name="perm_write" eval="True"/>-->
+        <!--<field name="perm_unlink" eval="True"/>-->
+        <!--<field name="perm_create" eval="True"/>-->
+        <!--<field name="global" eval="True"/>-->
+    <!--</record>-->
 
-    <record model="ir.rule" id="ir_analytic_rules">
-        <field name="name">Analytic Rules</field>
-        <field name="model_id" ref="model_account_analytic_account"/>
-        <field name="domain_force">[('company_id','=','False'),('company_id', 'child_of', [user.company_id.id]),]</field>
-        <field name="perm_read" eval="True"/>
-        <field name="perm_write" eval="True"/>
-        <field name="perm_unlink" eval="True"/>
-        <field name="perm_create" eval="True"/>
-        <field name="global" eval="True"/>
-    </record>
+    <!--<record model="ir.rule" id="ir_analytic_rules">-->
+        <!--<field name="name">Analytic Rules</field>-->
+        <!--<field name="model_id" ref="model_account_analytic_account"/>-->
+        <!--<field name="domain_force">['|',('company_id','=','False'),('company_id', 'child_of', [user.company_id.id])]</field>-->
+        <!--<field name="perm_read" eval="True"/>-->
+        <!--<field name="perm_write" eval="True"/>-->
+        <!--<field name="perm_unlink" eval="True"/>-->
+        <!--<field name="perm_create" eval="True"/>-->
+        <!--<field name="global" eval="True"/>-->
+    <!--</record>-->
 
     </data>
 </openerp>

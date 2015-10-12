@@ -11,6 +11,5 @@ class sale_order(models.Model):
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
 
-    terms_page = fields.Many2one(comodel_name='ir.model.data', domain='(["module", "=", "website"])')
-
-
+    terms_page = fields.Many2one(comodel_name='ir.model.data', domain=[('module', '=', 'website')])
+    # terms_page = fields.Many2one(comodel_name='ir.ui.view', domain=[('type', '=', 'QWeb')])
