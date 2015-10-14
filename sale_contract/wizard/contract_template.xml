@@ -7,7 +7,9 @@
             <field name="model">sale.contract.wizard</field>
             <field name="arch" type="xml">
                 <form string="Create Contract">
-                    <field name="template_id" domain="[('type','=','template')]" context="{'default_type' : 'template'}"/>
+                    <group>
+                        <field name="template_id" domain="[('type','=','template')]" context="{'default_type' : 'template'}"/>
+                    </group>
                     <footer>
                         <button type="object" name="create_contract" string="Create contract" class="oe_highlight"/>
                         <button special="cancel" string="Cancel"/>
