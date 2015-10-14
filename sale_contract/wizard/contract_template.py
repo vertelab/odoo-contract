@@ -13,7 +13,11 @@ class sale_contract_wizard(models.TransientModel):
 
     @api.one
     def create_contract(self):
-        service = self.env['product.product'].search([('type', '=', 'service')])
+        categ_wtime = self.env.ref('product.uom_categ_wtime') # Working time-type
+        service_uom = self.env['product.uom'].search([('category_id', '=', categ_wtime.id)]) # All uom of working time type
+        service_products = self.env['product.product'].search([('type', '=', 'service'),('uom_id','in',service_uom)])
+        other_products = self.env['product.product'].search([]) - service_products
+        service = self.env['product.product'].search([('type', '=', 'service'),('','','')])
         goods = self.env['product.product'].search([('type', '=', 'consu')])
         _logger.warning('<<<<<<<<<<< SERVICE >>>>>>>>>>>: %s' % service)
         _logger.warning('<<<<<<<<<<< GOODS >>>>>>>>>>>: %s' % goods)
@@ -22,8 +26,8 @@ class sale_contract_wizard(models.TransientModel):
             # copy a record from a template to a contract
             contract = self.template_id.copy({
                 'date_start': fields.date.today(),
-                # 'amount_max': sum([l.price_subtotal for l in order.order_line.product_id]),  # TODO: find out the product ids of goods
-                # 'hours_qtt_est': sum([l.price_subtotal for l in order.order_line.product_id]),  # TODO: find out the product ids of service
+                'amount_max': sum([l.price_subtotal for l in order.order_line if not l.product_id.id in [p.id for p in other_products]]),  # TODO: find out the product ids of goods
+                'hours_qtt_est': sum([l.price_subtotal for l in order.order_line if l.product_id.id in [p.id for p in service_products]]),  # TODO: find out the product ids of service
                 'invoice_on_timesheets': True,
                 'type': 'template',
             })
