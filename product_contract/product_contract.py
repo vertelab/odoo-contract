@@ -8,7 +8,7 @@ class product_contract_wizard(models.TransientModel):
     #template_id = fields.Many2one(comodel_name='account.analytic.account', string='Template of Contract', domain=(['type', '=', 'template']))
 
     @api.one
-    def create_contract(self):
+    def create_invoice(self):
         for contract in self.env['account.analytic.account'].browse(self._context.get('active_ids')):
             contract.recurring_create_invoice()
      
