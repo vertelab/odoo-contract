@@ -1,7 +1,18 @@
 <openerp>
-<data>
-    
-</data>
+  <data>
+    <record id="account_analytic_account_form_view" model="ir.ui.view">
+      <field name="name">account.analytic.account.form</field>
+      <field name="model">account.analytic.account</field>
+      <field name="inherit_id" ref="analytic.view_account_analytic_account_form" />
+      <field name="arch" type="xml">
+        <field name="description" position="after">
+          <!--<field name="terms_page" options="{'no_open': True}"/>-->
+          <group>
+            <field name="terms_page" t-att-href="'page/%s' % quotation.project_id.terms_page.name"/>
+        </group>
 
-
+        </field>
+      </field>
+    </record>
+  </data>
 </openerp>

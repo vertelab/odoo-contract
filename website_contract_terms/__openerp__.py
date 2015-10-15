@@ -17,7 +17,7 @@ Terms on contracts
     'website': 'http://www.vertel.se',
     'depends': ['website', 'account_analytic_analysis'],
     'data': [
-        'website_sale_contract.xml',
+        'website_contract_terms.xml',
         ],
     'installable': True,
 }

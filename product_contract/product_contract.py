@@ -20,6 +20,7 @@ class product_template(models.Model):
     
     contract_id = fields.Many2one(comodel_name='account.analytic.account',
         string='Contract', domain=[('type', '=', 'template')])
+    
 
 class order_line(models.Model):
     _inherit = 'sale.order.line'
