@@ -18,18 +18,23 @@
 #
 ##############################################################################
 
-#~ from openerp import models, fields, api, _
-#~ 
-#~ 
-#~ class sale_order(models.Model):
-    #~ _inherit = "sale.order"
-#~ 
-    #~ # description = fields.Text(related='project_id.analytic_account_id.description', string='Terms')
-    #~ # terms_page = fields.Text(related='project_id.analytic_account_id.terms_page', string='Terms Page')
-#~ 
-#~ 
-#~ class account_analytic_account(models.Model):
-    #~ _inherit = 'account.analytic.account'
-#~ 
-    #~ terms_page = fields.Many2one(comodel_name='ir.model.data', domain=[('module', '=', 'website')])
-    #~ # terms_page = fields.Many2one(comodel_name='ir.ui.view', domain=[('type', '=', 'QWeb')])
+{
+    'name': 'Website Sale Contract',
+    'version': '1.0',
+    'category': 'Sale',
+    'description': """
+Sell products that will create a contract.
+==========================================
+
+
+    """,
+    'author': 'Vertel AB',
+    'website': 'http://www.vertel.se',
+    'depends': ['product_contract', 'website_sale', 'website_contract_terms'],
+    'data': [
+        'website_sale_contract.xml',
+        ],
+    'installable': True,
+}
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

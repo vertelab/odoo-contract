@@ -24,6 +24,34 @@
             </xpath>
         </field>
     </record>
+
+        <record id="recurring_create_invoice" model="ir.ui.view">
+            <field name="name">product.contract.wizard.form</field>
+            <field name="model">product.contract.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Recurring Create Invoice">
+                    <group>
+                    </group>
+                    <footer>
+                        <button type="object" name="create_inovice" string="Start" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Recurring Create Invoice"
+            res_model="product.contract.wizard"
+            src_model="account.analytic.account"
+            key2="client_action_multi"
+            view_mode="form"
+            view_type="form"
+            id="product_contract.recurring_create_invoice"
+            target="new"
+        />
+
+
+
     
 </data>
 
@@ -37,4 +65,7 @@ action_wait()</field>
         <field name="split_mode">OR</field>
     </record>
 </data>
+
+
+
 </openerp>

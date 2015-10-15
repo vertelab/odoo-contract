@@ -6,22 +6,19 @@
 ##############################################################################
 
 {
-    'name': 'Sale Contract',
+    'name': 'Website Contract Terms',
     'version': '1.0',
     'category': 'Sale',
     'description': """
-Manage your contract.
-=========================================================================================================
+Terms on contracts
+==================
     """,
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
-    'depends': ['account_analytic_analysis', 'website_quote','website_contract_terms'],
+    'depends': ['website', 'account_analytic_analysis'],
     'data': [
-        'views/sale_contract.xml',
-        # 'security/ir.model.access.csv',
-        # 'security/sale_contract_security.xml',
-        'wizard/contract_template.xml',
-       ],
+        'website_sale_contract.xml',
+        ],
     'installable': True,
 }
 

@@ -1,0 +1,16 @@
+<openerp>
+<data>
+   
+        <!-- show terms on product page -->
+        <template id="terms_page_in_shop" inherit_id="website_sale.products_item" name="Terms Page in Quotation">
+            <xpath expr="//div[@itemprop='offers']" position="after">
+                <section id="terms" class="container" t-if="product.contract_id and product.contract_id.terms_page">
+                    <a t-att-href="'/page/%s' % product.contract.terms_page.name">View terms</a>
+                </section>
+            </xpath>
+        </template>
+
+    
+</data>
+
+</openerp>
