@@ -2,6 +2,18 @@ from openerp import api, models, fields, _
 import logging
 _logger = logging.getLogger(__name__)
 
+class product_contract_wizard(models.TransientModel):
+    _name = 'product.contract.wizard'
+
+    #template_id = fields.Many2one(comodel_name='account.analytic.account', string='Template of Contract', domain=(['type', '=', 'template']))
+
+    @api.one
+    def create_contract(self):
+        for contract in self.env['account.analytic.account'].browse(self._context.get('active_ids')):
+            contract.recurring_create_invoice()
+     
+
+
 class product_template(models.Model):
     _inherit = 'product.template'
     
@@ -30,7 +42,12 @@ class sale_order(models.Model):
                     'partner_id': self.partner_id.id,
                     'date_start': contract.get_contract_start(),
                 })
-                
+                # kopiera fakturaraden från mallen, multiplicera antalet på alla fakturarader med antalet prenumerationer
+                #recurring_next_date = timedelta recurring_interval + 1 recurring_rule_type från inital recurring_next_date tills vi passerat dagens datum (om recurring_invoce True)
+                line.contract_id.name = self.name
+                self.project_id = line.contract_id
+        
+        
 class contract(models.Model):
     _inherit = 'account.analytic.account'
     
