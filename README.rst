@@ -1,10 +1,8 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License
 
-# odoo-contract
-
-Aditional functions on contracts
-================================
+Odoo-contract - aditional functions on contracts
+================================================
 
 * Products that creates contracts on sell 
 * Contract terms on quotations and in webshop
