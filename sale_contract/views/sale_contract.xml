@@ -2,6 +2,7 @@
 <openerp>
     <data>
         <!-- show terms on quotation page -->
+<!--
         <template id="terms_page_in_quotation" inherit_id="website_quote.pricing" name="Terms Page in Quotation">
             <xpath expr="//section[@id='terms']" position="replace">
                 <section id="terms" class="container" t-if="quotation.project_id.description">
@@ -13,13 +14,24 @@
                     <div t-if="quotation.note">
                         <h2 class="page-header">Terms &amp; Conditions</h2>
                         <p t-field="quotation.note"/>
-                        <!--<a t-att-href="'page/%s' %quotation.project_id.description">View more</a>-->
+                        <a t-att-href="'page/%s' %quotation.project_id.description">View more</a>
                     </div>
                 </section>
             </xpath>
         </template>
+-->
 
-
+   <record id="account_analytic_account_form_form" model="ir.ui.view">
+      <field name="name">account.analytic.account.sale.form</field>
+      <field name="model">account.analytic.account</field>
+      <field name="sequence" eval="99"/>
+      <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form" />
+      <field name="arch" type="xml">
+        <field name="invoice_on_timesheets" position="replace">
+                  <field name="invoice_on_timesheets"/>
+        </field>
+      </field>
+    </record>
 
     </data>
 </openerp>

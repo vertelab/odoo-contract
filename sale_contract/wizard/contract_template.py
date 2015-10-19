@@ -15,9 +15,10 @@ class sale_contract_wizard(models.TransientModel):
     def create_contract(self):
         categ_wtime = self.env.ref('product.uom_categ_wtime')  # Working time-type
         service_uom = [c.id for c in self.env['product.uom'].search([('category_id', '=', categ_wtime.id)])]  # All uom of working time type
-        service_products = [p.id for p in self.env['product.product'].search([('type', '=', 'service'), ('uom_id', 'in', service_uom)])]
-        other_products = [p.id for p in self.env['product.product'].search([]) if p.id not in service_products]
-
+        service_products = self.env['product.product'].search([('type', '=', 'service'), ('uom_id', 'in', service_uom)])
+        other_products = self.env['product.product'].search([]).filtered(lambda p: p not in service_products)
+                
+        raise Warning('Service products %s  in %s ' % (service_products,other_products))
         for order in self.env['sale.order'].browse(self._context.get('active_ids')):
             # copy a record from a template to a contract
             contract = self.template_id.copy({
@@ -40,5 +41,3 @@ class sale_contract_wizard(models.TransientModel):
             order.project_id = contract
 
 
-class project(models.Model):
-    _inherit = 'project.project'
