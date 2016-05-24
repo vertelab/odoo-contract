@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Inherited Analytic Account form for contracts -->
+        <record id="contracts_supplier_form_quantity_max" model="ir.ui.view">
+            <field name="name">account.analytic.account.invoice.form.inherit.inherit</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+            <field eval="40" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="quantity_max" position="replace">
+                    <field name="quantity_max" string="Kvantitet"/>
+                </field>
+            </field>
+        </record>
+        <!--
+        <record id="contracts_supplier_form_hours_quantity" model="ir.ui.view">
+            <field name="name">account.analytic.account.invoice.form.inherit.inherit</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+            <field eval="40" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="hours_quantity" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="contracts_supplier_form_remaining_hours" model="ir.ui.view">
+            <field name="name">account.analytic.account.invoice.form.inherit.inherit</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+            <field eval="40" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="remaining_hours" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+            </field>
+            </record>
+            -->
+                
+                <!--
+                <xpath expr='//div[@attrs="{'invisible': [('hours_quantity','=',0)]}"]' position="after">
+                    
+                </xpath>
+                        <div attrs="{'invisible': [('hours_quantity','=',0)]}" class="oe_grey">
+                            <field name="hours_quantity" class="oe_inline"/> Units Consumed
+                        </div>
+                        <div attrs="{'invisible': [('quantity_max','=',0)]}" class="oe_grey">
+                            <field name="remaining_hours" class="oe_inline"/> Units Remaining
+                        </div>
+                    </div>
+                </xpath>
+                -->
+        
+        
+        <!-- Inherited Analytic Account list for contracts -->
+        <record id="view_contracts_supplier_tree" model="ir.ui.view">
+            <field name="name">account.analytic.account.list.contract.inherit</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account.view_account_analytic_account_list"/>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="date_end"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
