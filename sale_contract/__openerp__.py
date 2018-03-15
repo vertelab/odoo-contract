@@ -14,6 +14,7 @@ Manage your contract.
 =========================================================================================================
     """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['account_analytic_analysis', 'website_quote','website_contract_terms'],
     'data': [

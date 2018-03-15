@@ -30,6 +30,7 @@ Adds contracts for suppliers.
 ===================================================
 """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['account_analytic_analysis'],
     'data': ['contracts_supplier_view.xml',

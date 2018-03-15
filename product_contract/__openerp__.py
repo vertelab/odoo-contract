@@ -41,6 +41,7 @@ Subscriptions:
 
     """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['account_analytic_analysis', 'sale'],
     'data': [

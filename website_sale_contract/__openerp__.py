@@ -29,6 +29,7 @@ Sell products that will create a contract.
 
     """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['product_contract', 'website_sale', 'website_contract_terms'],
     'data': [
