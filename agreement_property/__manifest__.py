@@ -15,7 +15,8 @@
     "installable": True,
     "depends": [
         "property_mgmt",
-        "agreement_legal",
+        "property_building",
+        "agreement_legal"
     ],
     "data": [
         "views/agreement.xml",
