@@ -23,6 +23,12 @@ class AgreementProperty(models.Model):
 
     employees = fields.Integer(string="Employees", required=False, ondelete="cascasde", tracking=True)
 
+    #TODO: Check if we can use the save & create function (@api.model?) to force updates to sections
+    # title when saved?
+    # Possibly in this class, possibly in the class AgreementSectionProperty
+    # Is it possible to trigger this on update?
+    
+
 
 
 class AgreementSectionProperty(models.Model):
