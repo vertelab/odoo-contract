@@ -19,3 +19,11 @@ class AgreementContract(models.Model):
             default=None,
             )
 
+    @api.depends("contract_id")
+    def _yearly_cost(self):
+        self.yearly_cost = 3.14159265
+
+    yearly_cost = fields.Float(
+            string="Yearly cost",
+            compute=_yearly_cost,
+            )

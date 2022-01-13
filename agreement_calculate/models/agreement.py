@@ -10,28 +10,44 @@ class AgreementReport(models.Model):
     _inherit = "agreement"
 
     square_meter_per_employee = fields.Float(
-            "Square meter/Employee (m²)",
+            "Square meter/Employee",
             compute="_square_meter_per_employee",
             store=True,
             )
 
     square_meter_per_workplace = fields.Float(
-            "Square meter/Workplace (m²)",
+            "Square meter/Workplace",
             compute="_square_meter_per_workplace",
             store=True,
             )
 
-#    @api.depends("property_id", "property_id.employees", "property_id.size")
+    yearly_cost_per_square_meter = fields.Float(
+            "Yearly cost/Square meter",
+            compute="_yearly_cost_per_square_meter",
+            store=True,
+            )
+
+    yearly_cost_per_employee = fields.Float(
+            "Yearly cost/Employee",
+            compute="_yearly_cost_per_employee",
+            store=True,
+            )
+
+    yearly_cost_per_workplace = fields.Float(
+            "Yearly cost/Workplace",
+            compute="_yearly_cost_per_workplace",
+            store=True,
+            )
+
+    @api.depends("property_id", "property_id.area", "yearly_cost")
     def _yearly_cost_per_square_meter(self):
-        #TODO
-        return
         for record in self:
             calculated_value = None
             try:
-                calculated_value = record.property_id.employees / record.property_id.area
+                calculated_value = record.yearly_cost / record.property_id.area
             except (TypeError, ZeroDivisionError) as e:
                 pass
-            record.employees_per_sqm = calculated_value
+            record.yearly_cost_per_square_meter = calculated_value
 
     @api.depends("property_id", "property_id.employees", "property_id.area")
     def _square_meter_per_employee(self):
@@ -43,17 +59,15 @@ class AgreementReport(models.Model):
                 pass
             record.square_meter_per_employee = calculated_value
 
-#    @api.depends("property_id", "property_id.employees", "property_id.size")
+    @api.depends("property_id", "property_id.employees", "yearly_cost")
     def _yearly_cost_per_employee(self):
-        # TODO:
-        return
         for record in self:
             calculated_value = None
             try:
-                calculated_value = record.property_id.employees / record.property_id.area
+                calculated_value = record.yearly_cost / record.property_id.employees
             except (TypeError, ZeroDivisionError) as e:
                 pass
-            record.employees_per_sqm = calculated_value
+            record.yearly_cost_per_employee = calculated_value
 
     @api.depends("property_id", "property_id.area", "property_id.workplaces")
     def _square_meter_per_workplace(self):
@@ -65,17 +79,15 @@ class AgreementReport(models.Model):
                 pass
             record.square_meter_per_workplace = calculated_value
 
-#    @api.depends("property_id", "property_id.employees", "property_id.area")
+    @api.depends("property_id", "property_id.workplaces", "yearly_cost")
     def _yearly_cost_per_workplace(self):
-        # TODO:
-        return
         for record in self:
             calculated_value = None
             try:
-                calculated_value = record.property_id.employees / record.property_id.area
+                calculated_value = record.yearly_cost / record.property_id.workplaces
             except (TypeError, ZeroDivisionError) as e:
                 pass
-            record.employees_per_sqm = calculated_value
+            record.yearly_cost_per_workplace = calculated_value
 
     def _compute_values(self):
         _logger.warning("calculated_values")
