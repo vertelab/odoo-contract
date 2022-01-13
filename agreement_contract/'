@@ -23,16 +23,10 @@ class AgreementProperty(models.Model):
 
     employees = fields.Integer(string="Employees", required=False, ondelete="cascasde", tracking=True)
 
-    #TODO: Check if we can use the save & create function (@api.model?) to force updates to sections
-    # title when saved?
-    # Possibly in this class, possibly in the class AgreementSectionProperty
-    # Is it possible to trigger this on update?
-    
-
 
 
 class AgreementSectionProperty(models.Model):
-    #_description = "Agreement Sections Property"
+    _description = "Agreement Sections Property"
     _inherit = "agreement.section"
 #    _order = "sequence"
     _inherits = {
@@ -47,13 +41,4 @@ class AgreementSectionProperty(models.Model):
             ondelete="cascade"
             )
 
-    employees = fields.Integer(
-            related='property_id.employees',
-            )
-#            string="Employees",
-#            required=False,
-#            ondelete="cascasde",
-#            tracking=True,
-#            )
-#    _logger.critical(dir(property_id))
-
+    employees = fields.Integer(string="Employees", required=False, ondelete="cascasde", tracking=True)

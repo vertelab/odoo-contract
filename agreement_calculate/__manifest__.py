@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Agreement - Property integration",
-    "summary": "Inherit variables from property into agreement",
+    "name": "Agreement - Calculate",
+    "summary": "TODO: Caculate variables from contract and property",
     "version": "14.0.1.0.0",
     "development_status": "Beta",
     "category": "Marketing",
@@ -15,9 +15,8 @@
     "auto-install": True,
     "installable": True,
     "depends": [
-        "property_mgmt",
-        "property_building",
-        "agreement_legal",
+        "agreement_contract",
+        "agreement_property",
     ],
     "data": [
         "views/agreement.xml",
