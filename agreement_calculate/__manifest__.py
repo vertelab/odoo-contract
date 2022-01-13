@@ -17,6 +17,7 @@
     "depends": [
         "agreement_contract",
         "agreement_property",
+        "contract",
     ],
     "data": [
         "views/agreement.xml",

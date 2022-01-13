@@ -23,7 +23,7 @@
                 <field name="square_meter_per_employee" required="False"/>
                 <field name="yearly_cost_per_square_meter" required="False"/>
                 <field name="yearly_cost_per_employee" required="False"/>
-                <field name="yearly_cost_per_square_meter" required="False"/>
+                <field name="yearly_cost_per_workplace" required="False"/>
             </field>
         </field>
     </record>
