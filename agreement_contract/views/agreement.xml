@@ -9,6 +9,7 @@
                     <group>
                         <field name="start_date" />
                         <field name="end_date" />
+                        <field name="recurring_start_date" />
                     </group>
                     <group>
                         <field name="recurring_interval" />

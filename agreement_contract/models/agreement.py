@@ -20,12 +20,7 @@ class AgreementContractWizard(models.TransientModel):
         return self._get_current_agreement().end_date
 
     # Note: This field is exposed like this to be able to get a translation
-    rent_title = fields.Char(
-            string="Rent title",
-            default="Rent (automatically created)",
-            required=True,
-            readonly=True,
-            )
+    _rent_title = _("Rent (automatically created)")
 
     start_date = fields.Date(
             string="Start date",
@@ -64,6 +59,13 @@ class AgreementContractWizard(models.TransientModel):
         required=True,
     )
 
+    recurring_start_date = fields.Date(
+            string="Start of next invoice",
+            default=None,
+            required=False,
+            help="Specify if different to start date",
+            )
+
     cost_per_recurrance = fields.Float(
         string="Cost per recurrance",
         required=True,
@@ -76,7 +78,7 @@ class AgreementContractWizard(models.TransientModel):
 
     def _generate_contract(self, agreement):
         return self.env["contract.contract"].sudo().create({ #TODO: Verify that this should be sudo
-            "name": agreement.name,
+            "name": _("Contract for {}").format(agreement.name),
             "partner_id": agreement.partner_id.id,
             "recurring_interval": self.recurring_interval,
             "recurring_rule_type": self.recurring_rule_type,
@@ -86,12 +88,12 @@ class AgreementContractWizard(models.TransientModel):
 
 
     def _create_rent(self):
-        product = self.env["product.product"].search([("name", "=", self.rent_title)])
+        product = self.env["product.product"].search([("name", "=", self._rent_title)])
 
         if not product:
-            _logger.info("Creating product %s", repr(self.rent_title))
+            _logger.info("Creating product %s", repr(self._rent_title))
             product_id = self.env["product.product"].sudo().create({
-                "name": self.rent_title,
+                "name": self._rent_title,
                 })
             product = self.env["product.product"].browse(product_id)
 
@@ -103,11 +105,12 @@ class AgreementContractWizard(models.TransientModel):
         contract_line_id = self.env["contract.line"].sudo().create({
             "product_id": rent.id,
             "contract_id": contract_id.id,
-            "name": self.rent_title,
+            "name": self._rent_title,
             "date_start": self.start_date,
             "date_end": self.end_date,
-            "recurring_next_date": self.start_date, #TODO (date of next invoice)
+            "recurring_next_date": self.recurring_start_date or self.start_date,
             "price_unit": self.cost_per_recurrance,
+            "state": "in-progress",
             })
 
     def save_button(self):
@@ -127,7 +130,7 @@ def type_per_year(recurring_rule_type):
     if recurring_rule_type == "daily":
         return 1/365.2425 # TODO: Consider if this year is leap
     elif recurring_rule_type == "weekly":
-        return 1/52 # TODO: Consider if this year has 53 weeks
+        return 1/(365.2425/7) # TODO: Consider if this year has 53 weeks
     elif recurring_rule_type in ("monthly", "monthlylastday"):
         return 1/12
     elif recurring_rule_type == "quarterly":
@@ -149,8 +152,6 @@ def get_period(contract, contract_line):
 class AgreementContract(models.Model):
     _description = "Agreement Contract"
     _inherit = "agreement"
-    _inherits = {
-            }
 
     contract_id = fields.Many2one(
             "contract.contract",
@@ -162,6 +163,7 @@ class AgreementContract(models.Model):
     @api.depends("contract_id", "contract_id.contract_line_ids", "contract_id.recurring_rule_type", "contract_id.recurring_interval")
     def _yearly_cost(self):
         #TODO: Consider actual price after every modifier that can be applied to it, such as index-increases.
+        #TODO: Consider if the line is 'active' during some type of period, possibly by simulating the year?
         cost_per_year = 0
         try:
             for contract_line in self.contract_id.contract_line_ids:
