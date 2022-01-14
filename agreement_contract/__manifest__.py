@@ -19,6 +19,7 @@
         "agreement_legal",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "views/agreement.xml",
     ],
 }

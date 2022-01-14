@@ -5,7 +5,125 @@ from odoo import models, fields, api, _
 
 _logger = logging.getLogger(__name__)
 
-def type_per_year(self, recurring_rule_type):
+
+class AgreementContractWizard(models.TransientModel):
+    _name = "agreement.contract.wizard"
+    _description = "Agreement Contract Wizard"
+
+    def _get_current_agreement(self):
+        return self.env["agreement"].browse(self.env.context.get('active_ids'))
+
+    def _initialize_start_date(self):
+        return self._get_current_agreement().start_date
+
+    def _initialize_end_date(self):
+        return self._get_current_agreement().end_date
+
+    # Note: This field is exposed like this to be able to get a translation
+    rent_title = fields.Char(
+            string="Rent title",
+            default="Rent (automatically created)",
+            required=True,
+            readonly=True,
+            )
+
+    start_date = fields.Date(
+            string="Start date",
+            default=_initialize_start_date,
+            required=True,
+            readonly=True,
+            )
+
+    end_date = fields.Date(
+            string="End date",
+            default=_initialize_end_date,
+            required=True,
+            readonly=True,
+            )
+
+    recurring_interval = fields.Integer(
+            string="Recurring interval",
+            default=1,
+            required=True,
+            )
+
+    # Copied from odooext-OCA-contract/contract/models/contract_recurrency_mixin.py
+    recurring_rule_type = fields.Selection(
+        [
+            ("daily", "Day(s)"),
+            ("weekly", "Week(s)"),
+            ("monthly", "Month(s)"),
+            ("monthlylastday", "Month(s) last day"),
+            ("quarterly", "Quarter(s)"),
+            ("semesterly", "Semester(s)"),
+            ("yearly", "Year(s)"),
+        ],
+        default="monthly",
+        string="Recurrence",
+        help="Specify Interval for automatic invoice generation.",
+        required=True,
+    )
+
+    cost_per_recurrance = fields.Float(
+        string="Cost per recurrance",
+        required=True,
+        )
+
+    cost_index = fields.Float(
+            string="Index increase per year (Triggered at 1/1 every year)",
+            required=False,
+            )
+
+    def _generate_contract(self, agreement):
+        return self.env["contract.contract"].sudo().create({ #TODO: Verify that this should be sudo
+            "name": agreement.name,
+            "partner_id": agreement.partner_id.id,
+            "recurring_interval": self.recurring_interval,
+            "recurring_rule_type": self.recurring_rule_type,
+            "date_start": self.start_date,
+            "date_end": self.end_date,
+            })
+
+
+    def _create_rent(self):
+        product = self.env["product.product"].search([("name", "=", self.rent_title)])
+
+        if not product:
+            _logger.info("Creating product %s", repr(self.rent_title))
+            product_id = self.env["product.product"].sudo().create({
+                "name": self.rent_title,
+                })
+            product = self.env["product.product"].browse(product_id)
+
+        return product
+
+    def _create_contract_line(self, contract_id):
+        rent = self._create_rent()
+
+        contract_line_id = self.env["contract.line"].sudo().create({
+            "product_id": rent.id,
+            "contract_id": contract_id.id,
+            "name": self.rent_title,
+            "date_start": self.start_date,
+            "date_end": self.end_date,
+            "recurring_next_date": self.start_date, #TODO (date of next invoice)
+            "price_unit": self.cost_per_recurrance,
+            })
+
+    def save_button(self):
+        _logger.warning("Save button pressed")
+        agreement = self._get_current_agreement()
+
+        contract_id = self._generate_contract(agreement)
+
+        agreement.contract_id = contract_id
+
+        contract = self.env["contract.contract"].browse(contract_id)
+
+        contract_line_id = self._create_contract_line(contract_id)
+
+
+def type_per_year(recurring_rule_type):
     if recurring_rule_type == "daily":
         return 1/365.2425 # TODO: Consider if this year is leap
     elif recurring_rule_type == "weekly":
@@ -20,14 +138,22 @@ def type_per_year(self, recurring_rule_type):
         return 1
 
 
+def get_period(contract, contract_line):
+    interesting = contract if contract.line_recurrence is False else contract_line
+    period = interesting.recurring_rule_type
+    interval = interesting.recurring_interval
+
+    return type_per_year(period) * interval
+
+
 class AgreementContract(models.Model):
     _description = "Agreement Contract"
-    _inherit = 'agreement'
+    _inherit = "agreement"
     _inherits = {
             }
 
     contract_id = fields.Many2one(
-            'contract.contract',
+            "contract.contract",
             string="Contract",
             required=False,
             default=None,
@@ -35,25 +161,19 @@ class AgreementContract(models.Model):
 
     @api.depends("contract_id", "contract_id.contract_line_ids", "contract_id.recurring_rule_type", "contract_id.recurring_interval")
     def _yearly_cost(self):
-        # TODO: Consider 'self.contract_id.line_reccurance'
+        #TODO: Consider actual price after every modifier that can be applied to it, such as index-increases.
         cost_per_year = 0
         try:
-            unit_sum = 0
-
             for contract_line in self.contract_id.contract_line_ids:
                 line_price = contract_line.price_unit * contract_line.quantity
-
-
-                unit_sum += line_price
-
-
-            period = type_per_year(self.contract_id.recurring_rule_type)
-            cost_per_year = unit_sum / (self.contract_id.recurring_interval * period)
+                period = get_period(self.contract_id, contract_line)
+                cost_per_year += line_price / period
         except (TypeError, ZeroDivisionError) as e:
-            _logger.warning(e)
+            pass
         self.yearly_cost = cost_per_year
 
     yearly_cost = fields.Float(
             string="Yearly cost",
             compute=_yearly_cost,
             )
+
