@@ -93,11 +93,10 @@ class AgreementContractWizard(models.TransientModel):
 
         if not product:
             _logger.info("Creating product %s", repr(self._rent_title))
-            product_id = self.env["product.product"].sudo().create({
+            product = self.env["product.product"].sudo().create({
                 "name": self._rent_title,
                 })
-            product = self.env["product.product"].browse(product_id)
-
+        _logger.warning(product)
         return product
 
     def _create_contract_line(self, contract_id):
@@ -111,7 +110,7 @@ class AgreementContractWizard(models.TransientModel):
             "date_end": self.end_date,
             "recurring_next_date": self.recurring_start_date or self.start_date,
             "price_unit": self.cost_per_recurrance,
-            "state": "in-progress",
+#            "state": "in-progress",
             })
 
     def save_button(self):
