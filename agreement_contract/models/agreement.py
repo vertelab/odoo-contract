@@ -10,6 +10,9 @@ class AgreementContractWizard(models.TransientModel):
     _name = "agreement.contract.wizard"
     _description = "Agreement Contract Wizard"
 
+    # Strings used in translations
+    _rent_title = _("Rent (automatically created)")
+
     def _get_current_agreement(self):
         return self.env["agreement"].browse(self.env.context.get('active_ids'))
 
@@ -19,8 +22,6 @@ class AgreementContractWizard(models.TransientModel):
     def _initialize_end_date(self):
         return self._get_current_agreement().end_date
 
-    # Note: This field is exposed like this to be able to get a translation
-    _rent_title = _("Rent (automatically created)")
 
     start_date = fields.Date(
             string="Start date",
@@ -44,20 +45,20 @@ class AgreementContractWizard(models.TransientModel):
 
     # Copied from odooext-OCA-contract/contract/models/contract_recurrency_mixin.py
     recurring_rule_type = fields.Selection(
-        [
-            ("daily", "Day(s)"),
-            ("weekly", "Week(s)"),
-            ("monthly", "Month(s)"),
-            ("monthlylastday", "Month(s) last day"),
-            ("quarterly", "Quarter(s)"),
-            ("semesterly", "Semester(s)"),
-            ("yearly", "Year(s)"),
-        ],
-        default="monthly",
-        string="Recurrence",
-        help="Specify Interval for automatic invoice generation.",
-        required=True,
-    )
+            [
+                ("daily", "Day(s)"),
+                ("weekly", "Week(s)"),
+                ("monthly", "Month(s)"),
+                ("monthlylastday", "Month(s) last day"),
+                ("quarterly", "Quarter(s)"),
+                ("semesterly", "Semester(s)"),
+                ("yearly", "Year(s)"),
+                ],
+            default="monthly",
+            string="Recurrence",
+            help="Specify Interval for automatic invoice generation.",
+            required=True,
+            )
 
     recurring_start_date = fields.Date(
             string="Start of next invoice",
@@ -67,9 +68,9 @@ class AgreementContractWizard(models.TransientModel):
             )
 
     cost_per_recurrance = fields.Float(
-        string="Cost per recurrance",
-        required=True,
-        )
+            string="Cost per recurrance",
+            required=True,
+            )
 
     cost_index = fields.Float(
             string="Index increase per year (Triggered at 1/1 every year)",
@@ -143,6 +144,7 @@ def type_per_year(recurring_rule_type):
 
 def get_period(contract, contract_line):
     interesting = contract if contract.line_recurrence is False else contract_line
+
     period = interesting.recurring_rule_type
     interval = interesting.recurring_interval
 
