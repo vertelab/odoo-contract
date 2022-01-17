@@ -22,8 +22,26 @@ class AgreementProperty(models.Model):
             default=None,
             )
 
+    @api.depends("property_id", "property_id.municipality_id")
+    def _municipality(self):
+        for record in self:
+            if not record.property_id:
+                continue
+            _logger.warning(record.property_id.municipality_id)
+            _logger.warning(record.property_id.municipality_id.id)
+            record.municipality_id = record.property_id.municipality_id.id
+
+    municipality_id = fields.Many2one(
+        comodel_name='res.country.municipality',
+        string='Municipality',
+        compute=_municipality,
+        store=True,
+    )
+
+
+
     @api.depends("property_id", "property_id.employees")
-    def onchange_property_and_related(self):
+    def _employees(self):
         if not self.property_id:
             return
         self.employees = self.property_id.employees
@@ -31,7 +49,7 @@ class AgreementProperty(models.Model):
     employees = fields.Integer(
             string="Employees",
             required=False,
-            compute=onchange_property_and_related,
+            compute=_employees,
             store=True,
             )
 

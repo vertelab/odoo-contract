@@ -11,5 +11,19 @@
             </field>
         </field>
     </record>
+
+
+    <record id="agreement_property_pivot_view" model="ir.ui.view">
+        <field name="name">Agreement Property Pivot View</field>
+        <field name="model">agreement</field>
+        <field name="inherit_id" ref="agreement_legal.agreement_pivot_view"/>
+        <field name="arch" type="xml">
+            <pivot string="Agreements">
+                <field name="property_id"/>
+                <field name="municipality_id"/>
+            </pivot>
+        </field>
+    </record>
+
 </odoo>
 
