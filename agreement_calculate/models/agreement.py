@@ -9,6 +9,12 @@ _logger = logging.getLogger(__name__)
 class AgreementReport(models.Model):
     _inherit = "agreement"
 
+    yearly_cost = fields.Float(
+            "Yearly cost",
+            compute="_yearly_cost",
+            store=True,
+            )
+
     square_meter_per_employee = fields.Float(
             "Square meter/Employee",
             compute="_square_meter_per_employee",
@@ -38,6 +44,14 @@ class AgreementReport(models.Model):
             compute="_yearly_cost_per_workplace",
             store=True,
             )
+
+    @api.depends("property_id", "property_id.operating_cost", "contract_yearly_cost")
+    def _yearly_cost(self):
+        for record in self:
+            if record.property_id and record.property_id.operating_cost:
+                record.yearly_cost = record.contract_yearly_cost + record.property_id.operating_cost
+            else:
+                record.yearly_cost = record.contract_yearly_cost
 
     @api.depends("property_id", "property_id.size", "property_id.size_uom", "yearly_cost")
     def _yearly_cost_per_square_meter(self):

@@ -162,7 +162,7 @@ class AgreementContract(models.Model):
             )
 
     @api.depends("contract_id", "contract_id.contract_line_ids", "contract_id.recurring_rule_type", "contract_id.recurring_interval")
-    def _yearly_cost(self):
+    def _contract_yearly_cost(self):
         #TODO: Consider actual price after every modifier that can be applied to it, such as index-increases.
         #TODO: Consider if the line is 'active' during some type of period, possibly by simulating the year?
         cost_per_year = 0
@@ -173,10 +173,10 @@ class AgreementContract(models.Model):
                 cost_per_year += line_price / period
         except (TypeError, ZeroDivisionError) as e:
             pass
-        self.yearly_cost = cost_per_year
+        self.contract_yearly_cost = cost_per_year
 
-    yearly_cost = fields.Float(
-            string="Yearly cost",
-            compute=_yearly_cost,
+    contract_yearly_cost = fields.Float(
+            string="Contracts Yearly cost",
+            compute=_contract_yearly_cost,
             )
 
