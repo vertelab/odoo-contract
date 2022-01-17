@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from odoo import models, fields, api, _
@@ -12,6 +13,12 @@ class AgreementReport(models.Model):
     yearly_cost = fields.Float(
             "Yearly cost",
             compute="_yearly_cost",
+            store=True,
+            )
+
+    expiry_date = fields.Date(
+            "Expiry date",
+            compute="_expiry_date",
             store=True,
             )
 
@@ -52,6 +59,14 @@ class AgreementReport(models.Model):
                 record.yearly_cost = record.contract_yearly_cost + record.property_id.operating_cost
             else:
                 record.yearly_cost = record.contract_yearly_cost
+
+    @api.depends("end_date", "expiration_notice")
+    def _expiry_date(self):
+        for record in self:
+            if record.end_date:
+                record.expiry_date = record.end_date - datetime.timedelta(days=record.expiration_notice)
+            else:
+                record.expiry_date = False
 
     @api.depends("property_id", "property_id.size", "property_id.size_uom", "yearly_cost")
     def _yearly_cost_per_square_meter(self):
