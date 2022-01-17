@@ -15,8 +15,9 @@
     "auto-install": True,
     "installable": True,
     "depends": [
-        "contract",
+        "account",
         "agreement_legal",
+        "contract",
     ],
     "data": [
         "security/ir.model.access.csv",

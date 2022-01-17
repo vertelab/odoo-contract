@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 from odoo import models, fields, api, _
 
@@ -77,7 +78,7 @@ class AgreementContractWizard(models.TransientModel):
             required=False,
             )
 
-    def _generate_contract(self, agreement):
+    def _generate_contract(self, agreement, price_list):
         return self.env["contract.contract"].sudo().create({ #TODO: Verify that this should be sudo
             "name": _("Contract for {}").format(agreement.name),
             "partner_id": agreement.partner_id.id,
@@ -85,8 +86,32 @@ class AgreementContractWizard(models.TransientModel):
             "recurring_rule_type": self.recurring_rule_type,
             "date_start": self.start_date,
             "date_end": self.end_date,
+            "pricelist_id": price_list.id,
             })
 
+
+    def _generate_price_list_row(self, year, price):
+        return {
+            "applied_on": "3_global",
+            "date_start": datetime.datetime(year, 1, 1),
+            "date_end": datetime.datetime(year, 12, 31),
+            "compute_price": "fixed",
+            "fixed_price": price,
+            }
+
+    def _generate_price_list(self, agreement):
+        item_ids = []
+        for year in range(self.start_date.year, self.end_date.year + 1):
+            #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
+            quota = (1.0 + self.cost_index) ** (year - self.start_date.year)
+            price = self.cost_per_recurrance * quota
+
+            item_ids.append((0,0,self._generate_price_list_row(year, price)))
+
+        return self.env["product.pricelist"].sudo().create({
+            "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific year.
+            "item_ids": item_ids,
+            })
 
     def _create_rent(self):
         product = self.env["product.product"].search([("name", "=", self._rent_title)])
@@ -109,7 +134,7 @@ class AgreementContractWizard(models.TransientModel):
             "date_start": self.start_date,
             "date_end": self.end_date,
             "recurring_next_date": self.recurring_start_date or self.start_date,
-            "price_unit": self.cost_per_recurrance,
+            "automatic_price": True,
 #            "state": "in-progress",
             })
 
@@ -117,7 +142,9 @@ class AgreementContractWizard(models.TransientModel):
         _logger.warning("Save button pressed")
         agreement = self._get_current_agreement()
 
-        contract_id = self._generate_contract(agreement)
+        price_list = self._generate_price_list(agreement)
+
+        contract_id = self._generate_contract(agreement, price_list)
 
         agreement.contract_id = contract_id
 

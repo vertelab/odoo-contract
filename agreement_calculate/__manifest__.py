@@ -18,6 +18,7 @@
         "agreement_contract",
         "agreement_property",
         "contract",
+        "uom",
     ],
     "data": [
         "views/agreement.xml",
