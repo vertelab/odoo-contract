@@ -74,7 +74,7 @@ class AgreementContractWizard(models.TransientModel):
             )
 
     cost_index = fields.Float(
-            string="Index increase per year (Triggered at 1/1 every year)",
+            string="Index increase per year in percent (Triggered at 1/1 every year)",
             required=False,
             )
 
@@ -103,7 +103,7 @@ class AgreementContractWizard(models.TransientModel):
         item_ids = []
         for year in range(self.start_date.year, self.end_date.year + 1):
             #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
-            quota = (1.0 + self.cost_index) ** (year - self.start_date.year)
+            quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
             price = self.cost_per_recurrance * quota
 
             item_ids.append((0,0,self._generate_price_list_row(year, price)))

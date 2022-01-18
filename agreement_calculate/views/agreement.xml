@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <!--data>
-        <record model="ir.ui.view" id="agreement_pivot_extension">
-            <field name="name">agreement.pivot</field>
-            <field name="model">agreement</field>
-            <field name="inherit_id" ref="agreement_legal.agreement_pivot_view"/>
-            <field name="arch" type="xml">
-                <pivot string="Agreements" display_quantity="true">
-                </pivot>
-            </field>
-        </record>
-    </data-->
-
     <record id="partner_agreement_form_view" model="ir.ui.view">
         <field name="name">Agreement Form</field>
         <field name="model">agreement</field>

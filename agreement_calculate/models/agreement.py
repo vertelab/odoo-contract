@@ -118,24 +118,3 @@ class AgreementReport(models.Model):
                 pass
             record.yearly_cost_per_workplace = calculated_value
 
-    def _compute_values(self):
-        _logger.warning("calculated_values")
-        data = {
-#                'SELECT': self._select(),
-#                'FROM': self._from(),
-#                'WHERE': self._where(),
-                }
-
-#        sql_str = "SELECT {SELECT} FROM {FROM} WHERE {WHERE}".format(**data)
-
-#        _logger.warning("SQL command: %s", sql_str)
-
-#        self.env.cr.execute(sql_str)
-        from random import randint
-        self.my_computed_variable = randint(0,1000)
-
-        _logger.warning("Computed variable: %s", self.my_computed_variable)
-
-        #return super(AgreementReport, self)._compute_values()
-
-

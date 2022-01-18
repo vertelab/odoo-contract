@@ -49,7 +49,6 @@
         </field>
     </record>
 
-
     <record id="partner_agreement_form_view" model="ir.ui.view">
         <field name="name">Agreement Form</field>
         <field name="model">agreement</field>
@@ -64,5 +63,26 @@
             </field>
         </field>
     </record>
+
+    <record model="ir.actions.act_window" id="agreement_dashboard_agreement_contracts">
+        <field name="name">Agreements</field>
+        <field name="res_model">account.move</field>
+        <!--field name="context">{'search_default_group_by_next_invoice': 1}</field-->
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                <span>No active invoices</span>
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        name="Agreement contracts"
+        id="dashboard_agreement_contracts"
+        parent="agreement_legal.agreement_dashboard"
+        sequence="11"
+        action="agreement_dashboard_agreement_contracts"
+        />
+
 </odoo>
 
