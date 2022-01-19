@@ -67,7 +67,7 @@
     <record model="ir.actions.act_window" id="agreement_dashboard_agreement_contracts">
         <field name="name">Agreements</field>
         <field name="res_model">account.move</field>
-        <!--field name="context">{'search_default_group_by_next_invoice': 1}</field-->
+        <field name="domain">[('agreement_agreement_id', '!=', None)]</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -83,6 +83,5 @@
         sequence="11"
         action="agreement_dashboard_agreement_contracts"
         />
-
 </odoo>
 

@@ -18,6 +18,7 @@
         "account",
         "agreement_legal",
         "contract",
+        "account_agreement",
     ],
     "data": [
         "security/ir.model.access.csv",
