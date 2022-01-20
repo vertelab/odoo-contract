@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_pricelist_item_form_view" model="ir.ui.view">
+        <field name="name">product.pricelist.item.form</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='base_pricelist_id']" position="after">
+                <field name="year"
+                    attrs="{
+                    'invisible': [('compute_price', '!=', 'by_index')],
+                    'required': [('compute_price', '=', 'by_index')],
+                    }"
+                    />
+
+            </xpath>
+        </field>
+    </record>
+    <!--record id="consumer_price_index_tree" model="ir.actions.act_window">
+        <field name="name">Consumer Price Index act window</field>
+        <field name="res_model">consumer.price.index</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        </record>
+
+        <record id="offer_model_view_tree_table" model="ir.ui.view">
+        <field name="name">Create new Consumer Price Index</field>
+        <field name="model">consumer.price.index</field>
+        <field name="arch" type="xml">
+        <form>
+        <group>
+        <field name="year" style="width: 33%"/>
+        <field name="index" style="width: 33%"/>
+        </group>
+        </form>
+        </field>
+        </record>
+
+        <record id="offer_model_view_tree" model="ir.ui.view">
+        <field name="name">Consumer Price Indexes</field>
+        <field name="model">consumer.price.index</field>
+        <field name="arch" type="xml">
+        <tree default_order="year, index" >
+        <field name="year"/>
+        <field name="index"/>
+        </tree>
+        </field>
+        </record>
+
+        <menuitem
+        name="Consumer Price Index"
+        id="dashboard_agreement_cpi"
+        parent="agreement_legal.agreement_dashboard"
+        sequence="12"
+        action="consumer_price_index_tree"
+    /-->
+    </odoo>
+
+

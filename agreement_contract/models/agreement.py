@@ -106,10 +106,15 @@ class AgreementContractWizard(models.TransientModel):
             quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
             price = self.cost_per_recurrance * quota
 
-            item_ids.append((0,0,self._generate_price_list_row(year, price)))
+            if True:
+                ##TODO: create a new type of pricelist
+                pass
+
+
+            item_ids.append((0, 0, self._generate_price_list_row(year, price)))
 
         return self.env["product.pricelist"].sudo().create({
-            "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific year.
+            "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific agreement.
             "item_ids": item_ids,
             })
 

@@ -11,12 +11,13 @@ class ConsumerPriceIndex(models.Model):
     _name = "consumer.price.index"
     _description = "Consumer Price Index"
     _order = "year"
-
+    _rec_name = "year"
     # TODO: Initialize with KPI values from table (somewhere) when installing module
     # TODO: Decide if KPI values from october is enough, or we need to implement KPI for other months as well
     # TODO: Do we need some other index than KPI, in that case:
     #       Make several tables containing information about 'KPI' / 'MY NEW INDEX' / and so on.
     #       Then give users posibilities to create tables, name them, and use them when calc. costs.
+    # TODO: Stop users from creating duplicate values for year (or at least unique for months?)
 
     year = fields.Integer(
             string="Year",
