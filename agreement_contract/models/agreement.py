@@ -223,17 +223,21 @@ class AgreementContract(models.Model):
 
     @api.depends("contract_id", "contract_id.contract_line_ids", "contract_id.recurring_rule_type", "contract_id.recurring_interval")
     def _contract_yearly_cost(self):
+        _logger.warning(f"Recalculating contract yerly cost! {len(self)}")
         #TODO: Consider actual price after every modifier that can be applied to it, such as index-increases.
         #TODO: Consider if the line is 'active' during some type of period, possibly by simulating the year?
-        cost_per_year = 0
-        try:
-            for contract_line in self.contract_id.contract_line_ids:
-                line_price = contract_line.price_unit * contract_line.quantity
-                period = get_period(self.contract_id, contract_line)
-                cost_per_year += line_price / period
-        except (TypeError, ZeroDivisionError) as e:
-            pass
-        self.contract_yearly_cost = cost_per_year
+        for record in self:
+            cost_per_year = 0
+            try:
+                for contract_line in record.contract_id.contract_line_ids:
+                    line_price = contract_line.price_unit * contract_line.quantity
+                    period = get_period(record.contract_id, contract_line)
+                    cost_per_year += line_price / period
+            except (TypeError, ZeroDivisionError) as e:
+                _logger.error(e)
+            self.contract_yearly_cost = cost_per_year
+        # Does not seem to trigger on update by itself, force it.
+        self._yearly_cost()
 
     contract_yearly_cost = fields.Float(
             string="Contracts Yearly cost",

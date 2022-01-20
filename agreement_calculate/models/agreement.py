@@ -52,13 +52,22 @@ class AgreementReport(models.Model):
             store=True,
             )
 
+    # TODO: There is a bug here.. Yearly_cost is not triggered by contract_yearly_cost
+    # as it should be. This results in two updates beeing needed before the value is
+    # correctly calculated.
+    # TODO: Current workaround is to have the field 'contract_yearly_cost'
+    # (in module agreement_contract) and to trigger a recalc. of yearly_cost in
+    # compute function of contract_yearly_cost...
     @api.depends("property_id", "property_id.operating_cost", "contract_yearly_cost")
     def _yearly_cost(self):
+        _logger.warning(f"YEARLY_COST_TRIGGERED, {len(self)}")
         for record in self:
+            _logger.warning(f"PRE_COST: {record.yearly_cost=}")
             if record.property_id and record.property_id.operating_cost:
                 record.yearly_cost = record.contract_yearly_cost + record.property_id.operating_cost
             else:
                 record.yearly_cost = record.contract_yearly_cost
+            _logger.warning(f"Post_COST: {record.yearly_cost=}")
 
     @api.depends("end_date", "expiration_notice")
     def _expiry_date(self):
