@@ -74,9 +74,16 @@ class AgreementContractWizard(models.TransientModel):
             )
 
     cost_index = fields.Float(
-            string="Index increase per year in percent (Triggered at 1/1 every year)",
+            string="Cost increase per year in percent (Triggered at 1/1 every year)",
             required=False,
             )
+
+    consumer_index_base_year = fields.Many2one(
+            "consumer.price.index",
+            string="Cost is evaluated based on this years CPI",
+            required=False,
+            )
+
 
     def _generate_contract(self, agreement, price_list):
         return self.env["contract.contract"].sudo().create({ #TODO: Verify that this should be sudo
@@ -90,28 +97,36 @@ class AgreementContractWizard(models.TransientModel):
             })
 
 
-    def _generate_price_list_row(self, year, price):
-        return {
+    def _generate_price_list_row(self, year, price, indexed=False):
+        data = {
             "applied_on": "3_global",
             "date_start": datetime.datetime(year, 1, 1),
             "date_end": datetime.datetime(year, 12, 31),
-            "compute_price": "fixed",
             "fixed_price": price,
             }
 
+        if indexed is False:
+            data["compute_price"] = "fixed"
+        else:
+            data["compute_price"] = "by_index"
+            data["year"] = self.env["consumer.price.index"].search([('year', '=', year)]).id
+
+        _logger.warning("Created pricelist for year %s", year)
+
+        return data
+
     def _generate_price_list(self, agreement):
         item_ids = []
+        if self.consumer_index_base_year:
+            base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
         for year in range(self.start_date.year, self.end_date.year + 1):
-            #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
-            quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
-            price = self.cost_per_recurrance * quota
-
-            if True:
-                ##TODO: create a new type of pricelist
-                pass
-
-
-            item_ids.append((0, 0, self._generate_price_list_row(year, price)))
+            if self.consumer_index_base_year:
+                item_ids.append((0,0, self._generate_price_list_row(year, base_price, indexed=True)))
+            else:
+                #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
+                quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
+                price = self.cost_per_recurrance * quota
+                item_ids.append((0, 0, self._generate_price_list_row(year, price)))
 
         return self.env["product.pricelist"].sudo().create({
             "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific agreement.

@@ -13,11 +13,6 @@ class PricelistConsumerPriceIndexItem(models.Model):
 
     #TODO: If we want to pick what table we want to associate, do that.
 
-#    compute_price = fields.Selection(selection_add=[
-#        ('by_index', 'By Index'), #TODO: does this need to be _('By index')?
-#        ],
-#        )
-
     compute_price = fields.Selection([
         ('fixed', 'Fixed Price'),
         ('percentage', 'Percentage (discount)'),
@@ -42,7 +37,9 @@ class PricelistConsumerPriceIndexItem(models.Model):
         return 0
 
     def _compute_price(self, price, price_uom, product, quantity=1.0, partner=False):
+        _logger.warning("Computing price")
         if self.compute_price != 'by_index':
+            _logger.warning("Uninteresting calculation")
             return super(PricelistConsumerPriceIndexItem, self)._compute_price(
                     price,
                     price_uom,
@@ -51,7 +48,10 @@ class PricelistConsumerPriceIndexItem(models.Model):
                     partner)
         self.ensure_one()
         price = (product.uom_id._compute_price(price, price_uom) *
-                 self.get_multiplier_for_year(self.date_start.year))
+                 self._get_multiplier_for_year(self.date_start.year))
+        _logger.warning(f"Got the {price=}")
+        _logger.warning(f"{dir(self)}")
+        return price
 
 
 
