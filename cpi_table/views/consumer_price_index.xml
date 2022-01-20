@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!--record id="consumer_price_index_value" model="ir.ui.view">
-        <field name="name">consumer.price.index.value</field>
-        <field name="model">consumer.price.index</field>
-        <field name="mode">primary</field>
-        <field name="arch" type="xml">
-            <field name="year"/>
-            <field name="index"/>
-        </field>
-    </record-->
-
     <record id="consumer_price_index_tree" model="ir.actions.act_window">
-        <field name="name">consumer.price.index</field>
+        <field name="name">Consumer Price Index act window</field>
         <field name="res_model">consumer.price.index</field>
-        <field name="view_mode">kanban,tree</field>
-        <field name="target">new</field>
-        <field name="view_id" ref="offer_model_view_tree" />
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
     </record>
 
     <record id="offer_model_view_tree_table" model="ir.ui.view">
-        <field name="name">offer.model.form</field>
+        <field name="name">Create new Consumer Price Index</field>
         <field name="model">consumer.price.index</field>
         <field name="arch" type="xml">
             <form>
-                <span>NOT SHOW PLZ</span>
-                <field name="year"/>
-                <field name="index"/>
+                <group>
+                    <field name="year" style="width: 33%"/>
+                    <field name="index" style="width: 33%"/>
+                </group>
             </form>
         </field>
     </record>
 
     <record id="offer_model_view_tree" model="ir.ui.view">
-        <field name="name">offer.model.tree</field>
+        <field name="name">Consumer Price Indexes</field>
         <field name="model">consumer.price.index</field>
         <field name="arch" type="xml">
-            <tree string="This is my random string" default_order="year, index" >
-                <field name="index"/>
+            <tree default_order="year, index" >
                 <field name="year"/>
+                <field name="index"/>
             </tree>
         </field>
     </record>
@@ -48,7 +38,6 @@
         sequence="12"
         action="consumer_price_index_tree"
         />
-
 </odoo>
 
 

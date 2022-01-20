@@ -61,6 +61,9 @@
                 <field name="contract_id" required="False"/>
                 <field name="contract_yearly_cost" required="False" groups="base.group_no_one"/>
             </field>
+            <xpath expr="//div/field[@name='company_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -83,5 +86,17 @@
         sequence="11"
         action="agreement_dashboard_agreement_contracts"
         />
+
+
+        <!--
+            <record model="ir.ui.view" id="partner_agreement_form_view">
+            <field name="name">Agreement Form</field>
+            <field name="model">agreement</field>
+            <field name="priority" eval="1" />
+            <field name="inherit_id" ref="agreement_lega.partner_agreement_form_view
+            <field name="arch" type="xml">
+        -->
+
+
 </odoo>
 
