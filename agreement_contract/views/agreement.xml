@@ -20,8 +20,15 @@
                             TODO: Selector to pick the correct type of recurrance here.
                         -->
                         <field name="cost_per_recurrance" />
-                        <field name="consumer_index_base_year" />
-                        <field name="cost_index" />
+                        <field name="type_of_cost_increase" />
+                        <field name="consumer_index_base_year" attrs="{
+                            'invisible': [('type_of_cost_increase', '!=', 'index')],
+                            'required': [('type_of_cost_increase', '=', 'index')],
+                            }" />
+                        <field name="cost_index" attrs="{
+                            'invisible': [('type_of_cost_increase', '!=', 'percent')],
+                            'required': [('type_of_cost_increase', '=', 'percent')],
+                            }" />
                     </group>
                 </group>
                 <footer>

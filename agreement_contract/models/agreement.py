@@ -23,7 +23,6 @@ class AgreementContractWizard(models.TransientModel):
     def _initialize_end_date(self):
         return self._get_current_agreement().end_date
 
-
     start_date = fields.Date(
             string="Start date",
             default=_initialize_start_date,
@@ -73,6 +72,17 @@ class AgreementContractWizard(models.TransientModel):
             required=True,
             )
 
+    type_of_cost_increase = fields.Selection(
+            [
+                ("none","None"),
+                ("index", "Index increase"),
+                ("percent", "Percentual increase"),
+                ],
+            default="none",
+            string="Type of cost increase",
+            required=True,
+            )
+
     cost_index = fields.Float(
             string="Cost increase per year in percent (Triggered at 1/1 every year)",
             required=False,
@@ -84,9 +94,8 @@ class AgreementContractWizard(models.TransientModel):
             required=False,
             )
 
-
     def _generate_contract(self, agreement, price_list):
-        return self.env["contract.contract"].sudo().create({ #TODO: Verify that this should be sudo
+        return self.env["contract.contract"].sudo().create({
             "name": _("Contract for {}").format(agreement.name),
             "partner_id": agreement.partner_id.id,
             "recurring_interval": self.recurring_interval,
@@ -95,7 +104,6 @@ class AgreementContractWizard(models.TransientModel):
             "date_end": self.end_date,
             "pricelist_id": price_list.id,
             })
-
 
     def _generate_price_list_row(self, year, price, indexed=False):
         data = {
@@ -118,28 +126,28 @@ class AgreementContractWizard(models.TransientModel):
                             }).id
 
             data["year"] = year
-            _logger.warning(f"YEAR: {data['year']=}")
-
-        _logger.warning("Created pricelist for year %s", year)
 
         return data
 
-    def _generate_price_list(self, agreement):
-        item_ids = []
-        if self.consumer_index_base_year:
+    def _calculate_price_list_row(self, year):
+        if self.type_of_cost_increase == 'index':
             base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
-        for year in range(self.start_date.year, self.end_date.year + 1):
-            if self.consumer_index_base_year:
-                item_ids.append((0,0, self._generate_price_list_row(year, base_price, indexed=True)))
-            else:
-                #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
-                quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
-                price = self.cost_per_recurrance * quota
-                item_ids.append((0, 0, self._generate_price_list_row(year, price)))
+            return self._generate_price_list_row(year, base_price, indexed=True)
+        elif self.type_of_cost_increase == 'percent':
+            #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
+            quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
+            price = self.cost_per_recurrance * quota
+            return self._generate_price_list_row(year, price)
+        elif self.type_of_cost_increase == 'none':
+            return self._generate_price_list_row(year, self.cost_per_recurrance)
+        else:
+            raise NotImplementedError
 
+    def _generate_price_list(self, agreement):
         return self.env["product.pricelist"].sudo().create({
             "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific agreement.
-            "item_ids": item_ids,
+            "item_ids": [(0, 0, self._calculate_price_list_row(year))
+                         for year in range(self.start_date.year, self.end_date.year + 1)],
             })
 
     def _create_rent(self):
@@ -180,7 +188,7 @@ class AgreementContractWizard(models.TransientModel):
 
         contract_line_id = self._create_contract_line(contract_id)
 
-        # This is a bad idea..
+        # This is a bad idea:
         #today = datetime.date.today()
         #while contract_id.recurring_next_date < today:
         #    contract_id.recurring_create_invoice()
@@ -190,7 +198,7 @@ def type_per_year(recurring_rule_type):
     if recurring_rule_type == "daily":
         return 1/365.2425 # TODO: Consider if this year is leap
     elif recurring_rule_type == "weekly":
-        return 1/(365.2425/7) # TODO: Consider if this year has 53 weeks
+        return 7 * type_per_year("daily")
     elif recurring_rule_type in ("monthly", "monthlylastday"):
         return 1/12
     elif recurring_rule_type == "quarterly":
@@ -221,11 +229,14 @@ class AgreementContract(models.Model):
             default=None,
             )
 
+    contract_yearly_cost = fields.Float(
+            string="Contracts Yearly cost",
+            compute="_contract_yearly_cost",
+            )
+
     @api.depends("contract_id", "contract_id.contract_line_ids", "contract_id.recurring_rule_type", "contract_id.recurring_interval")
     def _contract_yearly_cost(self):
         _logger.warning(f"Recalculating contract yerly cost! {len(self)}")
-        #TODO: Consider actual price after every modifier that can be applied to it, such as index-increases.
-        #TODO: Consider if the line is 'active' during some type of period, possibly by simulating the year?
         for record in self:
             cost_per_year = 0
             try:
@@ -238,9 +249,4 @@ class AgreementContract(models.Model):
             self.contract_yearly_cost = cost_per_year
         # Does not seem to trigger on update by itself, force it.
         self._yearly_cost()
-
-    contract_yearly_cost = fields.Float(
-            string="Contracts Yearly cost",
-            compute=_contract_yearly_cost,
-            )
 
