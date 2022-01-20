@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--record id="consumer_price_index_value" model="ir.ui.view">
+        <field name="name">consumer.price.index.value</field>
+        <field name="model">consumer.price.index</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="year"/>
+            <field name="index"/>
+        </field>
+    </record-->
+
+    <record id="consumer_price_index_tree" model="ir.actions.act_window">
+        <field name="name">consumer.price.index</field>
+        <field name="res_model">consumer.price.index</field>
+        <field name="view_mode">kanban,tree</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="offer_model_view_tree" />
+    </record>
+
+    <record id="offer_model_view_tree_table" model="ir.ui.view">
+        <field name="name">offer.model.form</field>
+        <field name="model">consumer.price.index</field>
+        <field name="arch" type="xml">
+            <form>
+                <span>NOT SHOW PLZ</span>
+                <field name="year"/>
+                <field name="index"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="offer_model_view_tree" model="ir.ui.view">
+        <field name="name">offer.model.tree</field>
+        <field name="model">consumer.price.index</field>
+        <field name="arch" type="xml">
+            <tree string="This is my random string" default_order="year, index" >
+                <field name="index"/>
+                <field name="year"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem
+        name="Consumer Price Index"
+        id="dashboard_agreement_cpi"
+        parent="agreement_legal.agreement_dashboard"
+        sequence="12"
+        action="consumer_price_index_tree"
+        />
+
+</odoo>
+
+

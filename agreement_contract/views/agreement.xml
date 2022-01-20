@@ -71,7 +71,7 @@
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
-                <span>No active invoices</span>
+                <span>No matching invoices related to agreements</span>
             </p>
         </field>
     </record>
