@@ -24,7 +24,8 @@
         <field name="name">Consumer Price Indexes</field>
         <field name="model">consumer.price.index</field>
         <field name="arch" type="xml">
-            <tree default_order="year, index" >
+            <tree default_order="year, index" decoration-danger="is_negative">
+                <field name="is_negative" invisible="1"/>
                 <field name="year"/>
                 <field name="index"/>
             </tree>

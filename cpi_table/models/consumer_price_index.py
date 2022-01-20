@@ -28,3 +28,13 @@ class ConsumerPriceIndex(models.Model):
             string="Consumer Price Index",
             )
 
+    is_negative = fields.Boolean(
+            string="True if index is negative",
+            compute="_is_negative",
+            )
+
+    @api.depends("index")
+    def _is_negative(self):
+        for record in self:
+            record.is_negative = record.index < 0 if record.index is not False else True
+

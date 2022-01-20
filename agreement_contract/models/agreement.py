@@ -109,7 +109,16 @@ class AgreementContractWizard(models.TransientModel):
             data["compute_price"] = "fixed"
         else:
             data["compute_price"] = "by_index"
-            data["year"] = self.env["consumer.price.index"].search([('year', '=', year)]).id
+            if self.env["consumer.price.index"].search([('year', '=', year)]).id is False:
+                # TODO: Somehow inform user that this has been setup and remind that it has to be filled.
+                cpi_row = self.env["consumer.price.index"].sudo().create(
+                        {
+                            'year': year,
+                            'index': -1,
+                            }).id
+
+            data["year"] = year
+            _logger.warning(f"YEAR: {data['year']=}")
 
         _logger.warning("Created pricelist for year %s", year)
 
@@ -155,7 +164,6 @@ class AgreementContractWizard(models.TransientModel):
             "date_end": self.end_date,
             "recurring_next_date": self.recurring_start_date or self.start_date,
             "automatic_price": True,
-#            "state": "in-progress",
             })
 
     def save_button(self):
@@ -171,6 +179,11 @@ class AgreementContractWizard(models.TransientModel):
         contract = self.env["contract.contract"].browse(contract_id)
 
         contract_line_id = self._create_contract_line(contract_id)
+
+        # This is a bad idea..
+        #today = datetime.date.today()
+        #while contract_id.recurring_next_date < today:
+        #    contract_id.recurring_create_invoice()
 
 
 def type_per_year(recurring_rule_type):

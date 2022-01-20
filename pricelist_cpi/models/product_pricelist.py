@@ -21,17 +21,15 @@ class PricelistConsumerPriceIndexItem(models.Model):
         ], index=True, default='fixed', required=True)
 
 
-    year = fields.Many2one(
-            "consumer.price.index",
+#    year = fields.Many2one(
+#            "consumer.price.index",
+    year = fields.Integer(
             string="Year",
             )
 
     def _get_multiplier_for_year(self, year):
         try:
-            #row = self.env["consumer.price.index"].search([('year', '=', year)])
-            #if len(row) > 1:
-            #   _logger.warning(f"Too many rows for {year=}")
-            return self.year.index
+            return self.env["consumer.price.index"].search([('year', '=', year)]).index
         except BaseException as e:
             _logger.warning(e)
         return 0
