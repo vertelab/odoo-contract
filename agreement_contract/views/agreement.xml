@@ -16,9 +16,6 @@
                         <field name="recurring_rule_type" />
                     </group>
                     <group>
-                        <!--
-                            TODO: Selector to pick the correct type of recurrance here.
-                        -->
                         <field name="cost_per_recurrance" />
                         <field name="type_of_cost_increase" />
                         <field name="consumer_index_base_year" attrs="{
@@ -38,7 +35,6 @@
             </form>
         </field>
     </record>
-
 
     <record model="ir.actions.act_window" id="open_link_to_contract_wizard">
         <field name="name">open.link.to.contract.wizard</field>
@@ -68,8 +64,11 @@
             <header position="inside">
                 <button name="%(open_link_to_contract_wizard)d" attrs="{'invisible':[('contract_id', '!=', False), ('start_date', '!=', False), ('end_date', '!=', False)]}"  string="Generate contract &amp; invoices" type="action"/>
             </header>
-            <field name="code" position="before">
+            <field name="assigned_user_id" position="after">
                 <field name="contract_id" required="False"/>
+            </field>
+
+            <field name="code" position="before">
                 <field name="contract_yearly_cost" required="False" groups="base.group_no_one"/>
             </field>
             <xpath expr="//div/field[@name='company_id']" position="attributes">
@@ -95,19 +94,6 @@
         id="dashboard_agreement_contracts"
         parent="agreement_legal.agreement_dashboard"
         sequence="11"
-        action="agreement_dashboard_agreement_contracts"
-        />
-
-
-        <!--
-            <record model="ir.ui.view" id="partner_agreement_form_view">
-            <field name="name">Agreement Form</field>
-            <field name="model">agreement</field>
-            <field name="priority" eval="1" />
-            <field name="inherit_id" ref="agreement_lega.partner_agreement_form_view
-            <field name="arch" type="xml">
-        -->
-
-
+        action="agreement_dashboard_agreement_contracts" />
 </odoo>
 
