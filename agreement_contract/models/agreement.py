@@ -11,7 +11,6 @@ class AgreementContractWizard(models.TransientModel):
     _name = "agreement.contract.wizard"
     _description = "Agreement Contract Wizard"
 
-    # Strings used in translations
     _rent_title = _("Rent (automatically created)")
 
     def _get_current_agreement(self):
@@ -233,6 +232,12 @@ class AgreementContract(models.Model):
             string="Contracts Yearly cost",
             compute="_contract_yearly_cost",
             )
+
+    @api.model
+    def update_cron_job(self):
+        cron_job = self.env.ref("contract.contract_cron_for_invoice")
+        cron_job.interval_number = 1
+        cron_job.interval_type = "hours"
 
     @api.depends("contract_id", "contract_id.contract_line_ids", "contract_id.recurring_rule_type", "contract_id.recurring_interval")
     def _contract_yearly_cost(self):

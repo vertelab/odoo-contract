@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <function model="agreement" name="update_cron_job"/>
     <record id="contract_wizard" model="ir.ui.view">
         <field name="name">link.to.contract.view</field>
         <field name="model">agreement.contract.wizard</field>
