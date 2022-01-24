@@ -272,3 +272,13 @@ class AgreementContract(models.Model):
             # Does not seem to trigger on update by itself, force it.
             record._yearly_cost()
 
+
+# TODO: Move to new module?
+class AgreementExtension(models.Model):
+    _description = "Agreement Extension"
+    _inherit = "agreement"
+
+    agreement_number = fields.Char(
+            string="Agreement number ESV (Ekonomistyrningsverket)",
+            )
+

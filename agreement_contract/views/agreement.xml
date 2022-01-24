@@ -75,6 +75,14 @@
             <xpath expr="//div/field[@name='company_id']" position="attributes">
                 <attribute name="readonly">0</attribute>
             </xpath>
+            <!--
+                TODO: Move to new module?
+            -->
+            <xpath expr="//group[@name='term_information']" position="inside">
+                <group name="extra_fields" string="Extra fields">
+                    <field name="agreement_number" />
+                </group>
+            </xpath>
         </field>
     </record>
 
