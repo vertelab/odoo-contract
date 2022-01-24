@@ -16,5 +16,9 @@
         </field>
     </record>
 
+    <!-- Turns off the 'graph' mode for agreement reporting -->
+    <record id="agreement_legal.action_agreement_report_order" model="ir.actions.act_window">
+        <field name="view_mode">pivot</field>
+    </record>
 </odoo>
 
