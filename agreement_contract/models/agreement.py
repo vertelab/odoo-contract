@@ -135,7 +135,6 @@ class AgreementContractWizard(models.TransientModel):
                             'year': year,
                             'index': -1,
                             }).id
-
             data["year"] = year
 
         return data
@@ -143,6 +142,7 @@ class AgreementContractWizard(models.TransientModel):
     def _calculate_price_list_row(self, year):
         if self.type_of_cost_increase == 'index':
             base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
+            # TODO: Error if year has negative index
             return self._generate_price_list_row(year, base_price, indexed=True)
         elif self.type_of_cost_increase == 'percent':
             #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF

@@ -45,10 +45,10 @@ class PricelistConsumerPriceIndexItem(models.Model):
                     quantity,
                     partner)
         self.ensure_one()
-        price = (product.uom_id._compute_price(price, price_uom) *
+        base_price = self.fixed_price
+        price = (product.uom_id._compute_price(base_price, price_uom) *
                  self._get_multiplier_for_year(self.date_start.year))
-        _logger.warning(f"Got the {price=}")
-        _logger.warning(f"{dir(self)}")
+        _logger.warning(f"Got the {price=} from {base_price=}, {price_uom=} {self._get_multiplier_for_year(self.date_start.year)=}")
         return price
 
 
