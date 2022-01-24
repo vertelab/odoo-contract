@@ -11,16 +11,28 @@ class AgreementContractWizard(models.TransientModel):
     _name = "agreement.contract.wizard"
     _description = "Agreement Contract Wizard"
 
-    _rent_title = _("Rent (automatically created)")
+    default_product_title = _("Rent (automatically created)")
+
+    def _get_product_title(self):
+        return self.default_product_title
 
     def _get_current_agreement(self):
         return self.env["agreement"].browse(self.env.context.get('active_ids'))
 
     def _initialize_start_date(self):
-        return self._get_current_agreement().start_date
+        try:
+            return self._get_current_agreement().start_date
+        except AttributeError:
+            return None
 
     def _initialize_end_date(self):
-        return self._get_current_agreement().end_date
+        try:
+            return self._get_current_agreement().end_date
+        except AttributeError:
+            return None
+
+    def _get_contract_name(self, name):
+        return _("Contract for {}").format(name)
 
     start_date = fields.Date(
             string="Start date",
@@ -95,7 +107,7 @@ class AgreementContractWizard(models.TransientModel):
 
     def _generate_contract(self, agreement, price_list):
         return self.env["contract.contract"].sudo().create({
-            "name": _("Contract for {}").format(agreement.name),
+            "name": self._get_contract_name(agreement.name),
             "partner_id": agreement.partner_id.id,
             "recurring_interval": self.recurring_interval,
             "recurring_rule_type": self.recurring_rule_type,
@@ -149,29 +161,34 @@ class AgreementContractWizard(models.TransientModel):
                          for year in range(self.start_date.year, self.end_date.year + 1)],
             })
 
-    def _create_rent(self):
-        product = self.env["product.product"].search([("name", "=", self._rent_title)])
+    def _create_product(self):
+        product = self.env["product.product"].search([("name", "=", self._get_product_title())])
 
         if not product:
-            _logger.info("Creating product %s", repr(self._rent_title))
+            _logger.info("Creating product %s", repr(self._get_product_title()))
             product = self.env["product.product"].sudo().create({
-                "name": self._rent_title,
+                "name": self._get_product_title(),
                 })
         _logger.warning(product)
         return product
 
     def _create_contract_line(self, contract_id):
-        rent = self._create_rent()
+        product = self._create_product()
 
         contract_line_id = self.env["contract.line"].sudo().create({
-            "product_id": rent.id,
+            "product_id": product.id,
             "contract_id": contract_id.id,
-            "name": self._rent_title,
+            "name": self._get_product_title(),
             "date_start": self.start_date,
             "date_end": self.end_date,
             "recurring_next_date": self.recurring_start_date or self.start_date,
+            "recurring_rule_type": self.recurring_rule_type,
+            "recurring_interval": self.recurring_interval,
             "automatic_price": True,
             })
+
+    def store_contract_id(self, agreement, contract_id):
+        agreement.contract_id = contract_id
 
     def save_button(self):
         _logger.warning("Save button pressed")
@@ -181,7 +198,7 @@ class AgreementContractWizard(models.TransientModel):
 
         contract_id = self._generate_contract(agreement, price_list)
 
-        agreement.contract_id = contract_id
+        self.store_contract_id(agreement, contract_id)
 
         contract = self.env["contract.contract"].browse(contract_id)
 
@@ -251,7 +268,7 @@ class AgreementContract(models.Model):
                     cost_per_year += line_price / period
             except (TypeError, ZeroDivisionError) as e:
                 _logger.error(e)
-            self.contract_yearly_cost = cost_per_year
-        # Does not seem to trigger on update by itself, force it.
-        self._yearly_cost()
+            record.contract_yearly_cost = cost_per_year
+            # Does not seem to trigger on update by itself, force it.
+            record._yearly_cost()
 
