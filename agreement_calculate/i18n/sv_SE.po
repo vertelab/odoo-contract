@@ -1,0 +1,73 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* agreement_calculate
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20211214\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-25 15:05+0000\n"
+"PO-Revision-Date: 2022-01-25 16:06+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: sv\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: agreement_calculate
+#: model:ir.model,name:agreement_calculate.model_agreement
+msgid "Agreement Property"
+msgstr "Relaterad fastighet"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__expiry_date
+msgid "Expiry date"
+msgstr "Slutdatum"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__id
+msgid "ID"
+msgstr "ID"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement____last_update
+msgid "Last Modified on"
+msgstr "Senast ändrad den"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__square_meter_per_employee
+msgid "Square meter/Employee"
+msgstr "Kvadratmeter/Anställd"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__square_meter_per_workplace
+msgid "Square meter/Workplace"
+msgstr "Kvadratmeter/Arbetsplats"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__yearly_cost
+msgid "Yearly cost"
+msgstr "Årlig kostnad"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__yearly_cost_per_employee
+msgid "Yearly cost/Employee"
+msgstr "Årlig kostnad/Anställd"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__yearly_cost_per_square_meter
+msgid "Yearly cost/Square meter"
+msgstr "Årlig kostnad/Kvadratmeter"
+
+#. module: agreement_calculate
+#: model:ir.model.fields,field_description:agreement_calculate.field_agreement__yearly_cost_per_workplace
+msgid "Yearly cost/Workplace"
+msgstr "Årlig kostnad/Arbetsplats"
