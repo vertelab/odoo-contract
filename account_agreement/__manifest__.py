@@ -18,6 +18,9 @@
         "agreement_legal",
         "account",
         "contract",
+#        "account_period",
+#        "l10n_se_ocr_old",
+#        "sale",
     ],
     "data": [
         "views/account_move.xml",

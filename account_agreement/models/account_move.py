@@ -13,12 +13,26 @@ class AccountMoveAgreement(models.Model):
 
     @api.depends("invoice_line_ids")
     def _calculate_related_agreement(self):
+        agreement_id = None
+
         try:
             for invoice_line_id in self.invoice_line_ids:
                 agreement = self.env["agreement"].search([('contract_id', '=', invoice_line_id.contract_line_id.contract_id.id)])
-                self.agreement_agreement_id = agreement.id
+                agreement_id = agreement.id
+                break
         except:
-            self.agreement_agreement_id = None
+            pass
+
+        if agreement_id is None:
+            try:
+                for invoice_line_id in self.invoice_line_ids:
+                    agreement = self.env["agreement"].search([('property_id', '=', invoice_line_id.contract_line_id.contract_id.related_property_id.id)])
+                    agreement_id = agreement.id
+                    break
+            except:
+                pass
+
+        self.agreement_agreement_id = agreement_id
 
     # Would much rather have the name agreement_id
     # The OCA module agreement_account uses this variable in account.move
