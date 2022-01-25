@@ -86,6 +86,20 @@
         </field>
     </record>
 
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account.move.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">invoice_date_due</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='invoice_date_due']" position="before">
+                <field name="agreement_agreement_id"/>
+            </xpath>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="agreement_dashboard_agreement_contracts">
         <field name="name">Agreements</field>
         <field name="res_model">account.move</field>

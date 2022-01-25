@@ -16,6 +16,23 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="partner_agreement_list_view">
+        <field name="name">Agreement List</field>
+        <field name="model">agreement</field>
+        <field name="inherit_id" ref="agreement_legal.partner_agreement_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">expiry_date</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='code']" position="after">
+                <field name="expiry_date" />
+                <field name="end_date" />
+                <field name="yearly_cost" />
+                <field name="contract_yearly_cost" />
+            </xpath>
+        </field>
+    </record>
+
     <!-- Turns off the 'graph' mode for agreement reporting -->
     <record id="agreement_legal.action_agreement_report_order" model="ir.actions.act_window">
         <field name="view_mode">pivot</field>

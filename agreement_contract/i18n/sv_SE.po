@@ -72,7 +72,7 @@ msgstr "Kontrakt för {}"
 #. module: agreement_contract
 #: model:ir.model.fields,field_description:agreement_contract.field_agreement__contract_yearly_cost
 msgid "Contracts Yearly cost"
-msgstr "Hyreskostnad"
+msgstr "Årshyra"
 
 #. module: agreement_contract
 #: model:ir.model.fields,field_description:agreement_contract.field_agreement_contract_wizard__cost_index
