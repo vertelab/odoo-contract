@@ -1,0 +1,75 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cpi_table
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20211214\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-25 06:48+0000\n"
+"PO-Revision-Date: 2022-01-25 07:49+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sv_SE\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: cpi_table
+#: model:ir.model,name:cpi_table.model_consumer_price_index
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__index
+#: model:ir.ui.menu,name:cpi_table.dashboard_agreement_cpi
+msgid "Consumer Price Index"
+msgstr "Konsumentprisindex"
+
+#. module: cpi_table
+#: model:ir.actions.act_window,name:cpi_table.consumer_price_index_tree
+msgid "Consumer Price Index act window"
+msgstr "Konsumentprisindex"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__id
+msgid "ID"
+msgstr "ID"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index____last_update
+msgid "Last Modified on"
+msgstr "Senast redigerad"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__is_negative
+msgid "True if index is negative"
+msgstr "Sant om indexet är negativt"
+
+#. module: cpi_table
+#: model:ir.model.fields,field_description:cpi_table.field_consumer_price_index__year
+msgid "Year"
+msgstr "År"
