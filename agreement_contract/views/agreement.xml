@@ -118,5 +118,17 @@
         parent="agreement_legal.agreement_dashboard"
         sequence="11"
         action="agreement_dashboard_agreement_contracts" />
+
+    <!-- TODO :This should be to the normal form view instead of wiz. view"
+    <record id="contract_wizard" model="ir.ui.view">
+        <field name="name">link.to.contract.view</field>
+        <field name="model">agreement.contract.wizard</field>
+        <field name="reference_id" ref=""/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']/../.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record> -->
 </odoo>
 

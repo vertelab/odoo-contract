@@ -30,7 +30,7 @@ msgstr "Visningsnamn"
 #. module: agreement_calculate
 #: model:ir.model.fields,field_description:agreement_calculate.field_agreement__expiry_date
 msgid "Expiry date"
-msgstr "Slutdatum"
+msgstr "Sista uppsägningsdatum"
 
 #. module: agreement_calculate
 #: model:ir.model.fields,field_description:agreement_calculate.field_agreement__id
