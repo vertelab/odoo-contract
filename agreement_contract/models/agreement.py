@@ -270,7 +270,10 @@ class AgreementContract(models.Model):
                 _logger.error(e)
             record.contract_yearly_cost = cost_per_year
             # Does not seem to trigger on update by itself, force it.
-            record._yearly_cost()
+            try:
+                record._yearly_cost()
+            except AttributeError:
+                _logger.warning("Missing module defining function _yearly_cost()")
 
 
 # TODO: Move to new module?
