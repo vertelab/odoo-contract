@@ -10,7 +10,6 @@ from odoo.addons.calendar.models.calendar_recurrence import (
 )
 
 
-
 class Contract(models.Model):
     _inherit = "contract.contract"
 
@@ -36,7 +35,7 @@ class Contract(models.Model):
 
     # SCHEDULE FIELD
     recurrency = fields.Boolean('Recurrent', help="Recurrent Event")
-    end_type = fields.Selection(END_TYPE_SELECTION, string='Recurrence Termination',  readonly=False, default='count')
+    end_type = fields.Selection(END_TYPE_SELECTION, string='Recurrence Termination', readonly=False, default='count')
     count = fields.Integer(string='Repeat', help="Repeat x times", readonly=False, default=1)
     interval = fields.Integer(string='Repeat Every', help="Repeat every (Days/Week/Month/Year)", default=1)
     rrule_type = fields.Selection(RRULE_TYPE_SELECTION, string='Recurrence',
