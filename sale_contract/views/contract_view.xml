@@ -1,0 +1,98 @@
+<odoo>
+    <data>
+        <record id="contract_contract_form_view" model="ir.ui.view">
+            <field name="name">contract.contract.form</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <page name="info" position="after">
+                    <page string="Schedule" name="schedule_activity">
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="rrule_type"/>-->
+<!--                                <field name="duration"/>-->
+<!--                            </group>-->
+<!--                            <group attrs="{'invisible': [('rrule_type', '!=', 'weekly')]}" name="weekdays">-->
+<!--                                <field name="mo"/>-->
+<!--                                <field name="tu"/>-->
+<!--                                <field name="we"/>-->
+<!--                                <field name="th"/>-->
+<!--                                <field name="fr"/>-->
+<!--                                <field name="sa"/>-->
+<!--                                <field name="su"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="start"/>-->
+<!--                                <field name="stop"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+
+
+                        <group>
+                            <group>
+                                <field name="start"/>
+<!--                                <field name="stop"/>-->
+                                <field name="duration" widget="float_time"/>
+                            </group>
+                            <div>
+                                <group>
+                                    <field name="recurrency"/>
+                                </group>
+                                <div attrs="{'invisible': [('recurrency', '=', False)]}">
+                                    <group>
+                                        <label for="interval"/>
+                                        <div class="o_row">
+                                            <field name="interval" attrs="{'required': [('recurrency', '=', True)]}"/>
+                                            <field name="rrule_type" attrs="{'required': [('recurrency', '=', True)]}"/>
+                                        </div>
+                                        <label string="Until" for="end_type"/>
+                                        <div class="o_row">
+                                            <field name="end_type" attrs="{'required': [('recurrency', '=', True)]}"/>
+                                            <field name="count" attrs="{'invisible': [('end_type', '!=', 'count')], 'required': [('recurrency', '=', True)]}"/>
+                                            <field name="until" attrs="{'invisible': [('end_type', '!=', 'end_date')], 'required': [('end_type', '=', 'end_date'), ('recurrency', '=', True)]}"/>
+                                        </div>
+                                    </group>
+                                    <group attrs="{'invisible': [('rrule_type', '!=', 'weekly')]}" name="weekdays">
+                                        <field name="mo"/>
+                                        <field name="tu"/>
+                                        <field name="we"/>
+                                        <field name="th"/>
+                                        <field name="fr"/>
+                                        <field name="sa"/>
+                                        <field name="su"/>
+                                    </group>
+                                    <group attrs="{'invisible': [('rrule_type', '!=', 'monthly')]}">
+                                        <label string="Day of Month" for="month_by"/>
+                                        <div class="o_row">
+                                            <field name="month_by"/>
+                                            <field name="day"
+                                                attrs="{'required': [('month_by', '=', 'date'), ('rrule_type', '=', 'monthly')],
+                                                        'invisible': [('month_by', '!=', 'date')]}"/>
+                                            <field name="byday" string="The"
+                                                attrs="{'required': [('recurrency', '=', True), ('month_by', '=', 'day'), ('rrule_type', '=', 'monthly')],
+                                                        'invisible': [('month_by', '!=', 'day')]}"/>
+                                            <field name="weekday" nolabel="1"
+                                                attrs="{'required': [('recurrency', '=', True), ('month_by', '=', 'day'), ('rrule_type', '=', 'monthly')],
+                                                        'invisible': [('month_by', '!=', 'day')]}"/>
+                                        </div>
+                                    </group>
+                                </div>
+                            </div>
+                        </group>
+                    </page>
+                </page>
+                <button name="recurring_create_invoice" position="after">
+                    <button name="action_create_calendar" type="object" string="Add to Calendar" attrs="{'invisible': [('is_terminated','=',True)]}" groups="base.group_user"/>
+                </button>
+                <button name="action_show_invoices" position="before">
+                    <button name="action_view_sales" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        <field name="sale_count" widget="statinfo" string="Sales"/>
+                    </button>
+                    <button name="action_view_schedules" type="object" class="oe_stat_button" icon="fa-calendar" attrs="{'invisible': [('calendar_count', '=', 0)]}">
+                        <field name="calendar_count" widget="statinfo" string="Schedule"/>
+                    </button>
+                </button>
+            </field>
+        </record>
+    </data>
+</odoo>

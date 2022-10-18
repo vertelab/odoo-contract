@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="sale_order_form_view" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <button name="action_view_invoice" position="after">
+                    <button name="action_view_contract" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('contract_count', '=', 0)]}">
+                        <field name="contract_count" widget="statinfo" string="Contracts"/>
+                    </button>
+                </button>
+                <button name="action_quotation_send" position="after">
+                    <button name="action_create_contract" string="Create Contract" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['sale', 'done'])]}"/>
+                </button>
+            </field>
+        </record>
+    </data>
+</odoo>
