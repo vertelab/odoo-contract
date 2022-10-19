@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="calendar_event_form_view" model="ir.ui.view">
+            <field name="name">calendar.event.form</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <button name="action_open_calendar_event" position="before">
+                    <button name="action_view_contract" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('contract_count', '=', 0)]}">
+                        <field name="contract_count" widget="statinfo" string="Contracts"/>
+                    </button>
+                </button>
+            </field>
+        </record>
+
+        <record id="view_calendar_event_calendar_month_mode" model="ir.ui.view">
+            <field name="name">calendar.event.calendar.month.mode</field>
+            <field name="model">calendar.event</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar js_class="attendee_calendar" string="Meetings" date_start="start" date_stop="stop" date_delay="duration" all_day="allday" event_open_popup="true" event_limit="5" color="user_id" mode="month">
+                    <field name="attendee_status"/>
+                    <field name="user_id" string="Responsible" filters="1" widget="many2one_avatar_user"/>
+                    <field name="partner_ids" widget="many2many_tags_avatar" write_model="calendar.contacts" write_field="partner_id" avatar_field="image_128"/>
+                    <field name="is_highlighted" invisible="1"/>
+                    <field name="description"/>
+                    <field name="privacy"/>
+                    <!-- For recurrence update Dialog -->
+                    <field name="recurrency" invisible="1"/>
+                    <field name="recurrence_update" invisible="1"/>
+                </calendar>
+            </field>
+        </record>
+
+    </data>
+</odoo>

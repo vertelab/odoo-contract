@@ -1,2 +1,1 @@
-import sale_contract
-import wizard
+from . import models
