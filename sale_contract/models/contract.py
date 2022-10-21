@@ -84,9 +84,15 @@ class Contract(models.Model):
         return action
 
     def action_create_calendar(self):
+        self._clean_existing_calendar()
         calendar_event_id = self.env["calendar.event"].create(self._prepare_event_calendar_values())
         self.calendar_ids = [(4, calendar_event_id.id)]
         return calendar_event_id
+
+    def _clean_existing_calendar(self):
+        calendar_event_id = self.env["calendar.event"].search([('contract_id', '=', self.id)])
+        if calendar_event_id:
+            calendar_event_id.unlink()
 
     def _prepare_event_calendar_values(self):
         start = datetime.strftime(fields.Datetime.context_timestamp(self, self.start), "%Y-%m-%d %H:%M:%S")
