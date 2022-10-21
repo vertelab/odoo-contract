@@ -3,10 +3,10 @@
     "depends": [
         'base',
         'sale_contract',
-        'calender_attendee_planning'
+        'calendar_attendee_planning'
     ],
-    "autoinstall": True,
+    "auto_install": True,
     "data": [
-        
+        "views/calendar_view_extend.xml"
     ],
 }
