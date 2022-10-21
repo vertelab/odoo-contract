@@ -1,0 +1,13 @@
+<odoo>
+      <record id="calendar_attendee_search_view" model="ir.ui.view">
+      <field name="name">sale.contract.search.view</field>
+      <field name="model">calendar.attendee</field>
+      <field name="arch" type="xml">
+      <search string="Groups">           
+          <filter name="contracts" string="Contract" context="{'group_by':'m2o_contract'}"/>
+          <!-- <filter name="attendee" string="Contract"/> -->
+        
+      </search>   
+      </field>
+  </record>
+</odoo>
