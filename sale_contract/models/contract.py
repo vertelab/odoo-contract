@@ -1,4 +1,6 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+from dateutil.relativedelta import relativedelta
+import pytz
 from odoo import models, fields, api, _
 from odoo.addons.calendar.models.calendar_recurrence import (
     weekday_to_field,
@@ -82,15 +84,25 @@ class Contract(models.Model):
         return action
 
     def action_create_calendar(self):
+        self._clean_existing_calendar()
         calendar_event_id = self.env["calendar.event"].create(self._prepare_event_calendar_values())
         self.calendar_ids = [(4, calendar_event_id.id)]
         return calendar_event_id
 
+    def _clean_existing_calendar(self):
+        calendar_event_id = self.env["calendar.event"].search([('contract_id', '=', self.id)])
+        if calendar_event_id:
+            calendar_event_id.unlink()
+
     def _prepare_event_calendar_values(self):
+        start = datetime.strftime(fields.Datetime.context_timestamp(self, self.start), "%Y-%m-%d %H:%M:%S")
+        stop = datetime.strftime(fields.Datetime.context_timestamp(
+            self, self.start + relativedelta(hours=self.duration)), "%Y-%m-%d %H:%M:%S")
         values = {
             "name": f"{self.name}",
             "partner_ids": [(4, self.partner_id.id)],
-            "start": self.start,
+            "start": start,
+            "stop": stop,
             "duration": self.duration,
             "user_id": self.user_id.id,
             "show_as": "busy",
