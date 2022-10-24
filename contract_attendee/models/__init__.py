@@ -1,1 +1,1 @@
-from . import extend_attendee
+from . import calendar_attendee

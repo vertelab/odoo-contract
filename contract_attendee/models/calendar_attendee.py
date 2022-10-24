@@ -1,10 +1,11 @@
+from distutils.util import Mixin2to3
 import logging
 from odoo import models, fields, api, _
 
 _logger = logging.getLogger(__name__)
 
 class ExtendAttendee(models.Model):
-    _description = "Extend attendee"
     _inherit = 'calendar.attendee'
 
-    m2o_contract = fields.Many2one('contract.contract', string='Contract')
+    contract_id = fields.Many2one(comodel_name='contract.contract', related='event_id.contract_id', store=True)
+    
