@@ -1,1 +1,1 @@
-import product_contract
+from . import models
