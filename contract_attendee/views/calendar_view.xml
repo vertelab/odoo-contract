@@ -1,13 +1,30 @@
 <odoo>
-  <record id="calendar_attendee_search_view" model="ir.ui.view">
-    <field name="name">sale.contract.search.view</field>
+    <record id="calendar_attendee_search_view" model="ir.ui.view">
+      <field name="name">sale.contract.search.view</field>
+      <field name="model">calendar.attendee</field>
+      <field name="inherit_id" ref="calendar_attendee_planning.calendar_attendee_search_view"/>
+      <field name="arch" type="xml">
+      <search string="filters_and_groups">           
+          <filter name="contracts" string="Contract" context="{'group_by':'contract_id'}"/>
+          <!-- <filter name="attendee" string="Contract"/> -->
+        
+      </search>   
+      </field>
+  </record>
+
+  <record model="ir.ui.view" id="view_calender_attendee_form">
+    <field name="name">calender_attendee_form_contract</field>
     <field name="model">calendar.attendee</field>
+    <field name="type">form</field>
     <field name="arch" type="xml">
-    <search string="Groups">           
-        <filter name="contracts" string="Contract" context="{'group_by':'contract_id'}"/>
-        <!-- <filter name="attendee" string="Contract"/> -->
-      
-    </search>   
+      <form string="Attendees">
+          <sheet string="Attendees">
+            <xpath expr="//field[@name='state']" position="after">
+              <field name="contract_id" readonly="False"/>
+            </xpath> 
+          </sheet>
+      </form>
     </field>
   </record>
+
 </odoo>
