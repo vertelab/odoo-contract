@@ -4,28 +4,39 @@ import logging
 from odoo import models, fields, api, _
 
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("------dmitri------")
 
 
 class Contract(models.Model):
     _inherit = "contract.contract"
-    _inherits = {'calendar.event': 'calendar_id'}
-    calendar_id = fields.Many2one(comodel_name='calendar.event',
+    _inherits = {'calendar.event': 'event_id'}
+    event_id = fields.Many2one(comodel_name='calendar.event',
                     string='Calendar', auto_join=True, index=True, 
                     ondelete="cascade", required=True)
                     
                     
     @api.model_create_multi
     def create(self, vals_list):
-        contracts = super(Contract, self.with_context()).create(vals_list)
-        # ~ for contract in contracts:
-            # ~ contract.calendar_id = self.env['calendar.event'].create({'name': vals_list.get('name',),'start': vals_list.get('date_start')})
-        # ~ self.clear_caches()
+        contracts = self.env["contract.contract"]
+        for vals in vals_list:
+            _logger.warning(vals_list)
+            event = self.env['calendar.event'].create({
+                'name': vals.get('name',),
+                'start': vals.get('date_start', fields.Date.today()), 
+                'duration': 8.0, 
+            })
+            vals["event_id"] = event.id
+            contract = super(Contract, self.with_context()).create(vals)
+            event.contract_id = contract.id
+            contracts += contract
+        self.clear_caches()
         return contracts
 
     def write(self, values):
         res = super(Contract, self).write(values)
         return res
+
+#TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar
 
     # ~ def unlink(self):
         # ~ res = super(Contract, self).unlink()
@@ -63,7 +74,7 @@ class Contract(models.Model):
     # ~ end_type = fields.Selection(related="calendar_id.end_type")
     # ~ interval = fields.Integer(related="calendar_id.interval")
     # ~ count = fields.Integer(related="calendar_id.count")
-    # ~ mo = fields.Boolean(related="calendar_id.mo")
+    # mo = fields.Boolean(related="event_id.mo", readonly=False)
     # ~ tu = fields.Boolean(related="calendar_id.tu")
     # ~ we = fields.Boolean(related="calendar_id.we")
     # ~ th = fields.Boolean(related="calendar_id.th")

@@ -20,5 +20,6 @@
     ],
     "data": [
         "views/contract.xml",
+        "views/calendar_view.xml",
     ],
 }

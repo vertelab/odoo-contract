@@ -22,7 +22,7 @@
       <field name="inherit_id" ref="sale.view_order_form" />
       <field name="arch" type="xml">
         <div name="button_box" position="inside">
-          <button type="object" name="action_view_contract" class="oe_stat_button" icon="fa-tasks" attrs="{'invisible': [('contract_count', '=', 0)]}" groups="base.group_user">
+          <button type="object" name="action_view_contract" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('contract_count', '=', 0)]}" groups="base.group_user">
             <field name="contract_count" widget="statinfo" string="Contracts" />
           </button>
         </div>

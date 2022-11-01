@@ -5,22 +5,25 @@
     <field name="model">contract.contract</field>
     <field name="inherit_id" ref="contract.contract_contract_form_view" />
     <field name="arch" type="xml">
+        <field name="tag_ids" position="after">
+            <label for="duration" attrs="{'invisible': [('allday','=',True)]}" />
+            <div>
+                <field name="duration" widget="float_time" string="Duration" class="oe_inline" attrs="{'readonly': [('id', '!=', False), ('recurrency','=',True)]}" />
+                <span> hours</span>
+            </div>
+        </field>
       <notebook position='inside'>
         <page name="calendar" string="Calendar">
-          <field name="calendar_id" required="0" />
+          <field name="event_id" required="0" readonly="1"/>
           <notebook>
             <page name="page_details" string="Meeting Details">
               <group>
                 <group>
+                  <field name="partner_ids" widget="many2many_tags" domain="[('employee', '=', True)]"/>
                   <field name="start_date" string="Starting at" attrs="{'required': [('allday','=',True)], 'invisible': [('allday','=',False)]}" force_save="1" />
                   <field name="stop_date" string="Ending at" attrs="{'required': [('allday','=',True)],'invisible': [('allday','=',False)]}" force_save="1" />
                   <field name="start" string="Starting at" attrs="{'required': [('allday','=',False)], 'invisible': [('allday','=',True)]}" />
                   <field name="stop" invisible="1" />
-                  <label for="duration" attrs="{'invisible': [('allday','=',True)]}" />
-                  <div attrs="{'invisible': [('allday','=',True)]}">
-                    <field name="duration" widget="float_time" string="Duration" class="oe_inline" attrs="{'readonly': [('id', '!=', False), ('recurrency','=',True)]}" />
-                    <span>hours</span>
-                  </div>
                   <field name="allday" attrs="{'readonly': [('id', '!=', False), ('recurrency','=',True)]}" force_save="1" />
                 </group>
                 <group>

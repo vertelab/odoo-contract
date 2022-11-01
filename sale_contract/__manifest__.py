@@ -1,5 +1,3 @@
-
-
 {
     'name': 'Sale Contract',
     'version': '14.0.0.1',

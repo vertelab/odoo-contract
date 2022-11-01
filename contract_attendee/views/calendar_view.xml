@@ -4,10 +4,11 @@
       <field name="model">calendar.attendee</field>
       <field name="inherit_id" ref="calendar_attendee_planning.calendar_attendee_search_view"/>
       <field name="arch" type="xml">
-      <search string="filters_and_groups">           
+      <search string="filters_and_groups">
+        <filter name="contracts" string="Contracts" domain="[('contract_id', '!=', False)]" />
+        <group string="Group by">
           <filter name="contracts" string="Contract" context="{'group_by':'contract_id'}"/>
-          <!-- <filter name="attendee" string="Contract"/> -->
-        
+        </group>
       </search>   
       </field>
   </record>
@@ -16,15 +17,11 @@
     <field name="name">calender_attendee_form_contract</field>
     <field name="model">calendar.attendee</field>
     <field name="type">form</field>
+    <field name="inherit_id" ref="calendar_attendee_planning.view_calender_attendee_form"/>
     <field name="arch" type="xml">
-      <form string="Attendees">
-          <sheet string="Attendees">
-            <xpath expr="//field[@name='state']" position="after">
-              <field name="contract_id" readonly="False"/>
-            </xpath> 
-          </sheet>
-      </form>
+      <xpath expr="//group[@name='contract_group']" position="inside">
+        <field name="contract_id" readonly="False"/>
+      </xpath>
     </field>
   </record>
-
 </odoo>

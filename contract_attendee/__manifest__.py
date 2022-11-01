@@ -1,7 +1,7 @@
 {
     "name": "Contract attendee",
     "depends": [
-        'sale_contract',
+        'contract_calendar',
         'calendar_attendee_planning'
     ],
     "auto_install": True,

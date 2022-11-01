@@ -27,7 +27,7 @@ class Sale(models.Model):
         for order in self:
             for line in order.order_line:
                 if line.product_id.is_contract:
-                    contract_id = self.env["contract.contract"].create(self._prepare_contract_vals(line))
+                    contract_id = self.env["contract.contract"].create([self._prepare_contract_vals(line)])
                     contract_id.recurring_next_date = contract_id.get_first_invoice_date()
                     order.contract_ids = [(4, contract_id.id)]
                     line.contract_id = contract_id
