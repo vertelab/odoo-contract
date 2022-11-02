@@ -24,4 +24,20 @@
       </xpath>
     </field>
   </record>
+
+  <record model="ir.ui.view" id="view_calender_attendee_calendar">
+    <field name="name">calender_attendee_contract</field>
+    <field name="model">calendar.attendee</field>
+    <field name="type">calendar</field>
+    <field name="inherit_id" ref="calendar_attendee_planning.view_calender_attendee_calendar"/>
+    <field name="arch" type="xml">
+      <field name="user_id" position="after">
+        <field name="contract_id" filters="1"/>
+      </field>
+    </field>
+  </record>
+
 </odoo>
+
+
+        
