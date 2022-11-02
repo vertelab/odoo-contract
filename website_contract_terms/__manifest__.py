@@ -18,40 +18,33 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# Copyright 2021 Tecnativa - Jairo Llopis
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Agreement Property',
-    'version': '14.0.1.0.0',
+    'name': 'Contract: Website Contract Terms',
+    'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Inherit variables from property into agreement.',
+    'summary': 'Terms on contracts',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
     'description': """
-    Inherit variables from property into agreement.
+    Terms on contracts
+    ==================
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/agreement_property',
+    'website': 'https://vertel.se/apps/odoo-contract/website_contract_terms',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-    "application": False,
-    "auto-install": True,
-    "installable": True,
-    "depends": [
-        "property_mgmt",
-        "property_building",
-        "agreement_legal",
-    ],
-    "data": [
-        "views/agreement.xml",
-    ],
+    'depends': ['website', 'account_analytic_analysis'],
+    'data': [
+        'website_contract_terms.xml',
+        ],
+    'installable': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
