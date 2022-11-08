@@ -32,7 +32,7 @@ class Contract(models.Model):
                 'duration': vals.get('duration', 1), 
             })
             vals["event_id"] = event.id
-            _logger.warning(f"contract.contract BAPIDI {vals}")
+            # _logger.warning(f"contract.contract BAPIDI {vals}")
             contract = super(Contract, self.with_context()).create(vals)
             event.contract_id = contract.id
             contracts += contract
