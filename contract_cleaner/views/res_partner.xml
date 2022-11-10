@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_add_skill" model="ir.ui.view">
+        <field name="name">Res Partner Skills</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="function" position="before" >
+                <field name="skill_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
+
