@@ -40,7 +40,18 @@ class Contract(models.Model):
         return contracts
 
     def write(self, values):
-        res = super(Contract, self).write(values)
+        interesting_keys = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
+        prelim_dict = {}
+        for key in interesting_keys:
+            day = values[key] if key in values.keys() else False
+            if day:
+                prelim_dict[key] = day
+                values.pop(key)
+        if prelim_dict:
+            super().write(prelim_dict)
+            # _logger.warning(f"PRINT prelim {prelim_dict}")
+        res = super().write(values)
+        # _logger.warning(f"PRINT values {values}")
         return res
 
 #TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar
