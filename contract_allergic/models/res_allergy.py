@@ -2,8 +2,8 @@ from odoo import api, models, fields, _
 import logging
 _logger = logging.getLogger(__name__)
 
-class ResSkill(models.Model):
-    _name = "res.skill"
+class ResAllergy(models.Model):
+    _name = "res.allergy"
     _description = "A model for tags added to res.partner"
 
     name = fields.Char('Name', required=True)

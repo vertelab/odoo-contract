@@ -21,17 +21,17 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Contract Cleaner',
+    'name': 'Contract: Contract Allergic',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds a skill tag to a contact',
+    'summary': 'Adds a tag containing allergies to a contact',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Contract',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/contract_cleaner',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_allergic',
     # 'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -45,7 +45,7 @@
         'contacts',
     ],
     "data": [
-        'data/res_skills.xml',
+        'data/res_allergy.xml',
         'security/ir.model.access.csv',
         'views/res_partner.xml',
     ],
