@@ -9,6 +9,8 @@ class ExtendAttendee(models.Model):
     _inherit = "calendar.attendee"
 
     contract_id = fields.Many2one(comodel_name='contract.contract', related='event_id.contract_id', store=True, readonly=False)
+    contract_skill_ids = fields.Many2many(related='contract_id.skill_ids', readonly=False)
+    contract_allergy_ids = fields.Many2many(related='contract_id.allergy_ids', readonly=False)
     
     @api.model_create_multi
     def create(self, vals_list):

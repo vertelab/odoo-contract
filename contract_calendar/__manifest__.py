@@ -17,6 +17,8 @@
     "depends": [
         "contract",
         "calendar",
+        'contract_cleaner',
+        'contract_allergic'
     ],
     "data": [
         "views/contract.xml",

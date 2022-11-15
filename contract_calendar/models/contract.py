@@ -15,7 +15,9 @@ class Contract(models.Model):
                     string='Calendar', auto_join=True, index=True, 
                     ondelete="cascade", required=True)         
 
-    start = fields.Datetime(compute='_inherit_date', readonly=False)     
+    start = fields.Datetime(compute='_inherit_date', readonly=False)
+    skill_ids = fields.Many2many('res.skill', string='Skills')
+    allergy_ids = fields.Many2many('res.allergy', string='Allergies')     
 
     @api.depends("date_start")           
     def _inherit_date(self):
