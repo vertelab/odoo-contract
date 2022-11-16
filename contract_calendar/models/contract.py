@@ -54,6 +54,12 @@ class Contract(models.Model):
             # _logger.warning(f"PRINT prelim {prelim_dict}")
         res = super().write(values)
         # _logger.warning(f"PRINT values {values}")
+        for contract in self:
+            _logger.warning(f"first loop {contract}")
+            for event in contract.event_id.recurrence_id.calendar_event_ids:
+                _logger.warning(f"second loop {event}")
+                event.write({'contract_id': contract.id})
+
         return res
 
 #TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar

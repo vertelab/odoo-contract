@@ -14,8 +14,9 @@ class ExtendAttendee(models.Model):
     
     @api.model_create_multi
     def create(self, vals_list):
-        attendees = super().create(vals_list)
-        _logger.warning(f"BIPIDI {self} {vals_list}")
+        for vals in vals_list:
+            attendees = super().create(vals)
+            _logger.warning(f"BYPIDI {self} {vals}")
         # for attendee in attendees:
         #     partner = self.env['res.partner'].browse(vals_list[0]['partner_id'])
         #     user = partner.user_ids[0]
@@ -39,5 +40,5 @@ class ExtendAttendee(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        _logger.warning(f"BYPIDI {self} {vals}")
+        # _logger.warning(f"BYPIDI {self} {vals}")
         return res
