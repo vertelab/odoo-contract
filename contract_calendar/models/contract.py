@@ -2,7 +2,7 @@ import datetime
 import logging
 
 from odoo import models, fields, api, _
-from datetime import datetime
+from datetime import datetime, timedelta 
 
 
 _logger = logging.getLogger(__name__)
@@ -27,14 +27,24 @@ class Contract(models.Model):
     def create(self, vals_list):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
-            event = self.env['calendar.event'].create({
-                'name': vals.get('name',),
-                'start_date': vals.get('date_start', fields.Date.today()),
-                'stop_date': vals.get('date_end', 'date_start'), 
-                'duration': vals.get('duration', 1), 
-            })
+            _logger.warning(f"vals get start {vals.get('start')}")
+            if vals['allday'] and vals['start_date'] and vals['stop_date']:
+                event = self.env['calendar.event'].create({
+                    'name': vals.get('name',),
+                    'start_date': vals.get('start_date', ),
+                    'stop_date': vals.get('stop_date', ),
+                    'allday': vals.get('allday', True),
+                })
+            elif vals['allday'] == False:
+                event = self.env['calendar.event'].create({
+                    'name': vals.get('name',),
+                    'start': vals.get('start', ),
+                    'stop': datetime.strptime(vals.get('start', ), '%Y-%m-%d %H:%M:%S') + timedelta(hours=vals.get('duration')),
+                    'duration': vals.get('duration',),
+                })
+            
             vals["event_id"] = event.id
-            # _logger.warning(f"contract.contract BAPIDI {vals}")
+            _logger.warning(f"contract.contract create vals {vals}") 
             contract = super(Contract, self.with_context()).create(vals)
             event.contract_id = contract.id
             contracts += contract
@@ -55,9 +65,9 @@ class Contract(models.Model):
         res = super().write(values)
         # _logger.warning(f"PRINT values {values}")
         for contract in self:
-            _logger.warning(f"first loop {contract}")
+            # _logger.warning(f"first loop {contract}")
             for event in contract.event_id.recurrence_id.calendar_event_ids:
-                _logger.warning(f"second loop {event}")
+                # _logger.warning(f"second loop {event}")
                 event.write({'contract_id': contract.id})
 
         return res
