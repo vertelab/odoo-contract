@@ -40,8 +40,11 @@ class Contract(models.Model):
                     'name': vals.get('name',),
                     'start': vals.get('start', ),
                     'stop': datetime.strptime(vals.get('start', ), '%Y-%m-%d %H:%M:%S') + timedelta(hours=vals.get('duration')),
+                    # 'start': datetime(2022, 11, 21, 6, 0),
+                    # 'stop': datetime(2022, 11, 21, 7, 0),
                     'duration': vals.get('duration',),
                 })
+                vals["stop"] = event.stop
             
             vals["event_id"] = event.id
             _logger.warning(f"contract.contract create vals {vals}") 

@@ -14,17 +14,17 @@ class ExtendAttendee(models.Model):
     contract_allergy_ids = fields.Many2many(related='contract_id.allergy_ids', readonly=False)
     state = fields.Selection(readonly=False)
     
-    @api.depends('event_date_start')
-    def _check_if_during_contract(self):
-        for rec in self:
-            if not (isinstance(rec.contract_id.date_end, date) or isinstance(rec.contract_id.date_start, date)):
-                _logger.warning(f"date_end is bool")
-                break
+    # @api.depends('event_date_start')
+    # def _check_if_during_contract(self):
+    #     for rec in self:
+    #         if not (isinstance(rec.contract_id.date_end, date) or isinstance(rec.contract_id.date_start, date)):
+    #             _logger.warning(f"date_end is bool")
+    #             break
         
-            if rec.event_date_start.date() <= rec.contract_id.date_end and rec.contract_id.date_start <= rec.event_date_end.date():
-                rec.state = 'accepted'
-            else:
-                rec.state = 'declined'
+    #         if rec.event_date_start.date() <= rec.contract_id.date_end and rec.contract_id.date_start <= rec.event_date_end.date():
+    #             rec.state = 'accepted'
+    #         else:
+    #             rec.state = 'declined'
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -51,8 +51,3 @@ class ExtendAttendee(models.Model):
                 #         attendee.state = "tentative"
 
             return attendees    
-
-    def write(self, vals):
-        res = super().write(vals)
-        # _logger.warning(f' BYPIDI WRITE {self} {vals} {res}')
-        return res
