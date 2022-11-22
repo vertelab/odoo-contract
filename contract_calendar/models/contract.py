@@ -16,19 +16,23 @@ class Contract(models.Model):
                     ondelete="cascade", required=True)         
 
     start = fields.Datetime(compute='_inherit_date', readonly=False)
-    skill_ids = fields.Many2many('res.skill', string='Skills')
-    allergy_ids = fields.Many2many('res.allergy', string='Allergies')     
+    # skill_ids = fields.Many2many('res.skill', string='Skills')
+    # allergy_ids = fields.Many2many('res.allergy', string='Allergies')     
 
     @api.depends("date_start")           
     def _inherit_date(self):
         self.start = self.date_start
+
+    @api.onchange("start_date")
+    def _inherit_stop_date(self):
+        self.stop_date = self.start_date
 
     @api.model_create_multi
     def create(self, vals_list):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
             _logger.warning(f"vals get start {vals.get('start')}")
-            if vals['allday'] and vals['start_date'] and vals['stop_date']:
+            if vals['allday'] == True:
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name',),
                     'start_date': vals.get('start_date', ),
@@ -47,6 +51,7 @@ class Contract(models.Model):
                 vals["stop"] = event.stop
             
             vals["event_id"] = event.id
+
             _logger.warning(f"contract.contract create vals {vals}") 
             contract = super(Contract, self.with_context()).create(vals)
             event.contract_id = contract.id

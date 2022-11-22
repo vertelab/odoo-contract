@@ -95,7 +95,7 @@
     </field>
   </record>
 
-
+<!-- 
   <record id="contract_add_skill_allergies" model="ir.ui.view">
       <field name="name">Contract Skills And Allergies</field>
       <field name="model">contract.contract</field>
@@ -106,7 +106,7 @@
           <field name="allergy_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
         </xpath>
       </field>
-  </record>
+  </record> -->
 
 
 
