@@ -38,6 +38,7 @@ class Contract(models.Model):
                     'start_date': vals.get('start_date', ),
                     'stop_date': vals.get('stop_date', ),
                     'allday': vals.get('allday', True),
+                    'partner_ids': vals.get('partner_ids', ),
                 })
             elif vals['allday'] == False:
                 event = self.env['calendar.event'].create({
@@ -47,6 +48,7 @@ class Contract(models.Model):
                     # 'start': datetime(2022, 11, 21, 6, 0),
                     # 'stop': datetime(2022, 11, 21, 7, 0),
                     'duration': vals.get('duration',),
+                    'partner_ids': vals.get('partner_ids', ),
                 })
                 vals["stop"] = event.stop
             
