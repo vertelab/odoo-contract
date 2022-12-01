@@ -29,6 +29,8 @@ class ExtendAttendee(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
+            vals['contract_id'] = self.env['calendar.event'].browse(vals['event_id'])[0].contract_id
+            # _logger.warning(f"ATTENDEE CREATE {vals}")
             attendees = super().create(vals)
             # _logger.warning(f' BYPIDI CREATE {self} {vals_list} {attendees}')
             # event = self.env['calendar.event'].browse(vals_list[0]['event_id'])
@@ -50,4 +52,4 @@ class ExtendAttendee(models.Model):
                 #     if leave['request_date_from'] <= (event.start + datetime.timedelta(hours=event.duration)).date() and event.start.date() <= leave['request_date_to']:
                 #         attendee.state = "tentative"
 
-            return attendees    
+        return attendees    
