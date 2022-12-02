@@ -31,7 +31,7 @@ class Contract(models.Model):
     def create(self, vals_list):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
-            # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
+            _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
             if vals['allday'] == True:
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name',),
@@ -55,12 +55,13 @@ class Contract(models.Model):
             contract = super(Contract, self.with_context()).create(vals)
             event.contract_id = contract.id
 
-
             relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
             if vals['recurrency'] == True:
                 # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
                 for sub_event in relevant_recurrency.calendar_event_ids:
                     sub_event.contract_id = contract.id
+                    if sub_event.start == relevant_recurrency.dtstart:
+                        contract.event_id = sub_event.id
 
             # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
             contracts += contract
