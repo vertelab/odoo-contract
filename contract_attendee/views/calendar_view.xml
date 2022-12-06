@@ -45,6 +45,8 @@
       <xpath expr="//div[@name='title']" position="inside">
         <strong>
             <field name="contract_id"/>
+            -
+            <field name="customer"/>
         </strong>
       </xpath>
       <!-- <xpath expr="//div[@name='title']" position="inside">

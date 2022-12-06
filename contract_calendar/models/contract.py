@@ -15,13 +15,14 @@ class Contract(models.Model):
                     string='Calendar', auto_join=True, index=True, 
                     ondelete="cascade", required=True)         
 
-    start = fields.Datetime(compute='_inherit_date', readonly=False)
+    start = fields.Datetime(compute='_inherit_date', readonly=False, default=datetime.now().replace(hour=7, minute=0, second=0))
     # skill_ids = fields.Many2many('res.skill', string='Skills')
     # allergy_ids = fields.Many2many('res.allergy', string='Allergies')     
 
     @api.depends("date_start")           
     def _inherit_date(self):
         self.start = self.date_start
+        self.start += timedelta(hours=7)
 
     @api.onchange("start_date")
     def _inherit_stop_date(self):
@@ -32,7 +33,7 @@ class Contract(models.Model):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
             _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
-            if vals['allday'] == True:
+            if 'allday' in vals and vals['allday'] == True:
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name',),
                     'start_date': vals.get('start_date', ),
@@ -40,7 +41,7 @@ class Contract(models.Model):
                     'allday': vals.get('allday', True),
                     'partner_ids': vals.get('partner_ids', ),
                 })
-            elif vals['allday'] == False:
+            elif 'allday' in vals and vals['allday'] == False:
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name',),
                     'start': vals.get('start', ),
@@ -56,7 +57,7 @@ class Contract(models.Model):
             event.contract_id = contract.id
 
             relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
-            if vals['recurrency'] == True:
+            if 'recurrency' in vals and vals['recurrency'] == True:
                 # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
                 for sub_event in relevant_recurrency.calendar_event_ids:
                     sub_event.contract_id = contract.id

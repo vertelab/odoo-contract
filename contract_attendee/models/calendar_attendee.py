@@ -1,6 +1,7 @@
 from distutils.util import Mixin2to3
 import logging
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 import datetime
 from datetime import date, datetime
 
@@ -13,6 +14,7 @@ class ExtendAttendee(models.Model):
     # contract_skill_ids = fields.Many2many(related='contract_id.skill_ids', readonly=False)
     # contract_allergy_ids = fields.Many2many(related='contract_id.allergy_ids', readonly=False)
     state = fields.Selection(readonly=False)
+    customer = fields.Many2one(comodel_name='res.partner', related='event_id.contract_id.partner_id')
     
     # @api.depends('event_date_start')
     # def _check_if_during_contract(self):
@@ -28,15 +30,19 @@ class ExtendAttendee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        attendees = self.env["calendar.attendee"]
         for vals in vals_list:
-            vals['contract_id'] = self.env['calendar.event'].browse(vals['event_id'])[0].contract_id
             # _logger.warning(f"ATTENDEE CREATE {vals}")
-            attendees = super().create(vals)
+            attendee = super().create(vals)
             # _logger.warning(f' BYPIDI CREATE {self} {vals_list} {attendees}')
             # event = self.env['calendar.event'].browse(vals_list[0]['event_id'])
 
             partner = self.env['res.partner'].browse(vals['partner_id'])
-            employee_id = partner.user_ids[0].employee_id[0].id
+            try:
+                employee_id = partner.user_ids[0].employee_id[0].id
+            except IndexError:
+                # _logger.warning('hello')
+                raise UserError('Attendee must be an employee')
 
             leave_periods = self.env['hr.leave'].search([('employee_id', '=', employee_id)]).ids
 
@@ -47,9 +53,9 @@ class ExtendAttendee(models.Model):
                 leave = self.env['hr.leave'].browse(leave_id)
                 # try:
                 if leave.date_from <= event.stop and event.start <= leave.date_to:
-                    attendees.write({'state': 'declined'})
+                    attendee.write({'state': 'declined'})
                 # except TypeError:
                 #     if leave['request_date_from'] <= (event.start + datetime.timedelta(hours=event.duration)).date() and event.start.date() <= leave['request_date_to']:
                 #         attendee.state = "tentative"
-
+            attendees += attendee
         return attendees    
