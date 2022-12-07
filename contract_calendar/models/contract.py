@@ -32,7 +32,7 @@ class Contract(models.Model):
     def create(self, vals_list):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
-            _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
+            event_created = False
             if 'allday' in vals and vals['allday'] == True:
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name',),
@@ -41,6 +41,9 @@ class Contract(models.Model):
                     'allday': vals.get('allday', True),
                     'partner_ids': vals.get('partner_ids', ),
                 })
+                event_created = True
+                vals["event_id"] = event.id
+                
             elif 'allday' in vals and vals['allday'] == False:
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name',),
@@ -49,22 +52,25 @@ class Contract(models.Model):
                     'duration': vals.get('duration',),
                     'partner_ids': vals.get('partner_ids', ),
                 })
+                event_created = True
+                vals["event_id"] = event.id
                 vals["stop"] = event.stop
             
-            vals["event_id"] = event.id
+
             # _logger.warning(f"contract.contract create vals {vals}") 
             contract = super(Contract, self.with_context()).create(vals)
-            event.contract_id = contract.id
+            if event_created:
+                event.contract_id = contract.id
 
-            relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
-            if 'recurrency' in vals and vals['recurrency'] == True:
-                # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
-                for sub_event in relevant_recurrency.calendar_event_ids:
-                    sub_event.contract_id = contract.id
-                    if sub_event.start == relevant_recurrency.dtstart:
-                        contract.event_id = sub_event.id
+                relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
+                if 'recurrency' in vals and vals['recurrency'] == True:
+                    # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
+                    for sub_event in relevant_recurrency.calendar_event_ids:
+                        sub_event.contract_id = contract.id
+                        if sub_event.start == relevant_recurrency.dtstart:
+                            contract.event_id = sub_event.id
 
-            # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
+                # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
             contracts += contract
         self.clear_caches()
         return contracts
