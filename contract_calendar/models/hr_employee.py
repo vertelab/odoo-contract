@@ -51,8 +51,8 @@ class hr_employee(models.Model):
         for employee in self.env['hr.employee'].search([]):
             time_reports = self.env['hr_timesheet.sheet'].search([('employee_id', '=', employee.id)])
             if len(time_reports) == 0:
-                time_sheet = record.env['hr_timesheet.sheet'].create({
-                        'employee_id':record.id,
+                time_sheet = self.env['hr_timesheet.sheet'].create({
+                        'employee_id':employee.id,
                         'date_start':current_weeks_monday,
                         'date_end':current_weeks_monday + datetime.timedelta(days=7)
                     })
@@ -61,8 +61,8 @@ class hr_employee(models.Model):
                 all_time_reports += time_sheet
             else:
                 while current_weeks_monday >= time_reports[-1].date_start:
-                    time_sheet = record.env['hr_timesheet.sheet'].create({
-                            'employee_id':record.id,
+                    time_sheet = self.env['hr_timesheet.sheet'].create({
+                            'employee_id':employee.id,
                             'date_start':time_reports[-1].date_start + datetime.timedelta(days=7),
                             'date_end':time_reports[-1].date_end + datetime.timedelta(days=7)
                         })
