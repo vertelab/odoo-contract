@@ -34,6 +34,7 @@ class Sale(models.Model):
                     contract_id._onchange_contract_template_id()
                     for cline in contract_id.contract_line_fixed_ids:
                         cline.quantity *= line.product_uom_qty
+                    _logger.warning(f"inside action confirm {self._prepare_contract_vals(line)}")
         return result
         
     def _prepare_contract_vals(self,line):
@@ -46,6 +47,7 @@ class Sale(models.Model):
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
         }
+        _logger.warning(f"inside prepare contract vals {values}")
         return values
 
     def action_view_contract(self):

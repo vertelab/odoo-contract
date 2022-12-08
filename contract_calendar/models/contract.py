@@ -30,6 +30,7 @@ class Contract(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        _logger.warning(f"contract.contract create {vals_list}")
         contracts = self.env["contract.contract"]
         for vals in vals_list:
             # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
@@ -73,7 +74,9 @@ class Contract(models.Model):
         return contracts
 
     def write(self, values):
+        _logger.warning(f"contract.contract write {values}")
         interesting_keys = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
+
         prelim_dict = {}
         for key in interesting_keys:
             day = values[key] if key in values.keys() else False
@@ -85,11 +88,14 @@ class Contract(models.Model):
             # _logger.warning(f"PRINT prelim {prelim_dict}")
         res = super().write(values)
         # _logger.warning(f"PRINT values {values}")
-        for contract in self:
-            # _logger.warning(f"first loop {contract}")
-            for event in contract.event_id.recurrence_id.calendar_event_ids:
-                # _logger.warning(f"second loop {event}")
-                event.write({'contract_id': contract.id})
+
+
+        # unsure about the code below, dont know why i put it there but cant figure out if its needed 
+        # for contract in self:
+        #     # _logger.warning(f"first loop {contract}")
+        #     for event in contract.event_id.recurrence_id.calendar_event_ids:
+        #         # _logger.warning(f"second loop {event}")
+        #         event.write({'contract_id': contract.id})
 
         return res
 

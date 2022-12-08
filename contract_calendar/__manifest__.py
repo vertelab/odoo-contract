@@ -17,9 +17,11 @@
     "depends": [
         "contract",
         "calendar",
+        "hr_timesheet_sheet",
     ],
     "data": [
         "views/contract.xml",
         "views/calendar_view.xml",
+        "data/create_time_report.xml",     
     ],
 }
