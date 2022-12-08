@@ -45,7 +45,8 @@
         'agreement',
         'record_keeping',
         'record_keeping_wizard',
-        ],
+        'agreement_legal'
+    ],
     'data': [
         'views/agreement.xml',
         'security/ir.model.access.csv',
