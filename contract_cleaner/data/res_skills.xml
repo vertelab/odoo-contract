@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+   <record model="res.skill" id="res_skill_korkort">
+      <field name="name">Körkort</field>
+      <field name="color">1</field>
+    </record>
+
+   <record model="res.skill" id="res_skill_foretagsstad">
+      <field name="name">Företagsstäd</field>
+      <field name="color">2</field>
+    </record>
+
+    <record model="res.skill" id="res_skill_privatstad">
+      <field name="name">Privatstäd</field>
+      <field name="color">3</field>
+    </record>
+    
+    <record model="res.skill" id="res_skill_fonsterputs">
+      <field name="name">Fönsterputs</field>
+      <field name="color">4</field>
+    </record>
+    
+    <record model="res.skill" id="res_skill_flyttstad">
+      <field name="name">Flyttstäd</field>
+      <field name="color">5</field>
+    </record>
+    
+    <record model="res.skill" id="res_skill_trappstad">
+      <field name="name">Trappstäd</field>
+      <field name="color">6</field>
+    </record>
+    
+
+  </data>
+</odoo>

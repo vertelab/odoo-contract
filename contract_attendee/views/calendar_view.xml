@@ -37,6 +37,25 @@
     </field>
   </record>
 
+   <record model="ir.ui.view" id="view_calender_attendee_kanban_edit">
+    <field name="name">calender_attendee_kanban_edit</field>
+    <field name="model">calendar.attendee</field>
+    <field name="inherit_id" ref="calendar_attendee_planning.view_calender_attendee_kanban"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[@name='title']" position="inside">
+        <strong>
+            <field name="contract_id"/>
+            -
+            <field name="customer"/>
+        </strong>
+      </xpath>
+      <!-- <xpath expr="//div[@name='title']" position="inside">
+        <field name="contract_skill_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+        <field name="contract_allergy_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+      </xpath> -->
+    </field>
+  </record>
+
 </odoo>
 
 

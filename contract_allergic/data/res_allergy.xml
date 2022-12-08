@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+   <record model="res.allergy" id="res_skill_katt">
+      <field name="name">Katt</field>
+      <field name="color">7</field>
+    </record>
+
+   <record model="res.allergy" id="res_skill_hund">
+      <field name="name">Hund</field>
+      <field name="color">8</field>
+    </record>
+
+  </data>
+</odoo>
