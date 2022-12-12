@@ -32,34 +32,48 @@ class hr_employee(models.Model):
     _inherit = 'hr.employee'
 
     def cron_create_time_report_from_calendar(self, project_id):
-        _logger.warning(project_id)
+        _logger.warning(f"before code {project_id}")
         today = datetime.date.today()
         current_weeks_monday = today + datetime.timedelta(days=-today.weekday())
         for tr in self.create_time_reports(current_weeks_monday):
-            for attendee in self.env['calendar.attendee'].search([('partner_id', '=', tr.employee_id.partner_id.id), 
+            tr.timesheet_ids = [(5, 0, 0)]
+            # _logger.warning(f"tr: {tr}")
+            for attendee in self.env['calendar.attendee'].search([('partner_id', '=', tr.employee_id.user_partner_id.id), 
                                 ('event_date_start', '>=', tr.date_start), ('event_date_start', '<=', tr.date_end)]):
-                self.env['account.analytic.line'].create({
+                # _logger.warning(f"attendee: {attendee}")
+                line = self.env['account.analytic.line'].create({
                         'date': attendee.event_date_start.date(),
                         'project_id': project_id,
                         'name': attendee.event_id.name,
                         'unit_amount': attendee.event_id.duration,
                         'sheet_id': tr.id,
                 })
+                tr.write({'timesheet_ids': [(4, line.id, 0)]})
+                # _logger.warning(f"line: {line.name}")
             
     def create_time_reports(self, current_weeks_monday):
         all_time_reports = self.env['hr_timesheet.sheet']
-        for employee in self.env['hr.employee'].search([]):
+        # _logger.warning(f" before code method 2{all_time_reports}")
+        for employee in self.env['hr.employee'].search([('user_id', '!=', False)]):
+            employee_browse = self.env['hr.employee'].browse(employee.id)
             time_reports = self.env['hr_timesheet.sheet'].search([('employee_id', '=', employee.id)])
+            # _logger.warning(f"inside method 2, inside for {employee}")
             if len(time_reports) == 0:
                 time_sheet = self.env['hr_timesheet.sheet'].create({
                         'employee_id':employee.id,
+                        'user_id': employee_browse.user_id.id,
                         'date_start':current_weeks_monday,
-                        'date_end':current_weeks_monday + datetime.timedelta(days=7)
+                        'date_end':current_weeks_monday + datetime.timedelta(days=7),
+                        'state': 'draft',
+                        'review_policy': 'hr',
                     })
+
                 time_sheet._compute_line_ids()
                 time_sheet._compute_timesheet_ids()
                 all_time_reports += time_sheet
+                # _logger.warning(f"inside method 2, inside bottom if")
             else:
+                # _logger.warning(f"inside method 2, inside else")
                 while current_weeks_monday >= time_reports[-1].date_start:
                     time_sheet = self.env['hr_timesheet.sheet'].create({
                             'employee_id':employee.id,
@@ -69,5 +83,5 @@ class hr_employee(models.Model):
                     time_sheet._compute_line_ids()
                     time_sheet._compute_timesheet_ids()
                     all_time_reports += time_sheet
-        _logger.warning("%s"%all_time_reports)
+        # _logger.warning(f"after code method 2{all_time_reports}")
         return all_time_reports

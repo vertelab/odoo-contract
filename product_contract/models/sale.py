@@ -25,16 +25,19 @@ class Sale(models.Model):
         """ On SO confirmation, some lines should generate a contract. """
         result = super(Sale,self)._action_confirm()
         for order in self:
+            # _logger.warning(f"action confirm order: {order}")
             for line in order.order_line:
                 if line.product_id.is_contract:
-                    contract_id = self.env["contract.contract"].create([self._prepare_contract_vals(line)])
+                    prepare_vals = self._prepare_contract_vals(line)
+                    contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
+                    # _logger.warning(f"after contract.contract create {contract_id}")
                     contract_id.recurring_next_date = contract_id.get_first_invoice_date()
                     order.contract_ids = [(4, contract_id.id)]
                     line.contract_id = contract_id
                     contract_id._onchange_contract_template_id()
                     for cline in contract_id.contract_line_fixed_ids:
                         cline.quantity *= line.product_uom_qty
-                    _logger.warning(f"inside action confirm {self._prepare_contract_vals(line)}")
+                    
         return result
         
     def _prepare_contract_vals(self,line):
@@ -46,8 +49,9 @@ class Sale(models.Model):
             "user_id": self.user_id.id,
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
+            "date_order": self.date_order,
         }
-        _logger.warning(f"inside prepare contract vals {values}")
+        # _logger.warning(f"inside prepare contract vals {values}")
         return values
 
     def action_view_contract(self):
