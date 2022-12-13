@@ -138,11 +138,12 @@ class ExtendAttendee(models.Model):
                     _logger.warning("Checkpoint Gamma create")
                     # _logger.warning(f"F {write_state}")
 
-            attendee_ids = attendee.event_id.attendee_ids
-            ID = self.id            
-            if not self.env.context.get('dont_write'):
-                for attendee_id in attendee_ids:
-                    attendee_id.with_context({'dont_write': True}).write({'state': write_state})
+            # _logger.warning(f"attendee ids bottom: {attendee_ids}")
+            # attendee_ids = attendee.event_id.attendee_ids
+            # ID = self.id            
+            # if not self.env.context.get('dont_write'):
+            #     for attendee_id in attendee_ids:
+            #         attendee_id.with_context({'dont_write': True}).write({'state': write_state})
 
             attendees += attendee
         return attendees    
