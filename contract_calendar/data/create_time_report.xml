@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
         <record id="time_reports_all_employes" model="ir.cron">
             <field name="name">Create time sheets and time report for all employees</field>
             <field name="model_id" ref="model_hr_employee"/>
@@ -11,6 +12,5 @@
             <field name="numbercall">-1</field>
             <field eval="False" name="doall"/>
         </record>
-        
-        
+    </data>
 </odoo>
