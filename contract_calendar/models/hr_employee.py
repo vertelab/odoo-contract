@@ -31,10 +31,14 @@ _logger = logging.getLogger(__name__)
 class hr_employee(models.Model):
     _inherit = 'hr.employee'
 
-    def cron_create_time_report_from_calendar(self, project_id):
+    def cron_create_time_report_from_calendar(self, project_id, start_from=False):
         _logger.warning(f"before code {project_id}")
-        today = datetime.date.today()
-        current_weeks_monday = today + datetime.timedelta(days=-today.weekday())
+        if start_from == False:
+            today = datetime.date.today()
+            current_weeks_monday = today + datetime.timedelta(days=-today.weekday())
+        else:
+            today = datetime.datetime.strptime(start_from, '%Y-%m-%d')
+            current_weeks_monday = today + datetime.timedelta(days=-today.weekday())
         for tr in self.create_time_reports(current_weeks_monday):
             tr.timesheet_ids = [(5, 0, 0)]
             # _logger.warning(f"tr: {tr}")
