@@ -97,13 +97,11 @@ class Contract(models.Model):
                                      'interval', 'rrule_type', 'end_type', 'count', 'until', ]
         prelim_dict = {}
         contract_vals = {}
-
         for key in interesting_keys:
             day = values[key] if key in values.keys() else False
             if day:
                 contract_vals[key] = day
                 prelim_dict[key] = day
-                values.pop(key)
         if prelim_dict:
             super().write(prelim_dict)
             # _logger.warning(f"PRINT prelim {prelim_dict}")
@@ -116,7 +114,6 @@ class Contract(models.Model):
             input = values[key] if key in values.keys() else False
             if input:
                 contract_vals[key] = input
-                values.pop(key)
         contract_vals['recurrence_update'] = 'future_events'  
         self.event_id.write(contract_vals)
         # _logger.warning(f"PRINT values {values}")
