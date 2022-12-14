@@ -58,7 +58,7 @@ class ExtendAttendee(models.Model):
                 if leave.date_from <= event.stop and event.start <= leave.date_to:
                     attendee.write({'state': 'declined'})
                     write_state = 'declined'
-                    _logger.warning("Checkpoint Alpha create")
+                    # _logger.warning("Checkpoint Alpha create")
                     break
                 else:
                     self.write({'state': 'accepted'})
@@ -102,9 +102,9 @@ class ExtendAttendee(models.Model):
                         filtered = list(filter(lambda day: int(day.dayofweek) == int(event_day), workdays))
                         # _logger.warning(f"WORKDAYS: {workdays}")
                         # _logger.warning(f"event_day: {event_day}")
-                        for day in workdays:
-                            _logger.warning(f"DAYOFWEEK: {day.dayofweek}")
-                        _logger.warning(f"ATTENDEE CREATE FILTERED: {filtered}")
+                        # for day in workdays:
+                        #     _logger.warning(f"DAYOFWEEK: {day.dayofweek}")
+                        # _logger.warning(f"ATTENDEE CREATE FILTERED: {filtered}")
                         # _logger.warning(self.event_date_start.hour)
                         # _logger.warning(filtered[0].hour_to)
                         # _logger.warning(self.event_date_end.hour)
@@ -128,14 +128,14 @@ class ExtendAttendee(models.Model):
                     else:
                         attendee.write({'state': 'declined'})
                         write_state = 'declined'
-                        _logger.warning("Checkpoint Beta create")
+                        # _logger.warning("Checkpoint Beta create")
                 else:
                     # _logger.warning(current_tz.localize(self.event_date_start))
                     # filtered = list(filter(lambda day: int(day.dayofweek) == int(event_day), workdays))
 
                     attendee.write({'state': 'declined'})
                     write_state = 'declined'
-                    _logger.warning("Checkpoint Gamma create")
+                    # _logger.warning("Checkpoint Gamma create")
                     # _logger.warning(f"F {write_state}")
 
             # _logger.warning(f"attendee ids bottom: {attendee_ids}")
