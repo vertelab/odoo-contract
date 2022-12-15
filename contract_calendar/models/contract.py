@@ -13,7 +13,7 @@ class Contract(models.Model):
     _inherits = {'calendar.event': 'event_id'}
     event_id = fields.Many2one(comodel_name='calendar.event',
                     string='Calendar', auto_join=True, index=True, 
-                    ondelete="cascade", required=True)         
+                    required=True)         
     
     # , default=datetime.now().replace(hour=7, minute=0, second=0)
     start = fields.Datetime(related='event_id.start', readonly=False)
@@ -41,8 +41,9 @@ class Contract(models.Model):
         # _logger.warning(f"contract.contract create {vals_list}")
         contracts = self.env["contract.contract"]
         for vals in vals_list:
-            date_end = datetime.strptime(vals.get('date_start'),'%Y-%m-%d') + relativedelta(years=5)
-            vals['date_end'] = str(date_end.date())
+            if vals['date_end'] == False:
+                date_end = datetime.strptime(vals.get('date_start'),'%Y-%m-%d') + relativedelta(years=5)
+                vals['date_end'] = str(date_end.date())
             # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
             if not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == True:
                 # _logger.warning("contract contract inside first if")
@@ -135,6 +136,22 @@ class Contract(models.Model):
         #         event.write({'contract_id': contract.id})
 
         return res
+
+    def unlink(self,super_unlink=False):
+        if super_unlink == True:    # This prevents self.unlink() from calling itself infinitely when unlink is called within a loop
+            res = super().unlink()
+            return res
+
+        for record in self: # Delete contracts and all their linked calendar events
+            event = record.event_id
+            record.unlink(True)
+
+            if event.recurrency == True:
+                for event_id in event.recurrence_id.calendar_event_ids:
+                    event_id.unlink()
+            else:
+                event.unlink()
+
 
 #TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar
 
