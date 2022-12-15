@@ -35,8 +35,8 @@ class Sale(models.Model):
                     order.contract_ids = [(4, contract_id.id)]
                     line.contract_id = contract_id
                     contract_id._onchange_contract_template_id()
-                    for cline in contract_id.contract_line_fixed_ids:
-                        cline.quantity *= line.product_uom_qty
+                    # for cline in contract_id.contract_line_fixed_ids:
+                    #     cline.quantity *= line.product_uom_qty
                     
         return result
         
@@ -50,6 +50,13 @@ class Sale(models.Model):
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
             "date_order": self.date_order,
+            "contract_line_fixed_ids": [(0, 0, {
+                "product_id": line.product_id.id,
+                "name": line.product_id.name,
+                "quantity": line.product_uom_qty,
+                "price_unit": line.price_unit,
+                "uom_id": line.product_uom.id,
+            })]
         }
         # _logger.warning(f"inside prepare contract vals {values}")
         return values

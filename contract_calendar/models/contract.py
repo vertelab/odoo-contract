@@ -74,10 +74,11 @@ class Contract(models.Model):
             # _logger.warning(f"contract.contract create vals {vals}") 
             contract = super(Contract, self.with_context()).create(vals)
             # _logger.warning("contract right after create")
+            event.contract_id = contract.id
 
             if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
-                event.contract_id = contract.id
+               
                 relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
                 if 'recurrency' in vals and vals['recurrency'] == True:
                     # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
