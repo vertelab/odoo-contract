@@ -3,7 +3,7 @@ import logging
 
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta 
-
+from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -30,11 +30,19 @@ class Contract(models.Model):
     def _inherit_stop_date(self):
         self.stop_date = self.start_date
 
+    @api.onchange("end_type")
+    def _inherit_end_type(self):
+        if self.end_type == 'end_date':
+            if self.date_end != False:
+                self.until = self.date_end
+
     @api.model_create_multi
     def create(self, vals_list):
         # _logger.warning(f"contract.contract create {vals_list}")
         contracts = self.env["contract.contract"]
         for vals in vals_list:
+            date_end = datetime.strptime(vals.get('date_start'),'%Y-%m-%d') + relativedelta(years=5)
+            vals['date_end'] = str(date_end.date())
             # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
             if not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == True:
                 # _logger.warning("contract contract inside first if")
