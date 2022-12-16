@@ -50,6 +50,7 @@ class Sale(models.Model):
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
             "date_order": self.date_order,
+            "date_start": self.date_order.date(),
             "contract_line_fixed_ids": [(0, 0, {
                 "product_id": line.product_id.id,
                 "name": line.product_id.name,

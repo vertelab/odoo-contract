@@ -41,8 +41,8 @@ class Contract(models.Model):
         # _logger.warning(f"contract.contract create {vals_list}")
         contracts = self.env["contract.contract"]
         for vals in vals_list:
-            if vals['date_end'] == False:
-                date_end = datetime.strptime(vals.get('date_start'),'%Y-%m-%d') + relativedelta(years=5)
+            if not self.env.context.get('from_sale_order') and 'date_end' in vals and vals['date_end'] == False:
+                date_end = datetime.strptime(str(vals.get('date_start')),'%Y-%m-%d') + relativedelta(years=5)
                 vals['date_end'] = str(date_end.date())
             # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
             if not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == True:
