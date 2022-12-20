@@ -16,6 +16,7 @@
     ],
     "auto_install": True,
     "data": [
-        "data/project_views.xml"
+        "data/project_views.xml",
+        "data/contract_views.xml",
     ],
 }

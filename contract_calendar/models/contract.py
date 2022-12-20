@@ -72,6 +72,7 @@ class Contract(models.Model):
                     'start': vals.get('date_order', ),
                     'stop': datetime.strptime(str(vals.get('date_order', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
                     'duration': 1,
+                    'partner_ids': [(5, 0, 0)],
                     # 'partner_ids': [(6, 0, [vals.get('partner_id', )])],
                 })
                 vals.pop('date_order', None)
@@ -97,7 +98,17 @@ class Contract(models.Model):
                             contract.event_id = sub_event.id
 
             # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
+            
             contracts += contract
+
+        for contract in contracts:
+            project = self.env['project.project'].create({
+                'name': contract.name,
+                'contract_id': contract.id,
+                'allow_timesheets': True,
+                'label_tasks': 'Jobs'
+            })
+
         self.clear_caches()
         return contracts
 
@@ -119,11 +130,14 @@ class Contract(models.Model):
         # _logger.warning(f"contract.contract write {values}")
         # _logger.warning(f"self contract.contract: {self} {self.event_id}")
         res = super().write(values) 
-        
+        _logger.warning(f"contract write {values}")
+
         for key in interesting_calendar_keys:
             input = values[key] if key in values.keys() else False
             if input:
                 contract_vals[key] = input
+                if key == 'name':
+                    self.project_id.name = input
         contract_vals['recurrence_update'] = 'future_events'  
         self.event_id.write(contract_vals)
         # _logger.warning(f"PRINT values {values}")
