@@ -48,7 +48,7 @@ class hr_employee(models.Model):
                 line = self.env['account.analytic.line'].create({
                         'date': attendee.event_date_start.date(),
                         'project_id': attendee.contract_id.project_id.id,
-                        'name': attendee.event_id.name,
+                        'name': attendee.contract_id.contract_line_fixed_ids[0].name,
                         'unit_amount': attendee.event_id.duration,
                         'sheet_id': tr.id,
                         'employee_id': tr.employee_id.id,

@@ -19,3 +19,15 @@ class ProjectContract(models.Model):
             projects += res
         return projects
 
+    def open_contract(self):
+        self.ensure_one()
+        action_window = {
+            'type': 'ir.actions.act_window',
+            'name': 'Contract',
+            'res_model': 'contract.contract',
+            'view_type': 'form',
+            'res_id': self.contract_id.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
+        return action_window

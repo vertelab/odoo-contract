@@ -20,6 +20,16 @@
             </xpath>
         </field>
     </record>
+    <record id="project_link_to_contract" model="ir.ui.view">
+        <field name="name">project.add.contract.link</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+               <button type="object" string="Contract" name="open_contract" class="oe_stat_button" icon="fa-pencil-square-o"/>
+            </xpath>
+        </field>
+    </record>
 
 
 </odoo>

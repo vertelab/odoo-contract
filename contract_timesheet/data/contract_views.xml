@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="contract.contract_contract_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@class='oe_button_box']" position="inside">
-               <button type="object" string="Time Rapports" name="open_timesheet" class="oe_stat_button"/>
+               <button type="object" string="Time Reports" name="open_timesheet" class="oe_stat_button" icon="fa-calendar"/>
             </xpath>
         </field>
     </record>
@@ -23,10 +23,10 @@
 </odoo>
 
 <!-- 
-                <button class="d-none d-md-inline oe_stat_button" 
-                    type="object" name="action_view_so" icon="fa-dollar" 
-                    attrs="{'invisible': [('sale_order_id', '=', False)]}" 
-                    groups="sales_team.group_sale_salesman"
-                    string="Sales Order">
-                    <field name="sale_order_id" attrs="{'invisible': True}"/>
-                </button> -->
+    <button class="d-none d-md-inline oe_stat_button" 
+        type="object" name="action_view_so" icon="fa-dollar" 
+        attrs="{'invisible': [('sale_order_id', '=', False)]}" 
+        groups="sales_team.group_sale_salesman"
+        string="Sales Order">
+        <field name="sale_order_id" attrs="{'invisible': True}"/>
+    </button> -->
