@@ -1,6 +1,7 @@
 # Copyright 2018 Tecnativa - Carlos Dauden
 # Copyright 2019 Tecnativa - Pedro M. Baeza
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+#BORROWED MODULE FROM OCA
 {
     "name": "Contract Variable Qty Timesheet",
     "summary": "Add formula to invoice ",
