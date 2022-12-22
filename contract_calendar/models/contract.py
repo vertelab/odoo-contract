@@ -89,6 +89,7 @@ class Contract(models.Model):
             # _logger.warning(f"contract.contract create vals {vals}") 
             contract = super(Contract, self.with_context()).create(vals)
 
+            extra_event = None
             for line in contract.contract_line_fixed_ids:
                 if line.qty_type == 'variable':
                     extra_event = self.env['calendar.event'].create({
@@ -101,7 +102,8 @@ class Contract(models.Model):
 
             # _logger.warning("contract right after create")
             event.contract_id = contract.id
-            extra_event.contract_id = contract.id
+            if extra_event: 
+                extra_event.contract_id = contract.id
 
             if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
