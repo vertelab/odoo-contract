@@ -17,27 +17,15 @@ class Sale(models.Model):
                 rec.contract_count = len(rec.contract_ids)
             else:
                 rec.contract_count = 0    
+
     contract_count = fields.Integer(string="Contract Count", compute=_compute_contract_count)
-    
-    
     
     def _action_confirm(self):
         """ On SO confirmation, some lines should generate a contract. """
         result = super(Sale,self)._action_confirm()
         for order in self:
             # _logger.warning(f"action confirm order: {order}")
-            for line in order.order_line:
-                if line.product_id.is_contract:
-                    prepare_vals = self._prepare_contract_vals(line)
-                    contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
-                    # _logger.warning(f"after contract.contract create {contract_id}")
-                    contract_id.recurring_next_date = contract_id.get_first_invoice_date()
-                    order.contract_ids = [(4, contract_id.id)]
-                    line.contract_id = contract_id
-                    contract_id._onchange_contract_template_id()
-                    # for cline in contract_id.contract_line_fixed_ids:
-                    #     cline.quantity *= line.product_uom_qty
-                    
+            self.create_contracts(order)    
         return result
         
     def _prepare_contract_vals(self,line):
@@ -79,3 +67,21 @@ class Sale(models.Model):
         if tree_view and form_view:
             action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
         return action
+
+    def create_contracts(self, order):
+        # _logger.warning("create_contracts og"*100)
+        contracts = self.env["contract.contract"]
+        for line in order.order_line:
+            # _logger.warning(f"{line=}")
+            if line.product_id.is_contract:
+                prepare_vals = self._prepare_contract_vals(line)
+                contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
+                # _logger.warning(f"after contract.contract create {contract_id}")
+                contract_id.recurring_next_date = contract_id.get_first_invoice_date()
+                order.contract_ids = [(4, contract_id.id)]
+                line.contract_id = contract_id
+                contract_id._onchange_contract_template_id()
+                # for cline in contract_id.contract_line_fixed_ids:
+                #     cline.quantity *= line.product_uom_qty
+                contracts += contract_id
+        return contracts

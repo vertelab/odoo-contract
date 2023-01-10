@@ -16,6 +16,9 @@ class ProjectContract(models.Model):
             res = super().create(vals)
             if vals.get('contract_id', False) != False:
                 res.contract_id.project_id = res.id
+
+            if res.sale_order_id:
+                res.sale_order_id.contract_ids += res.sale_order_id.project_ids.sale_order_id.contract_ids
             projects += res
         return projects
 

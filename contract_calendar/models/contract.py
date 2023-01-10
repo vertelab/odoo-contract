@@ -2,7 +2,7 @@ import datetime
 import logging
 
 from odoo import models, fields, api, _
-from datetime import datetime, timedelta 
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 _logger = logging.getLogger(__name__)
@@ -12,18 +12,16 @@ class Contract(models.Model):
     _inherit = "contract.contract"
     _inherits = {'calendar.event': 'event_id'}
     event_id = fields.Many2one(comodel_name='calendar.event',
-                    string='Calendar', auto_join=True, index=True, 
+                    string='Calendar', auto_join=True, index=True,
                     required=True)
 
-    extra_event_id = fields.Many2one(comodel_name='calendar.event')
-    
     # , default=datetime.now().replace(hour=7, minute=0, second=0)
     start = fields.Datetime(related='event_id.start', readonly=False)
-    
-    # skill_ids = fields.Many2many('res.skill', string='Skills')
-    # allergy_ids = fields.Many2many('res.allergy', string='Allergies')     
 
-    @api.onchange("date_start")           
+    # skill_ids = fields.Many2many('res.skill', string='Skills')
+    # allergy_ids = fields.Many2many('res.allergy', string='Allergies')
+
+    @api.onchange("date_start")
     def _inherit_date(self):
         self.start = self.date_start
         self.start += timedelta(hours=7)
@@ -82,32 +80,16 @@ class Contract(models.Model):
                 vals["event_id"] = event.id
                 vals["stop"] = event.stop
 
-            
+
 
             # _logger.warning(f"contract before create vals {vals}")
             # _logger.warning("contract right before create")
-            # _logger.warning(f"contract.contract create vals {vals}") 
+            # _logger.warning(f"contract.contract create vals {vals}")
             contract = super(Contract, self.with_context()).create(vals)
-
-            extra_event = None
-            for line in contract.contract_line_fixed_ids:
-                if line.qty_type == 'variable':
-                    extra_event = self.env['calendar.event'].create({
-                        'name': f"Extra {vals.get('name', )}",
-                        'start': vals.get('start', ),
-                        'stop': datetime.strptime(vals.get('start', ), '%Y-%m-%d %H:%M:%S') + timedelta(hours=vals.get('duration')),
-                        'duration': vals.get('duration',),
-                        'partner_ids': vals.get('partner_ids', ),
-                    })
-
-            # _logger.warning("contract right after create")
-            event.contract_id = contract.id
-            if extra_event: 
-                extra_event.contract_id = contract.id
 
             if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
-               
+
                 relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
                 if 'recurrency' in vals and vals['recurrency'] == True:
                     # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
@@ -117,23 +99,24 @@ class Contract(models.Model):
                             contract.event_id = sub_event.id
 
             # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
-            
+
             contracts += contract
 
-        for contract in contracts:
-            project = self.env['project.project'].create({
-                'name': contract.name,
-                'contract_id': contract.id,
-                'allow_timesheets': True,
-                'label_tasks': 'Jobs'
-            })
+        # if not self.env.context.get('from_sale_order'):
+        #     for contract in contracts:
+        #         project = self.env['project.project'].create({
+        #             'name': contract.name,
+        #             'contract_id': contract.id,
+        #             'allow_timesheets': True,
+        #             'label_tasks': 'Jobs'
+        #         })
 
         self.clear_caches()
         return contracts
 
     def write(self, values):
         interesting_keys = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
-        interesting_calendar_keys = ['name', 'partner_ids', 'start', 'allday', 'start_date', 'stop_date', 'reccurency', 
+        interesting_calendar_keys = ['name', 'partner_ids', 'start', 'allday', 'start_date', 'stop_date', 'reccurency',
                                      'interval', 'rrule_type', 'end_type', 'count', 'until', ]
         prelim_dict = {}
         contract_vals = {}
@@ -148,7 +131,7 @@ class Contract(models.Model):
         # values['recurrence_update'] = 'future_events'
         # _logger.warning(f"contract.contract write {values}")
         # _logger.warning(f"self contract.contract: {self} {self.event_id}")
-        res = super().write(values) 
+        res = super().write(values)
         _logger.warning(f"contract write {values}")
 
         for key in interesting_calendar_keys:
@@ -157,12 +140,11 @@ class Contract(models.Model):
                 contract_vals[key] = input
                 if key == 'name':
                     self.project_id.name = input
-        contract_vals['recurrence_update'] = 'future_events'  
+        contract_vals['recurrence_update'] = 'future_events'
         self.event_id.write(contract_vals)
         # _logger.warning(f"PRINT values {values}")
 
-
-        # unsure about the code below, dont know why i put it there but cant figure out if its needed 
+        # unsure about the code below, dont know why i put it there but cant figure out if its needed
         # for contract in self:
         #     # _logger.warning(f"first loop {contract}")
         #     for event in contract.event_id.recurrence_id.calendar_event_ids:
