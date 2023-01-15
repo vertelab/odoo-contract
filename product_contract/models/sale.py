@@ -1,7 +1,7 @@
 
 import logging
 _logger = logging.getLogger(__name__)
-
+from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, _
 
 
@@ -37,8 +37,9 @@ class Sale(models.Model):
             "user_id": self.user_id.id,
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
-            "date_order": self.date_order,
+            # ~ "date_start": self.date_order,
             "date_start": self.date_order.date(),
+            "date_end": self.date_order.date() + relativedelta(years = 3),
             "contract_line_fixed_ids": [(0, 0, {
                 "product_id": line.product_id.id,
                 "name": line.product_id.name,
