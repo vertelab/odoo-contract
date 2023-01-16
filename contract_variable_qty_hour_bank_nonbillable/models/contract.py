@@ -11,7 +11,6 @@ _logger = logging.getLogger(__name__)
 class Contract(models.Model):
     _inherit = "contract.contract"
   
-
     def _get_time_amount_domain(self,line,context,user,invoice,period_first_date,period_last_date):
         return [
             ('account_id', '=', line.analytic_account_id.id),
@@ -29,7 +28,9 @@ class Contract(models.Model):
             self._get_time_amount_domain(self,line,context,user,invoice,period_first_date,period_last_date),
             fields = fields,
             groupby=[])
-        return res.get(fields[0],0.0)
-
+        res['unit_amount'] = res[fields[0]]
+        return res
+        
+     
 #TODO: if there is a contract in the making and a line with this product then update ????
 
