@@ -1,7 +1,7 @@
 
 import logging
 _logger = logging.getLogger(__name__)
-
+from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, _
 
 
@@ -55,8 +55,9 @@ class Sale(models.Model):
             "user_id": self.user_id.id,
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
-            "date_order": self.date_order,
+            # ~ "date_start": self.date_order,
             "date_start": self.date_order.date(),
+            "date_end": self.date_order.date() + relativedelta(years = 3),
             "contract_line_fixed_ids": [(0, 0, {
                 "product_id": line.product_id.id,
                 "name": line.product_id.name,
@@ -86,3 +87,20 @@ class Sale(models.Model):
             action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
         return action
 
+    def create_contracts(self, order):
+        # _logger.warning("create_contracts og"*100)
+        contracts = self.env["contract.contract"]
+        for line in order.order_line:
+            # _logger.warning(f"{line=}")
+            if line.product_id.is_contract:
+                prepare_vals = self._prepare_contract_vals(line)
+                contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
+                # _logger.warning(f"after contract.contract create {contract_id}")
+                contract_id.recurring_next_date = contract_id.get_first_invoice_date()
+                order.contract_ids = [(4, contract_id.id)]
+                line.contract_id = contract_id
+                contract_id._onchange_contract_template_id()
+                # for cline in contract_id.contract_line_fixed_ids:
+                #     cline.quantity *= line.product_uom_qty
+                contracts += contract_id
+        return contracts
