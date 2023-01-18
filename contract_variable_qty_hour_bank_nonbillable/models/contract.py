@@ -20,7 +20,7 @@ class Contract(models.Model):
             ('date', '&lt;=', period_last_date),
         ]
     def _get_time_amount_fields(self,line,context,user,invoice,period_first_date,period_last_date):
-        return ['unit_amount']
+        return ['unit_amount']   # Problably non_billable
   
     def _get_time_amount(self,line,context,user,invoice,period_first_date,period_last_date):
         fields = self._get_time_amount_fields(self,line,context,user,invoice,period_first_date,period_last_date)
