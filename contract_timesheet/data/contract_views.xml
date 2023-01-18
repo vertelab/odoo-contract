@@ -19,6 +19,16 @@
         </field>
     </record>
 
+    <record id="contract_project_button" model="ir.ui.view">
+        <field name="name">contract.project.button</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+               <button type="object" string="Project" name="open_project" class="oe_stat_button" icon="fa-puzzle-piece"/>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
 

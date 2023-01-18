@@ -19,18 +19,39 @@ class ProjectContract(models.Model):
 
             if res.sale_order_id:
                 res.sale_order_id.contract_ids += res.sale_order_id.project_ids.sale_order_id.contract_ids
+
             projects += res
         return projects
 
     def open_contract(self):
-        self.ensure_one()
-        action_window = {
-            'type': 'ir.actions.act_window',
-            'name': 'Contract',
-            'res_model': 'contract.contract',
-            'view_type': 'form',
-            'res_id': self.contract_id.id,
-            'view_mode': 'form',
-            'target': 'current',
-        }
+        if self.contract_id.id != False:
+            action_window = {
+                'type': 'ir.actions.act_window',
+                'name': 'Contract',
+                'res_model': 'contract.contract',
+                'view_type': 'form',
+                'res_id': self.contract_id.id,
+                'view_mode': 'form',
+                'target': 'current',
+            }
+        else:
+            action_window = {
+                'type': 'ir.actions.act_window',
+                'name': 'Contract',
+                'res_model': 'contract.contract',
+                'view_type': 'form',
+                'domain': [('id', 'in', self.sale_order_id.contract_ids.ids)],
+                'view_mode': 'tree,form',
+                'target': 'current',
+            }    
+        
         return action_window
+
+    # def action_view_so(self):
+    #     if self.sale_order_id == False:
+    #         self.sale_order_id = self.contract_id[0].sale_id.id
+
+    #     super().action_view_so()
+            
+        
+

@@ -28,6 +28,24 @@ class Sale(models.Model):
             self.create_contracts(order)    
         return result
         
+    def create_contracts(self, order):
+        # _logger.warning("create_contracts og"*100)
+        contracts = self.env["contract.contract"]
+        for line in order.order_line:
+            # _logger.warning(f"{line=}")
+            if line.product_id.is_contract:
+                prepare_vals = self._prepare_contract_vals(line)
+                contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
+                # _logger.warning(f"after contract.contract create {contract_id}")
+                contract_id.recurring_next_date = contract_id.get_first_invoice_date()
+                order.contract_ids = [(4, contract_id.id)]
+                line.contract_id = contract_id
+                contract_id._onchange_contract_template_id()
+                # for cline in contract_id.contract_line_fixed_ids:
+                #     cline.quantity *= line.product_uom_qty
+                contracts += contract_id
+        return contracts
+    
     def _prepare_contract_vals(self,line):
         values = {
             "name": f"{self.name} - {self.partner_id.parent_id.name if self.partner_id.parent_id else self.partner_id.name }",
@@ -68,20 +86,3 @@ class Sale(models.Model):
             action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
         return action
 
-    def create_contracts(self, order):
-        # _logger.warning("create_contracts og"*100)
-        contracts = self.env["contract.contract"]
-        for line in order.order_line:
-            # _logger.warning(f"{line=}")
-            if line.product_id.is_contract:
-                prepare_vals = self._prepare_contract_vals(line)
-                contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
-                # _logger.warning(f"after contract.contract create {contract_id}")
-                contract_id.recurring_next_date = contract_id.get_first_invoice_date()
-                order.contract_ids = [(4, contract_id.id)]
-                line.contract_id = contract_id
-                contract_id._onchange_contract_template_id()
-                # for cline in contract_id.contract_line_fixed_ids:
-                #     cline.quantity *= line.product_uom_qty
-                contracts += contract_id
-        return contracts
