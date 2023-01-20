@@ -9,9 +9,10 @@
     "author": "Vertel AB",
     "license": "AGPL-3",
     "installable": True,
-    "depends": ["contract_variable_quantity", "hr_timesheet",'product'],
+    "depends": ["contract_variable_quantity", "hr_timesheet",'product','product_contract'],
     "data": [
             "data/contract_line_qty_formula_data.xml",
             "views/product_view.xml",
+            "views/contract_view.xml",
             ],
 }

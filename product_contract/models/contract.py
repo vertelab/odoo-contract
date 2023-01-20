@@ -13,6 +13,7 @@ class Contract(models.Model):
     _inherit = "contract.contract"
    
     sale_id = fields.Many2one(comodel_name='sale.order') # domain|context|ondelete="'set null', 'restrict', 'cascade'"|auto_join|delegate
+    project_id = fields.Many2one(comodel_name="project.project")
 
     def get_first_invoice_date(self):
         """Return the date of the first invoice"""
