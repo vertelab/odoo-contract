@@ -31,5 +31,35 @@
         </field>
     </record>
 
+    <!-- <record id="project_sale_order_false" model="ir.ui.view">
+        <field name="name">project.project.sale.order.false</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="sale_project.view_edit_project_inherit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_so']" position="replace">
+                <button class="d-none d-md-inline oe_stat_button" 
+                    type="object" name="action_view_so" icon="fa-dollar" 
+                    string="Sales Order">
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="project_sale_order_false" model="ir.ui.view">
+        <field name="name">project.project.sale.order.false</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="sale_project.view_edit_project_inherit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_so']" position="replace">
+                <button class="d-none d-md-inline oe_stat_button" 
+                    type="object" name="action_view_so" icon="fa-dollar" 
+                    string="Sales Order">
+                </button>
+            </xpath>
+
+        </field>
+    </record> -->
+
 
 </odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <record id="hr_skill_type_stad" model="hr.skill.type">
+        <field name="name">Städ</field>
+    </record>
+
+    <!--Skills-->
+
+    <record id="hr_skill_a1" model="hr.skill">
+        <field name="name">Företagstäd</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record>
+
+    <record id="hr_skill_a2" model="hr.skill">
+        <field name="name">Privatstäd</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record>
+
+    <record id="hr_skill_a3" model="hr.skill">
+        <field name="name">Fönsterputs</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record>
+
+    <record id="hr_skill_a4" model="hr.skill">
+        <field name="name">Flyttstäd</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record>
+
+    <record id="hr_skill_a5" model="hr.skill">
+        <field name="name">Trappstäd</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record>   
+
+    <!--Skill Levels-->
+
+    <record id="hr_skill_level_b1" model="hr.skill.level">
+        <field name="name">Ej utbildad</field>
+        <field name="level_progress">0%</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record> 
+
+    <record id="hr_skill_level_b2" model="hr.skill.level">
+        <field name="name">Utbildad</field>
+        <field name="level_progress">100%</field>
+        <field name="skill_type_id" ref="hr_skill_type_stad"/>
+    </record> 
+
+</data>
+</odoo>
