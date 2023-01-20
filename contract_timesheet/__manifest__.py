@@ -12,10 +12,13 @@
     "depends": [
         "contract",
         "hr_timesheet_sheet",
-        "project"
+        "project",
+        "sale_project",
+        "sale_timesheet",
     ],
     "auto_install": True,
     "data": [
-        "data/project_views.xml"
+        "data/project_views.xml",
+        "data/contract_views.xml",
     ],
 }

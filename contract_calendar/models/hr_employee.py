@@ -32,7 +32,7 @@ class hr_employee(models.Model):
     _inherit = 'hr.employee'
 
     def cron_create_time_report_from_calendar(self, project_id, start_from=False):
-        _logger.warning(f"before code {project_id}")
+        # _logger.warning(f"before code {project_id}")
         if start_from == False:
             today = datetime.date.today()
             current_weeks_monday = today + datetime.timedelta(days=-today.weekday())
@@ -47,10 +47,11 @@ class hr_employee(models.Model):
                 # _logger.warning(f"attendee: {attendee}")
                 line = self.env['account.analytic.line'].create({
                         'date': attendee.event_date_start.date(),
-                        'project_id': project_id,
-                        'name': attendee.event_id.name,
+                        'project_id': attendee.contract_id.project_id.id,
+                        'name': attendee.contract_id.contract_line_fixed_ids[0].name,
                         'unit_amount': attendee.event_id.duration,
                         'sheet_id': tr.id,
+                        'employee_id': tr.employee_id.id,
                 })
                 tr.write({'timesheet_ids': [(4, line.id, 0)]})
                 # _logger.warning(f"line: {line.name}")
