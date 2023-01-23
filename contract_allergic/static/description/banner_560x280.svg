@@ -9,7 +9,7 @@
    id="SVGRoot"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/usr/share/odoo-contract/contract_variable_qty_hour_bank/static/description/banner.png"
+   inkscape:export-filename="/usr/share/odoo-contract/contract_allergic/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -38,15 +38,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0714286"
-     inkscape:cx="80.266665"
-     inkscape:cy="83.066664"
+     inkscape:cx="268.79999"
+     inkscape:cy="182.93333"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1881"
      inkscape:window-height="773"
-     inkscape:window-x="1959"
-     inkscape:window-y="91"
+     inkscape:window-x="889"
+     inkscape:window-y="214"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0">
     <inkscape:grid
@@ -71,10 +71,7 @@
     <g
        id="g1954"
        transform="matrix(0.81401749,0,0,1.2110406,87.964326,13.739548)"
-       style="stroke-width:1.00717223"
-       inkscape:export-filename="/usr/share/odoo-contract/contract_variable_qty_hour_bank/static/description/g1954.png"
-       inkscape:export-xdpi="92"
-       inkscape:export-ydpi="92">
+       style="stroke-width:1.00717223">
       <rect
          y="-17.522648"
          x="-133"
@@ -122,21 +119,16 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="523.77301"
-       y="70.822594"
+       x="519.7063"
+       y="90.822594"
        id="text2035"
        inkscape:export-xdpi="92"
        inkscape:export-ydpi="92"><tspan
          sodipodi:role="line"
-         x="523.77301"
-         y="70.822594"
+         x="519.7063"
+         y="90.822594"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan2047">Contract Variable</tspan><tspan
-         sodipodi:role="line"
-         x="523.77301"
-         y="93.160011"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:1px"
-         id="tspan2618">Qty Hour Bank</tspan></text>
+         id="tspan2047">Contract Allergic</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot892"

@@ -1,5 +1,5 @@
-odoo-contract / contract_variable_qty_hour_bank
-2022-11-03
+odoo-contract / contract_cleaner
+2023-01-23
 
 Be aware of these!
 [project]/[module]/static/description/banner.png
