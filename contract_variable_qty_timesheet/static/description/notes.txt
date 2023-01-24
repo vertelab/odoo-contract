@@ -1,5 +1,5 @@
-odoo-contract / contract_variable_qty_hour_bank_nonbillable
-2022-11-03
+odoo-contract / contract_variable_qty_timesheet
+2023-01-24
 
 Be aware of these!
 [project]/[module]/static/description/banner.png
