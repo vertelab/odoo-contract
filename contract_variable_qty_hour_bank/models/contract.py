@@ -17,7 +17,7 @@ class Contract(models.Model):
         
         for rec in self:
             if rec.recurring_invoicing_type == "post-paid":
-                rec.find_hours_date_start = rec.recurring_next_date - relativedelta(months=rec.recurring_interval)
+                rec.find_hours_date_start = rec.recurring_next_date - relativedelta(months=rec.recurring_interval) ###Not done here!!!!!!!!! Need some way
                 rec.find_hours_date_end = rec.recurring_next_date
             elif rec.recurring_invoicing_type == "pre-paid":
                 rec.find_hours_date_start = rec.recurring_next_date
@@ -46,7 +46,7 @@ class Contract(models.Model):
 
     def _get_time_amount_domain(self,line,context,user,period_first_date,period_last_date):
         return [
-            ('account_id', '=', line.analytic_account_id.id),
+            # ~ ('account_id', '=', line.analytic_account_id.id),
             ('product_id', '=', False),
             ('project_id', '=', self.project_id.id),
             ('date', '>=', self.find_hours_date_start),

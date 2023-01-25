@@ -14,7 +14,7 @@ time_exceding = (amount or 0.0) - line.product_id.hour_bank
 if time_exceding > 0.0:
     result = time_exceding
 else:
-    result = line.product_id.hour_bank
+    result = 0
     </field>
     </record>
 
