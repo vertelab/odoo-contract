@@ -47,6 +47,7 @@
         "contract",
         "calendar",
         "hr_timesheet_sheet",
+        "sale",
     ],
     "data": [
         "views/contract.xml",
