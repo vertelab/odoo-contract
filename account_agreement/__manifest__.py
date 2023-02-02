@@ -45,10 +45,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "agreement_legal",
-        "account",
-        "contract",
+    'depends': ["agreement_legal","account", "contract",
 #        "account_period",
 #        "l10n_se_ocr_old",
 #        "sale",
