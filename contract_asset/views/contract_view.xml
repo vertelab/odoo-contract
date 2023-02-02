@@ -7,8 +7,7 @@
             <field name="arch" type="xml">
                 <field name="recurring_next_date" position="after">
                     <field name="account_asset_id"/>
-                    <field name="rate_amount"/>
-                    <field name="contract_rate"/>
+                    <field name="rent_rate"/>
                 </field>
             </field>
         </record>
