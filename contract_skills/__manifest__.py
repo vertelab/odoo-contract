@@ -32,7 +32,7 @@
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_skills',
-    # 'images': ['static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -41,10 +41,7 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": [
-        'contract',
-        'hr_skills',
-    ],
+    "depends": ['contract','hr_skills',],
     "data": [
         'data/res_skills.xml',        
         # 'security/ir.model.access.csv',
