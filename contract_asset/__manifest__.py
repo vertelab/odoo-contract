@@ -6,13 +6,11 @@
     "website": "https://vertel.se",
     "author": "Vertel AB",
     "maintainers": ["Vertelab"],
+    'images': ['static/description/banner.png'], # 560x280 px.
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "depends": [
-        'contract',
-        'account_asset_management',
-    ],
+    'depends': ['contract','account_asset_management', ],
     "auto_install": False,
     "data": [
         'views/contract_view.xml'
