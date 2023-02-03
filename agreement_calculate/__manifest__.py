@@ -45,7 +45,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    'depends': ['agreement_contract','agreement_property','contract','uom', ],
+    'depends': ['agreement_contract','agreement_property','contract','uom',],
     "data": [
         "views/agreement.xml",
     ],
