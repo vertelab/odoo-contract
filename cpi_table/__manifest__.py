@@ -45,10 +45,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "base",
-        "agreement_legal",
-    ],
+    'depends': ['base','agreement_legal',],
     "data": [
         "security/ir.model.access.csv",
         "views/consumer_price_index.xml",
