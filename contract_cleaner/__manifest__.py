@@ -41,12 +41,11 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": [
-        'contacts',
-    ],
+    'depends': ['contacts',],
     "data": [
         'data/res_skills.xml',
         'security/ir.model.access.csv',
         'views/res_partner.xml',
     ],
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
