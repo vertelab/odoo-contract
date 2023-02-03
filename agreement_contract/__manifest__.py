@@ -45,13 +45,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "account",
-        "agreement_legal",
-        "contract",
-        "account_agreement",
-        "pricelist_cpi",
-    ],
+    'depends': ['account','agreement_legal','contract','account_agreement','pricelist_cpi',],
     "data": [
         "security/ir.model.access.csv",
         "views/agreement.xml",
