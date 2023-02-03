@@ -41,10 +41,11 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": ['contract','hr_skills',],
+    'depends': ['contract','hr_skills',],
     "data": [
         'data/res_skills.xml',        
         # 'security/ir.model.access.csv',
         'views/contract_skills.xml',
     ],
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
