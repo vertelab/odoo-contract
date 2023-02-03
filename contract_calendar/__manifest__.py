@@ -43,12 +43,7 @@
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
 
-    "depends": [
-        "contract",
-        "calendar",
-        "hr_timesheet_sheet",
-        "sale",
-    ],
+    'depends': ['contract','calendar','hr_timesheet_sheet','sale',],
     "data": [
         "views/contract.xml",
         "views/calendar_view.xml",
