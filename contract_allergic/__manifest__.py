@@ -41,9 +41,7 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": [
-        'contacts',
-    ],
+    'depends': ['contacts',],
     "data": [
         'data/res_allergy.xml',
         'security/ir.model.access.csv',
