@@ -40,9 +40,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-    "depends": [
-        "contract",
-        "hr_timesheet_sheet",
+    'depends': ['contract','hr_timesheet_sheet',
         "project",
         "sale_project",
         "sale_timesheet",
