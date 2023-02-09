@@ -70,8 +70,8 @@ class Contract(models.Model):
             elif self.env.context.get('from_sale_order'):
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
-                    'start': vals.get('date_order', ),
-                    'stop': datetime.strptime(str(vals.get('date_order', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
+                    'start': vals.get('start', ),
+                    'stop': datetime.strptime(str(vals.get('stop', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
                     'duration': 1,
                     'partner_ids': [(5, 0, 0)],
                     # 'partner_ids': [(6, 0, [vals.get('partner_id', )])],

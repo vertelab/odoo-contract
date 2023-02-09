@@ -58,6 +58,8 @@ class Sale(models.Model):
             # ~ "date_start": self.date_order,
             "date_start": self.date_order.date(),
             "date_end": self.date_order.date() + relativedelta(years = 3),
+            "start": self.date_order,
+            "stop": self.date_order + relativedelta(years = 3),
             "contract_line_fixed_ids": [(0, 0, {
                 "product_id": line.product_id.id,
                 "name": line.product_id.name,
