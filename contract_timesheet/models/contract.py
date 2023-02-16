@@ -39,7 +39,7 @@ class ContractProject(models.Model):
         res = super().create(vals_list)
         # check if you can reuse existing project or not, otherwise create 
         # _logger.warning(f"outside if statement contract create")
-        _logger.warning(f"inside if statement contract create {res.sale_id.project_ids}")
+        # _logger.warning(f"inside if statement contract create {res.sale_id.project_ids}")
         project = self.env['project.project'].create({
             'name': res.name,
             'contract_id': res.id,
