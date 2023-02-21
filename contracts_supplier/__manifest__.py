@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Contract: Agreement Supplier',
+    'name': 'Contract: Contracts Supplier',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds contracts for suppliers.',
@@ -34,7 +34,7 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/agreement_supplier',
+    'website': 'https://vertel.se/apps/odoo-contract/contracts_supplier',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -44,8 +44,6 @@
     'depends': ['account_analytic_analysis'],
     'data': ['contracts_supplier_view.xml',
     ],
-
     'installable': True,
-    
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
