@@ -46,7 +46,7 @@
     # Any module necessary for this one to work correctly
 
     "installable": True,
-    "depends": ["contract_variable_quantity", "hr_timesheet"],
+    'depends': ['contract_variable_quantity', 'hr_timesheet'],
     "data": ["data/contract_line_qty_formula_data.xml"],
     "maintainers": ["carlosdauden", "pedrobaeza"],
 }

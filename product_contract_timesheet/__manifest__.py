@@ -44,10 +44,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "product_contract",
-        "contract_timesheet"
-    ],
+    'depends': ['product_contract','contract_timesheet'],
     "data": [
     ],
 }

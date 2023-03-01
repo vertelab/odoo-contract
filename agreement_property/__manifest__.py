@@ -45,11 +45,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "property_mgmt",
-        "property_building",
-        "agreement_legal",
-    ],
+    'depends': ['property_mgmt','property_building','agreement_legal',],
     "data": [
         "views/agreement.xml",
     ],

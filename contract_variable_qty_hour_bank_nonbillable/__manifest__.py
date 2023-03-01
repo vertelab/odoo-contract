@@ -44,6 +44,6 @@
 
     "installable": True,
     "auto-install": True,
-    "depends": ["contract_variable_qty_hour_bank", "hr_timesheet_nonbillable",],
+    'depends': ['contract_variable_qty_hour_bank', 'hr_timesheet_nonbillable',],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

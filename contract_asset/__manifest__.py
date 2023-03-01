@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2023- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,37 +18,36 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# Copyright 2021 Tecnativa - Jairo Llopis
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Agreement Contract',
+    'name': 'Contract: Assets',
     'version': '14.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Agreement - Contract integration.',
+    'summary': 'Manage Contract Assets',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
     'description': """
-    Inherit variables from contract into agreement.
+    
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/agreement_contract',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_assets',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
+
+    
     "application": False,
-    "auto-install": True,
     "installable": True,
-    'depends': ['account','agreement_legal','contract','account_agreement','pricelist_cpi',],
+    'depends': ['contract','account_asset_management', ],
+    "auto_install": False,
     "data": [
-        "security/ir.model.access.csv",
-        "views/agreement.xml",
+        'views/contract_view.xml'
     ],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

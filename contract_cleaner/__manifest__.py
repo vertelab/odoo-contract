@@ -28,11 +28,11 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Contract',
+    'category': 'Sales',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_cleaner',
-    # 'images': ['static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -41,12 +41,11 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": [
-        'contacts',
-    ],
+    'depends': ['contacts',],
     "data": [
         'data/res_skills.xml',
         'security/ir.model.access.csv',
         'views/res_partner.xml',
     ],
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
