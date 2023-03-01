@@ -70,8 +70,8 @@ class Contract(models.Model):
             elif self.env.context.get('from_sale_order'):
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
-                    'start': vals.get('date_order', ),
-                    'stop': datetime.strptime(str(vals.get('date_order', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
+                    'start': vals.get('date_start', ),
+                    'stop': datetime.strptime(str(vals.get('date_end', )), '%Y-%m-%d') + timedelta(hours=1), #%H:%M:%S
                     'duration': 1,
                     'partner_ids': [(5, 0, 0)],
                     # 'partner_ids': [(6, 0, [vals.get('partner_id', )])],
@@ -81,7 +81,7 @@ class Contract(models.Model):
                 vals["stop"] = event.stop
 
 
-
+            # _logger.warning(f"VALS STOP {vals['stop']}")
             # _logger.warning(f"contract before create vals {vals}")
             # _logger.warning("contract right before create")
             # _logger.warning(f"contract.contract create vals {vals}")
