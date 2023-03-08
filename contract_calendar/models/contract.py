@@ -94,7 +94,8 @@ class Contract(models.Model):
             # _logger.warning(f"after create") 
         
 
-            if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
+            #if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
+            if vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
 
                 relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
@@ -104,7 +105,7 @@ class Contract(models.Model):
                         sub_event.contract_id = contract.id
                         if sub_event.start == relevant_recurrency.dtstart:
                             contract.event_id = sub_event.id
-                if 'recurrency' in vals and vals['recurrency'] == False:
+                elif 'recurrency' in vals and vals['recurrency'] == False or 'recurrency' not in vals:
                     event.contract_id = contract.id
             # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
 
