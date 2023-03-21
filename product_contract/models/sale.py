@@ -47,12 +47,20 @@ class Sale(models.Model):
         return contracts
     
     def _prepare_contract_vals(self,line):
+        _logger.warning("_prepare_contract_vals"*100)
+        if line.task_id:
+            relevant_project_id = line.task_id.project_id
+        else:
+            relevant_project_id = line.project_id
+        _logger.warning(f"{relevant_project_id=},{line.task_id=},{line.project_id=} {line}")
         values = {
             "name": f"{self.name} - {self.partner_id.parent_id.name if self.partner_id.parent_id else self.partner_id.name }",
             "partner_id": self.partner_id.id,
             "invoice_partner_id": self.partner_id.id,
             "sale_id": self.id,
+            "sale_order_line_id": line.id,
             "user_id": self.user_id.id,
+            "project_id":relevant_project_id.id,
             "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
             # ~ "date_start": self.date_order,
