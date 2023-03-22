@@ -191,7 +191,6 @@ class Contract(models.Model):
 
 
     def assign_contract(self, event, vals, contract):
-
         relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
         if 'recurrency' in vals and vals['recurrency'] == True:
             # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
@@ -199,7 +198,7 @@ class Contract(models.Model):
                 sub_event.contract_id = contract.id
                 if sub_event.start == relevant_recurrency.dtstart:
                     contract.event_id = sub_event.id
-        if 'recurrency' in vals and vals['recurrency'] == False:
+        if 'recurrency' in vals and vals['recurrency'] == False or 'recurrency' not in vals:
             event.contract_id = contract.id
     # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
 
