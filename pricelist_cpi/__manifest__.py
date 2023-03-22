@@ -46,11 +46,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "base",
-        "cpi_table",
-        "product",
-    ],
+    'depends': ['base','cpi_table','product',],
     "data": [
         #"security/ir.model.access.csv",
         "views/product_pricelist.xml",

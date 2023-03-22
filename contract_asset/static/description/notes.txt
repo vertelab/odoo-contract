@@ -1,4 +1,4 @@
-odoo-contract / contract_attendee
+odoo-contract / contract_assets
 2023-02-21
 
 Be aware of these!
@@ -6,9 +6,9 @@ Be aware of these!
 [project]/[module]/static/description/icon.png
 
 
-Icon: "file-signature"
 Icons may be found at: https://fontawesome.com/v5/cheatsheet
 
+Icon: "file-signature"
 Odoo banner: 560 x 280
 Odoo icon: 140 x 140
 

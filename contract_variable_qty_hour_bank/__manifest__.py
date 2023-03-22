@@ -43,7 +43,7 @@
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
     "installable": True,
-    "depends": ["contract_variable_quantity", "hr_timesheet",'product','product_contract'],
+    'depends': ['contract_variable_quantity', 'hr_timesheet','product','product_contract'],
     "data": [
             "data/contract_line_qty_formula_data.xml",
             "views/product_view.xml",

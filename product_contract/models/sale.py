@@ -47,12 +47,10 @@ class Sale(models.Model):
         return contracts
     
     def _prepare_contract_vals(self,line):
-        _logger.warning("_prepare_contract_vals"*100)
         if line.task_id:
             relevant_project_id = line.task_id.project_id
         else:
             relevant_project_id = line.project_id
-        _logger.warning(f"{relevant_project_id=},{line.task_id=},{line.project_id=} {line}")
         values = {
             "name": f"{self.name} - {self.partner_id.parent_id.name if self.partner_id.parent_id else self.partner_id.name }",
             "partner_id": self.partner_id.id,
@@ -66,6 +64,8 @@ class Sale(models.Model):
             # ~ "date_start": self.date_order,
             "date_start": self.date_order.date(),
             "date_end": self.date_order.date() + relativedelta(years = 3),
+            "start": self.date_order,
+            "stop": self.date_order + relativedelta(years = 3),
             "contract_line_fixed_ids": [(0, 0, {
                 "product_id": line.product_id.id,
                 "name": line.product_id.name,
@@ -74,8 +74,25 @@ class Sale(models.Model):
                 "uom_id": line.product_uom.id,
             })]
         }
+        
         # _logger.warning(f"inside prepare contract vals {values}")
         return values
+
+    # def _prepare_contract_vals(self):
+    #     values = {
+    #         "name": f"{self.name} - {self.partner_id.name}",
+    #         "partner_id": self.partner_id.id,
+    #         "invoice_partner_id": self.partner_id.id,
+    #         "sale_id": self.id,
+    #         "user_id": self.user_id.id,
+    #         "contract_line_fixed_ids": [(0, 0, {
+    #             "product_id": line.product_id.id,
+    #             "name": line.product_id.name,
+    #             "quantity": line.product_uom_qty,
+    #             "price_unit": line.price_unit,
+    #         }) for line in self.order_line]
+    #     }
+    #     return values
 
     def action_view_contract(self):
         self.ensure_one()
@@ -95,20 +112,20 @@ class Sale(models.Model):
             action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
         return action
 
-    def create_contracts(self, order):
-        # _logger.warning("create_contracts og"*100)
-        contracts = self.env["contract.contract"]
-        for line in order.order_line:
-            # _logger.warning(f"{line=}")
-            if line.product_id.is_contract:
-                prepare_vals = self._prepare_contract_vals(line)
-                contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
-                # _logger.warning(f"after contract.contract create {contract_id}")
-                contract_id.recurring_next_date = contract_id.get_first_invoice_date()
-                order.contract_ids = [(4, contract_id.id)]
-                line.contract_id = contract_id
-                contract_id._onchange_contract_template_id()
-                # for cline in contract_id.contract_line_fixed_ids:
-                #     cline.quantity *= line.product_uom_qty
-                contracts += contract_id
-        return contracts
+    # def create_contracts(self, order):
+    #     # _logger.warning("create_contracts og"*100)
+    #     contracts = self.env["contract.contract"]
+    #     for line in order.order_line:
+    #         _logger.warning(f"{line=}")
+    #         if line.product_id.is_contract:
+    #             prepare_vals = self._prepare_contract_vals(line)
+    #             contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
+    #             # _logger.warning(f"after contract.contract create {contract_id}")
+    #             contract_id.recurring_next_date = contract_id.get_first_invoice_date()
+    #             order.contract_ids = [(4, contract_id.id)]
+    #             line.contract_id = contract_id
+    #             contract_id._onchange_contract_template_id()
+    #             # for cline in contract_id.contract_line_fixed_ids:
+    #             #     cline.quantity *= line.product_uom_qty
+    #             contracts += contract_id
+    #     return contracts

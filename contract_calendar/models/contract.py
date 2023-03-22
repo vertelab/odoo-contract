@@ -43,11 +43,13 @@ class Contract(models.Model):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
             if not self.env.context.get('from_sale_order') and 'date_end' in vals and vals['date_end'] == False:
+                _logger.warning(f"1")
                 date_end = datetime.strptime(str(vals.get('date_start')),'%Y-%m-%d') + relativedelta(years=5)
                 vals['date_end'] = str(date_end.date())
             # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
             if not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == True:
                 # _logger.warning("contract contract inside first if")
+                _logger.warning(f"2")
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
                     'start_date': vals.get('start_date', ),
@@ -58,6 +60,7 @@ class Contract(models.Model):
                 vals["event_id"] = event.id
             elif not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == False:
                 # _logger.warning("contract contract inside second if")
+                _logger.warning(f"3")
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
                     'start': vals.get('start', ),
@@ -68,10 +71,11 @@ class Contract(models.Model):
                 vals["event_id"] = event.id
                 vals["stop"] = event.stop
             elif self.env.context.get('from_sale_order'):
+                _logger.warning(f"4")
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
-                    'start': vals.get('date_order', ),
-                    'stop': datetime.strptime(str(vals.get('date_order', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
+                    'start': vals.get('start', ),
+                    'stop': datetime.strptime(str(vals.get('stop', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
                     'duration': 1,
                     'partner_ids': [(5, 0, 0)],
                     # 'partner_ids': [(6, 0, [vals.get('partner_id', )])],
@@ -81,13 +85,17 @@ class Contract(models.Model):
                 vals["stop"] = event.stop
 
 
-
+            # _logger.warning(f"VALS STOP {vals['stop']}")
             # _logger.warning(f"contract before create vals {vals}")
             # _logger.warning("contract right before create")
             # _logger.warning(f"contract.contract create vals {vals}")
+            # _logger.warning(f"before create") 
             contract = super(Contract, self.with_context()).create(vals)
+            # _logger.warning(f"after create") 
+        
 
-            if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
+            #if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
+            if vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
 
                 relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
@@ -97,7 +105,8 @@ class Contract(models.Model):
                         sub_event.contract_id = contract.id
                         if sub_event.start == relevant_recurrency.dtstart:
                             contract.event_id = sub_event.id
-
+                elif 'recurrency' in vals and vals['recurrency'] == False or 'recurrency' not in vals:
+                    event.contract_id = contract.id
             # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
 
             contracts += contract

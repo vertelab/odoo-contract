@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="contract_asset_contrat_form_view" model="ir.ui.view">
+            <field name="name">contract.asset.contract.form</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <field name="recurring_next_date" position="after">
+                    <field name="account_asset_id"/>
+                    <field name="rent_rate"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
