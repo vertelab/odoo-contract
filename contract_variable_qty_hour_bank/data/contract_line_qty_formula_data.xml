@@ -15,6 +15,7 @@ if time_exceding > 0.0:
     result = time_exceding
 else:
     result = 0
+time_report_lines_domain = contract._get_time_amount_domain()
     </field>
     </record>
 

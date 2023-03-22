@@ -93,7 +93,8 @@ class Contract(models.Model):
             contract = super(Contract, self.with_context()).create(vals)
             # _logger.warning(f"after create") 
         
-            #not self.env.context.get('from_sale_order') and 
+
+            #if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
             if vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
                 self.assign_contract(event, vals, contract)

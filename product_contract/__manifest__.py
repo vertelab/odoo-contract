@@ -44,7 +44,13 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    'depends': ['contract','product','sale',],
+    "depends": [
+        "contract",
+        "product",
+        "sale",
+        "project",
+        "sale_project",
+    ],
     "data": [
         "views/product_view.xml",
         "views/contract.xml",
