@@ -191,7 +191,16 @@ class Contract(models.Model):
 
 
     def assign_contract(self, event, vals, contract):
-        relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
+        relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id), 
+                                                                      ('mo', '=', event.mo),
+                                                                      ('tu', '=', event.tu),
+                                                                      ('we', '=', event.we),
+                                                                      ('th', '=', event.th),
+                                                                      ('fr', '=', event.fr),
+                                                                      ('sa', '=', event.sa),
+                                                                      ('su', '=', event.su),])
+        # for recurrency in relevant_recurrency: 
+        #     _logger.warning(f"base_event_id_active: {recurrency.mo} {recurrency.tu} {recurrency.we} {recurrency.th} {recurrency.fr} {recurrency.sa} {recurrency.su}")
         if 'recurrency' in vals and vals['recurrency'] == True:
             # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
             for sub_event in relevant_recurrency.calendar_event_ids:
