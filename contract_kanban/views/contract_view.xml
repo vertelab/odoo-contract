@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_contract_kanban">
+            <field name="name">contract_kanban</field>
+            <field name="model">contract.contract</field>
+            <field name="arch" type="xml">
+                <kanban records_draggable="1" default_group_by="user_id">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click oe_kanban_card">
+                                <div class="row mb4" name="title_wrapper">
+                                    <div class="col-12 o_kanban_record_headings" name="title" style="font-weight: bold">
+                                        <field name="name"/>
+                                    </div>
+                                </div>
+                                <div class="row" name="partner_id">
+                                    <div class="col-12">
+                                        <field name="partner_id"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span>Responsible:</span>
+                                        <field name="user_id" />
+                                    </div>
+                                </div>
+                                    <div class="col-12 text-right">
+                                        <field name="man_hours_per_month" invisible="1"/>
+                                        <span class="badge badge-primary"><t t-esc="record.man_hours_per_month.value"/> hours</span>
+                                    </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="contract.action_customer_contract" model="ir.actions.act_window">
+            <field name="name">Contract View</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">contract.contract</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+    </data>
+</odoo>
