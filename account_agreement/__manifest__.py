@@ -35,7 +35,7 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/account_aggreement',
+    'website': 'https://vertel.se/apps/odoo-contract/account_agreement',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -45,10 +45,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    "depends": [
-        "agreement_legal",
-        "account",
-        "contract",
+    'depends': ["agreement_legal","account", "contract",
 #        "account_period",
 #        "l10n_se_ocr_old",
 #        "sale",

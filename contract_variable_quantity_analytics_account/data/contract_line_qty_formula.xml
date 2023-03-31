@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="contract_line_qty_formula_analytic_account" model="contract.line.qty.formula">
+            <field name="name">Product Quantity by Analytic Account of posted In_Invoices</field>
+            <field name="code">result = line._contract_variable_quantity_analytics_account_method()</field>
+        </record>
+    </data>
+</odoo>

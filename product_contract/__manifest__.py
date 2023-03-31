@@ -48,6 +48,8 @@
         "contract",
         "product",
         "sale",
+        "project",
+        "sale_project",
     ],
     "data": [
         "views/product_view.xml",

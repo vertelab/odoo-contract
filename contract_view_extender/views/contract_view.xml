@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--SEARCH view-->
+    <record id="contract_contract_search_view" model="ir.ui.view">
+        <field name="name">contract.contract search view (in contract) extended</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_search_view"/>
+        <field name="arch" type="xml">
+                    <xpath expr="//filter[@name='commercial_partner_groupby']" position="after">
+                        <filter name="responsible" string="Responsible" context="{'group_by':'user_id'}"/>
+                    </xpath>
+        </field>
+    </record>
+
+    <record id="contract_contract_tree_view" model="ir.ui.view">
+        <field name="name">contract.contract tree view (in contract_delivery_zone)</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_tree_view" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="date_start" optional="hidden"/>
+                <field name="date_end" optional="hidden"/>
+                <field name="user_id" optional="hidden"/>
+                <field name="man_hours_per_month" optional="hidden"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

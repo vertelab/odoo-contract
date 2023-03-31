@@ -1,0 +1,16 @@
+<openerp>
+  <data>
+     <record id="contract_contract_form_view" model="ir.ui.view">
+        <field name="name">Contract Calendar</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view" />
+        <field name="arch" type="xml">
+            <field name="recurring_next_date" position="after">
+                    <field name="invoice_all_of_last_month"/>
+                    <field name="find_hours_date_start"/>
+                    <field name="find_hours_date_end"/>
+            </field>
+        </field>
+  </record>
+  </data>
+</openerp>

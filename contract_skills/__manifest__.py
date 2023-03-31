@@ -21,18 +21,18 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Contract Skills',
+    'name': 'Contract: Skills',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds a tag containing skills',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Contract',
+    'category': 'Sales',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_skills',
-    # 'images': ['static/description/banner.png'], # 560x280 px.
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
@@ -41,13 +41,11 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": [
-        'contract',
-        'hr_skills',
-    ],
+    'depends': ['contract','hr_skills',],
     "data": [
         'data/res_skills.xml',        
         # 'security/ir.model.access.csv',
         'views/contract_skills.xml',
     ],
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

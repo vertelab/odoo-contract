@@ -8,12 +8,14 @@
         model="contract.line.qty.formula"
     >
         <field name='name'>Hour Bank</field>
-        <field name="code">amount = contract._get_time_amount(line,context,user,invoice,period_first_date,period_last_date)
+        <field name="code">
+amount = contract._get_time_amount(line,context,user,period_first_date,period_last_date)
 time_exceding = (amount or 0.0) - line.product_id.hour_bank
 if time_exceding > 0.0:
     result = time_exceding
 else:
-    result = 0.0
+    result = 0
+time_report_lines_domain = contract._get_time_amount_domain()
     </field>
     </record>
 

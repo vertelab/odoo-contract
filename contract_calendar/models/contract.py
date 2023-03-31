@@ -43,11 +43,13 @@ class Contract(models.Model):
         contracts = self.env["contract.contract"]
         for vals in vals_list:
             if not self.env.context.get('from_sale_order') and 'date_end' in vals and vals['date_end'] == False:
+                _logger.warning(f"1")
                 date_end = datetime.strptime(str(vals.get('date_start')),'%Y-%m-%d') + relativedelta(years=5)
                 vals['date_end'] = str(date_end.date())
             # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
             if not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == True:
                 # _logger.warning("contract contract inside first if")
+                _logger.warning(f"2")
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
                     'start_date': vals.get('start_date', ),
@@ -58,6 +60,7 @@ class Contract(models.Model):
                 vals["event_id"] = event.id
             elif not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == False:
                 # _logger.warning("contract contract inside second if")
+                _logger.warning(f"3")
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
                     'start': vals.get('start', ),
@@ -68,10 +71,11 @@ class Contract(models.Model):
                 vals["event_id"] = event.id
                 vals["stop"] = event.stop
             elif self.env.context.get('from_sale_order'):
+                _logger.warning(f"4")
                 event = self.env['calendar.event'].create({
                     'name': vals.get('name', ),
-                    'start': vals.get('date_order', ),
-                    'stop': datetime.strptime(str(vals.get('date_order', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
+                    'start': vals.get('start', ),
+                    'stop': datetime.strptime(str(vals.get('stop', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
                     'duration': 1,
                     'partner_ids': [(5, 0, 0)],
                     # 'partner_ids': [(6, 0, [vals.get('partner_id', )])],
@@ -81,24 +85,20 @@ class Contract(models.Model):
                 vals["stop"] = event.stop
 
 
-
+            # _logger.warning(f"VALS STOP {vals['stop']}")
             # _logger.warning(f"contract before create vals {vals}")
             # _logger.warning("contract right before create")
             # _logger.warning(f"contract.contract create vals {vals}")
+            # _logger.warning(f"before create") 
             contract = super(Contract, self.with_context()).create(vals)
+            # _logger.warning(f"after create") 
+        
 
-            if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
+            #if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
+            if vals.get('event_id') and vals['event_id'] != False:
                 # _logger.warning("contract contract inside third if")
+                self.assign_contract(event, vals, contract)
 
-                relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id)])
-                if 'recurrency' in vals and vals['recurrency'] == True:
-                    # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
-                    for sub_event in relevant_recurrency.calendar_event_ids:
-                        sub_event.contract_id = contract.id
-                        if sub_event.start == relevant_recurrency.dtstart:
-                            contract.event_id = sub_event.id
-
-            # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
 
             contracts += contract
 
@@ -116,8 +116,10 @@ class Contract(models.Model):
 
     def write(self, values):
         interesting_keys = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
-        interesting_calendar_keys = ['name', 'partner_ids', 'start', 'allday', 'start_date', 'stop_date', 'reccurency',
-                                     'interval', 'rrule_type', 'end_type', 'count', 'until', ]
+        interesting_calendar_keys = ['name', 'partner_ids', 'start', 'allday', 'start_date', 'stop_date', 'recurrency',
+                                     'interval', 'rrule_type', 'end_type', 'count', 'until', 'recurrence_update', 'month_by',
+                                     'weekday', 'event_tz', 'day', 'byday', 'recurrence_id', 'follow_recurrence']
+
         prelim_dict = {}
         contract_vals = {}
         for key in interesting_keys:
@@ -131,9 +133,9 @@ class Contract(models.Model):
         # values['recurrence_update'] = 'future_events'
         # _logger.warning(f"contract.contract write {values}")
         # _logger.warning(f"self contract.contract: {self} {self.event_id}")
-        res = super().write(values)
-        _logger.warning(f"contract write {values}")
 
+        res = super().write(values)
+        
         for key in interesting_calendar_keys:
             input = values[key] if key in values.keys() else False
             if input:
@@ -142,6 +144,25 @@ class Contract(models.Model):
                     self.project_id.name = input
         contract_vals['recurrence_update'] = 'future_events'
         self.event_id.write(contract_vals)
+
+        self.assign_contract(self.event_id, values, self)
+
+        # # _logger.warning(f"values: {values}")
+        # for key in interesting_calendar_keys:
+        #     # _logger.warning(f"VALUES[KEY] {values['recurrency']}")
+        #     if key in values.keys() or False:
+        #         # _logger.warning(f"INPUT INPUT: {input} KEY KEY: {key} VALUES.KEYS VALUES.KEYS {values[key]}")
+        #         # _logger.warning(f"input is this: {input}")
+        #         contract_vals[key] = values[key]
+        #         # _logger.warning(f"contract vals interesting {contract_vals}")
+        #         if key == 'name':
+        #             self.project_id.name = input
+
+        _logger.warning(f"contract write {values}")
+
+        # _logger.warning(f"event contract write {contract_vals}")
+
+
         # _logger.warning(f"PRINT values {values}")
 
         # unsure about the code below, dont know why i put it there but cant figure out if its needed
@@ -167,6 +188,29 @@ class Contract(models.Model):
                     event_id.unlink()
             else:
                 event.unlink()
+
+
+    def assign_contract(self, event, vals, contract):
+        relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id), 
+                                                                      ('mo', '=', event.mo),
+                                                                      ('tu', '=', event.tu),
+                                                                      ('we', '=', event.we),
+                                                                      ('th', '=', event.th),
+                                                                      ('fr', '=', event.fr),
+                                                                      ('sa', '=', event.sa),
+                                                                      ('su', '=', event.su),])
+        # for recurrency in relevant_recurrency: 
+        #     _logger.warning(f"base_event_id_active: {recurrency.mo} {recurrency.tu} {recurrency.we} {recurrency.th} {recurrency.fr} {recurrency.sa} {recurrency.su}")
+        if 'recurrency' in vals and vals['recurrency'] == True:
+            # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
+            for sub_event in relevant_recurrency.calendar_event_ids:
+                sub_event.contract_id = contract.id
+                if sub_event.start == relevant_recurrency.dtstart:
+                    contract.event_id = sub_event.id
+        if 'recurrency' in vals and vals['recurrency'] == False or 'recurrency' not in vals:
+            event.contract_id = contract.id
+    # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
+
 
 
 #TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar

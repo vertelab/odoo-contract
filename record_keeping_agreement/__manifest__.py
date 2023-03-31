@@ -40,13 +40,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-    'depends': [
-        'mail',
-        'agreement',
-        'record_keeping',
-        'record_keeping_wizard',
-        'agreement_legal'
-    ],
+    'depends': ['mail','agreement','record_keeping','record_keeping_wizard','agreement_legal'],
     'data': [
         'views/agreement.xml',
         'security/ir.model.access.csv',
