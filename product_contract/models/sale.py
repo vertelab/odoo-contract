@@ -54,6 +54,7 @@ class Sale(models.Model):
         values = {
             "name": f"{self.name} - {self.partner_id.parent_id.name if self.partner_id.parent_id else self.partner_id.name }",
             "partner_id": self.partner_id.id,
+            "pricelist_id": self.pricelist_id.id,
             "invoice_partner_id": self.partner_id.id,
             "sale_id": self.id,
             "sale_order_line_id": line.id,
