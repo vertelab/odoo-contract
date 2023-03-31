@@ -41,14 +41,7 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-<<<<<<< HEAD
-    "depends": [
-        'contacts',
-        'contract',
-    ],
-=======
     'depends': ['contacts',],
->>>>>>> 9bdc277718e5f90f3cdb6e65f149130c3d6c5e06
     "data": [
         'data/res_skills.xml',
         'security/ir.model.access.csv',
