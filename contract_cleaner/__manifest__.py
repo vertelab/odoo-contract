@@ -43,6 +43,7 @@
     "installable": True,
     "depends": [
         'contacts',
+        'contract',
     ],
     "data": [
         'data/res_skills.xml',

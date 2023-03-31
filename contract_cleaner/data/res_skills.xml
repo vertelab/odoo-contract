@@ -30,8 +30,7 @@
     <record model="res.skill" id="res_skill_trappstad">
       <field name="name">Trappstäd</field>
       <field name="color">6</field>
-    </record>
-    
+    </record>    
 
   </data>
 </odoo>
