@@ -54,7 +54,7 @@ class Sale(models.Model):
         values = {
             "name": f"{self.name} - {self.partner_id.parent_id.name if self.partner_id.parent_id else self.partner_id.name }",
             "partner_id": self.partner_id.id,
-            "pricelist_id": self.pricelist_id.id,
+            "pricelist_id": self.pricelist_id.id, 
             "invoice_partner_id": self.partner_id.id,
             "sale_id": self.id,
             "sale_order_line_id": line.id,
@@ -75,7 +75,8 @@ class Sale(models.Model):
                 "uom_id": line.product_uom.id,
             })]
         }
-        
+        _logger.error("--------------------------------------------------------------------Values:")
+        _logger.error(values)
         # _logger.warning(f"inside prepare contract vals {values}")
         return values
 

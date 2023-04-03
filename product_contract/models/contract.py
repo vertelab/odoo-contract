@@ -47,3 +47,5 @@ class Contract(models.Model):
         time += deltaT
         
         return fields.Date.to_string(time)
+    
+    
