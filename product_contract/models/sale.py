@@ -35,6 +35,7 @@ class Sale(models.Model):
             # _logger.warning(f"{line=}")
             if line.product_id.is_contract:
                 prepare_vals = self._prepare_contract_vals(line)
+                _logger.warning(f"PREPARE VALS {prepare_vals}")
                 contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
                 # _logger.warning(f"after contract.contract create {contract_id}")
                 contract_id.recurring_next_date = contract_id.get_first_invoice_date()
@@ -65,8 +66,8 @@ class Sale(models.Model):
             # ~ "date_start": self.date_order,
             "date_start": self.date_order.date(),
             "date_end": self.date_order.date() + relativedelta(years = 3),
-            "start": self.date_order,
-            "stop": self.date_order + relativedelta(years = 3),
+            # ~ "start": self.date_order,
+            # ~ "stop": self.date_order + relativedelta(years = 3),
             "contract_line_fixed_ids": [(0, 0, {
                 "product_id": line.product_id.id,
                 "name": line.product_id.name,
