@@ -17,7 +17,7 @@ class Contract(models.Model):
 
     # , default=datetime.now().replace(hour=7, minute=0, second=0)
     start = fields.Datetime(related='event_id.start', readonly=False)
-    stop = fields.Datetime(related'event_id.stop', readonly=False)
+    stop = fields.Datetime(related='event_id.stop', readonly=False)
 
     # skill_ids = fields.Many2many('res.skill', string='Skills')
     # allergy_ids = fields.Many2many('res.allergy', string='Allergies')
