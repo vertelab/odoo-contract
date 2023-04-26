@@ -50,6 +50,7 @@
         "sale",
         "project",
         "sale_project",
+        "contract_calendar",
     ],
     "data": [
         "views/product_view.xml",
