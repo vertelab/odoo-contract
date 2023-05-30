@@ -43,7 +43,6 @@
     "installable": True,
     'depends': ['contacts',],
     "data": [
-        'data/uom.xml',
         'data/res_skills.xml',
         'security/ir.model.access.csv',
         'views/res_partner.xml',
