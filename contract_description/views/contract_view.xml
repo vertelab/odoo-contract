@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="contract_form_view" model="ir.ui.view">
+            <field name="name">contract.contract.form.view</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_legend']/p[2]" position="after">
+                    <p colspan="2">
+                        <strong>#YEAR#</strong>
+                        : End year
+                        of
+                        the
+                        invoiced period
+                    </p>
+                    <p colspan="2">
+                        <strong>#MONTH#</strong>
+                        : End month
+                        of
+                        the
+                        invoiced period
+                    </p>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
