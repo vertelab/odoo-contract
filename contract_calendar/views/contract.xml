@@ -32,7 +32,9 @@
                   <!--
                        <field name="alarm_ids" widget="many2many_tags" />
                   -->
+<!--
                   <field name="location" />
+-->
                   <field name="event_tz" attrs="{'invisible': [('recurrency', '=', False)]}" />
                 </group>
               </group>
@@ -95,18 +97,16 @@
     </field>
   </record>
 
-<!-- 
-  <record id="contract_add_skill_allergies" model="ir.ui.view">
-      <field name="name">Contract Skills And Allergies</field>
+  <record id="contract_add_location" model="ir.ui.view">
+      <field name="name">Contract Line Location</field>
       <field name="model">contract.contract</field>
       <field name="inherit_id" ref="contract.contract_contract_form_view"/>
       <field name="arch" type="xml">
-        <xpath expr="//field[@name='tag_ids']" position="after">
-          <field name="skill_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-          <field name="allergy_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+        <xpath expr="//field[@name='product_id']" position="after">
+          <field name="location"></field>
         </xpath>
       </field>
-  </record> -->
+  </record> 
 
 
 

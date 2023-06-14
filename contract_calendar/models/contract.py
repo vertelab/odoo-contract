@@ -215,4 +215,9 @@ class Contract(models.Model):
 
 
 #TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar
+class ContractLineExtend(models.Model):
+    _inherit = 'contract.line'
+    
+    location = fields.Char(string="Location")
+
 
