@@ -37,7 +37,7 @@
     'repository': 'https://github.com/vertelab/odoo-contract',
     "application": False,
     "installable": True,
-    'depends': ['contract',],
+    'depends': ['contract','sale_contract'],
     "auto_install": False,
     "data": [
         'views/contract_view.xml'
