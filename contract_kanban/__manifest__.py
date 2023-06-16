@@ -37,7 +37,9 @@
     'repository': 'https://github.com/vertelab/odoo-contract',
     "application": False,
     "installable": True,
-    'depends': ['contract','sale_contract'],
+    'depends': ['contract','sale_contract',
+                'contract_calendar',    # This is probably needed for partner_ids on contract.contract
+                ],
     "auto_install": False,
     "data": [
         'views/contract_view.xml'
