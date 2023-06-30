@@ -25,7 +25,7 @@
     'name': 'Contract: Product Calendar Glue',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Modifies a method defined in product_contract',
+    'summary': 'Modifies a method defined in product_sale_contract',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
@@ -40,7 +40,7 @@
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
 
-    'depends': ['product_contract', 'contract_calendar'],
+    'depends': ['product_sale_contract', 'contract_calendar'],
     'auto_install': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

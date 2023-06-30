@@ -42,7 +42,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-    'depends': ['product_contract', 'website_sale', 'website_contract_terms'],
+    'depends': ['product_sale_contract', 'website_sale', 'website_contract_terms'],
     'data': [
         'website_sale_contract.xml',
         ],

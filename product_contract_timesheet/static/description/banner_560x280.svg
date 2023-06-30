@@ -9,7 +9,7 @@
    id="SVGRoot"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="banner_560x280.svg"
-   inkscape:export-filename="/usr/share/odoo-contract/product_contract/static/description/banner.png"
+   inkscape:export-filename="/usr/share/odoo-contract/product_sale_contract/static/description/banner.png"
    inkscape:export-xdpi="92.61972"
    inkscape:export-ydpi="92.61972"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -72,7 +72,7 @@
        id="g1954"
        transform="matrix(0.81401749,0,0,1.2110406,87.964326,13.739548)"
        style="stroke-width:1.00717223"
-       inkscape:export-filename="/usr/share/odoo-contract/product_contract_timesheet/static/description/banner.png"
+       inkscape:export-filename="/usr/share/odoo-contract/product_sale_contract_timesheet/static/description/banner.png"
        inkscape:export-xdpi="92.61972"
        inkscape:export-ydpi="92.61972">
       <rect

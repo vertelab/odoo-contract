@@ -1,4 +1,4 @@
-odoo-contract / product_contract
+odoo-contract / product_sale_contract
 2022-11-03
 
 Be aware of these!

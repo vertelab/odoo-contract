@@ -23,7 +23,7 @@
     'name': 'Contract: Product Contract Timesheet',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Glue module between product_contract and contract_timesheet.',
+    'summary': 'Glue module between product_sale_contract and contract_timesheet.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
@@ -33,7 +33,7 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/product_contract_timesheet',
+    'website': 'https://vertel.se/apps/odoo-contract/product_sale_contract_timesheet',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
@@ -44,7 +44,7 @@
     "application": False,
     "auto-install": True,
     "installable": True,
-    'depends': ['product_contract','contract_timesheet'],
+    'depends': ['product_sale_contract','contract_timesheet'],
     "data": [
     ],
 }
