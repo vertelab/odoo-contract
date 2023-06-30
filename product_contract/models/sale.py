@@ -87,7 +87,6 @@ class Sale(models.Model):
         return values
     
     def _prepare_contract_vals_fixed_ids(self, lines):
-        _logger.warning(f"HELLO INSIDE FIXED_IDS {lines=}")
         values = {
             "contract_line_fixed_ids": []
         }
@@ -100,7 +99,8 @@ class Sale(models.Model):
                         "quantity": line.product_uom_qty,
                         "price_unit": line.price_unit,
                         "uom_id": line.product_uom.id,
-                    })
+                        "sale_order_line_id": line.id,
+                        })
                 )
         # if line.task_id:
         #     relevant_project_id = line.task_id.project_id
