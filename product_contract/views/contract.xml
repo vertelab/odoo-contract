@@ -7,7 +7,7 @@
     <field name="arch" type="xml">
       <field name="user_id" position="after">
         <field name="sale_id" />
-        <field name="sale_order_line_id" />
+        <field name="sale_order_line_id" invisible="1"/>
         <field name="project_id"/>
       </field>
     </field>

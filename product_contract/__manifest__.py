@@ -50,10 +50,12 @@
         "sale",
         "project",
         "sale_project",
+        "website_quote_contract_project",
     ],
     "data": [
         "views/product_view.xml",
         "views/contract.xml",
+        "views/sale_order_line.xml",
     ],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Contract: Assets',
+    'name': 'Contract: Asset',
     'version': '14.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Manage Contract Assets',
@@ -33,14 +33,13 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/contract_assets',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_asset',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-
     
     "application": False,
     "installable": True,

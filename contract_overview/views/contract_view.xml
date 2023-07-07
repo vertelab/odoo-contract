@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="contract_add_overview" model="ir.ui.view">
+        <field name="name">contract_add_overview</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_id']" position="after">
+                <field name="contract_overview"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="contract_template_add_overview" model="ir.ui.view">
+        <field name="name">contract_template_add_overview</field>
+        <field name="model">contract.template</field>
+        <field name="inherit_id" ref="contract.contract_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_id']" position="after">
+                <field name="contract_overview"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="abstract_contract_line_add_overview" model="ir.ui.view">
+        <field name="name">abstract_contract_line_add_overview</field>
+        <field name="model">contract.abstract.contract.line</field>
+        <field name="inherit_id" ref="contract.contract_abstract_contract_line_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_unit']" position="after">
+                <field name="contract_overview"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
