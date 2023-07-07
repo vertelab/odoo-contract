@@ -4,24 +4,20 @@ import logging
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
+# ~ _logger = logging.getLogger(__name__)
+_logger = logging.getLogger("\33[1;37m\33[45m"+__name__+"\33[1;37m\33[42m")
 
 
 class Contract(models.Model):
     _inherit = "contract.contract"
     _inherits = {'calendar.event': 'event_id'}
-    event_id = fields.Many2one(comodel_name='calendar.event',
-                    string='Calendar', auto_join=True, index=True,
-                    required=True)
-
-    # , default=datetime.now().replace(hour=7, minute=0, second=0)
-    start = fields.Datetime(related='event_id.start', readonly=False)
-    stop = fields.Datetime(related='event_id.stop', readonly=False)
-
-    # skill_ids = fields.Many2many('res.skill', string='Skills')
-    # allergy_ids = fields.Many2many('res.allergy', string='Allergies')
-
+    event_id = fields.Many2one(comodel_name='calendar.event', string='Calendar')
+    recurrence_event_id = fields.One2many(comodel_name='calendar.recurrence', string='Recurrence')
+    
+    duration = fields.Float('Duration', default = 1.0)
+                    
     @api.onchange("date_start")
     def _inherit_date(self):
         self.start = self.date_start
@@ -37,184 +33,76 @@ class Contract(models.Model):
         if self.end_type == 'end_date':
             if self.date_end != False:
                 self.until = self.date_end
-
+                
     @api.model_create_multi
     def create(self, vals_list):
-        _logger.warning(f"contract.contract create {vals_list}")
-        contracts = self.env["contract.contract"]
-        for vals in vals_list:
-            if not self.env.context.get('from_sale_order') and 'date_end' in vals and vals['date_end'] == False:
-                _logger.warning(f"1")
-                date_end = datetime.strptime(str(vals.get('date_start')),'%Y-%m-%d') + relativedelta(years=5)
-                vals['date_end'] = str(date_end.date())
-            # _logger.warning(f"CONTRACT CONTRACT CREATE {vals}")
-            if not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == True:
-                # _logger.warning("contract contract inside first if")
-                _logger.warning(f"2")
-                event = self.env['calendar.event'].create({
-                    'name': vals.get('name', ),
-                    'start_date': vals.get('start_date', ),
-                    'stop_date': vals.get('stop_date', ),
-                    'allday': vals.get('allday', True),
-                    'partner_ids': vals.get('partner_ids', ),
-                })
-                vals["event_id"] = event.id
-            elif not self.env.context.get('from_sale_order') and 'allday' in vals and vals['allday'] == False:
-                # _logger.warning("contract contract inside second if")
-                _logger.warning(f"3")
-                event = self.env['calendar.event'].create({
-                    'name': vals.get('name', ),
-                    'start': vals.get('start', ),
-                    'stop': datetime.strptime(vals.get('start', ), '%Y-%m-%d %H:%M:%S') + timedelta(hours=vals.get('duration')),
-                    'duration': vals.get('duration',),
-                    'partner_ids': vals.get('partner_ids', ),
-                })
-                vals["event_id"] = event.id
-                vals["stop"] = event.stop
-            elif self.env.context.get('from_sale_order'):
-                _logger.warning(f"4")
-                event = self.env['calendar.event'].create({
-                    'name': vals.get('name', ),
-                    'start': vals.get('start', ),
-                    'stop': datetime.strptime(str(vals.get('stop', )), '%Y-%m-%d %H:%M:%S') + timedelta(hours=1),
-                    'duration': 1,
-                    'partner_ids': [(5, 0, 0)],
-                    # 'partner_ids': [(6, 0, [vals.get('partner_id', )])],
-                })
-                vals.pop('date_order', None)
-                vals["event_id"] = event.id
-                vals["stop"] = event.stop
-
-
-            # _logger.warning(f"VALS STOP {vals['stop']}")
-            # _logger.warning(f"contract before create vals {vals}")
-            # _logger.warning("contract right before create")
-            # _logger.warning(f"contract.contract create vals {vals}")
-            # _logger.warning(f"before create") 
-            contract = super(Contract, self.with_context()).create(vals)
-            # _logger.warning(f"after create") 
-        
-
-            #if not self.env.context.get('from_sale_order') and vals.get('event_id') and vals['event_id'] != False:
-            if vals.get('event_id') and vals['event_id'] != False:
-                # _logger.warning("contract contract inside third if")
-                self.assign_contract(event, vals, contract)
-
-
-            contracts += contract
-
-        # if not self.env.context.get('from_sale_order'):
-        #     for contract in contracts:
-        #         project = self.env['project.project'].create({
-        #             'name': contract.name,
-        #             'contract_id': contract.id,
-        #             'allow_timesheets': True,
-        #             'label_tasks': 'Jobs'
-        #         })
-
-        self.clear_caches()
-        return contracts
-
+        event_list = self.event_vals(vals_list)
+        contract = super(Contract, self.with_context()).create(vals_list)
+        self.event_id.create(event_list)
+        self.recurrence_event_id = self.event_id.recurrence_id
+        return contract
+    
     def write(self, values):
-        interesting_keys = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
-        interesting_calendar_keys = ['name', 'partner_ids', 'start', 'allday', 'start_date', 'stop_date', 'recurrency',
-                                     'interval', 'rrule_type', 'end_type', 'count', 'until', 'recurrence_update', 'month_by',
-                                     'weekday', 'event_tz', 'day', 'byday', 'recurrence_id', 'follow_recurrence']
-
-        prelim_dict = {}
-        contract_vals = {}
-        for key in interesting_keys:
-            day = values[key] if key in values.keys() else False
-            if day:
-                contract_vals[key] = day
-                prelim_dict[key] = day
-        if prelim_dict:
-            super().write(prelim_dict)
-            # _logger.warning(f"PRINT prelim {prelim_dict}")
-        # values['recurrence_update'] = 'future_events'
-        # _logger.warning(f"contract.contract write {values}")
-        # _logger.warning(f"self contract.contract: {self} {self.event_id}")
-
+        event_list = self.event_vals(values)
         res = super().write(values)
-        
-        for key in interesting_calendar_keys:
-            input = values[key] if key in values.keys() else False
-            if input:
-                contract_vals[key] = input
-                if key == 'name':
-                    self.project_id.name = input
-        contract_vals['recurrence_update'] = 'future_events'
-        self.event_id.write(contract_vals)
-
-        self.assign_contract(self.event_id, values, self)
-
-        # # _logger.warning(f"values: {values}")
-        # for key in interesting_calendar_keys:
-        #     # _logger.warning(f"VALUES[KEY] {values['recurrency']}")
-        #     if key in values.keys() or False:
-        #         # _logger.warning(f"INPUT INPUT: {input} KEY KEY: {key} VALUES.KEYS VALUES.KEYS {values[key]}")
-        #         # _logger.warning(f"input is this: {input}")
-        #         contract_vals[key] = values[key]
-        #         # _logger.warning(f"contract vals interesting {contract_vals}")
-        #         if key == 'name':
-        #             self.project_id.name = input
-
-        _logger.warning(f"contract write {values}")
-
-        # _logger.warning(f"event contract write {contract_vals}")
-
-
-        # _logger.warning(f"PRINT values {values}")
-
-        # unsure about the code below, dont know why i put it there but cant figure out if its needed
-        # for contract in self:
-        #     # _logger.warning(f"first loop {contract}")
-        #     for event in contract.event_id.recurrence_id.calendar_event_ids:
-        #         # _logger.warning(f"second loop {event}")
-        #         event.write({'contract_id': contract.id})
-
+        recurrences = self.env["calendar.recurrence"].search([
+            ('base_event_id.id', 'in', [e.id for e in self])
+        ])
+        _logger.error(f"{recurrences=}")
+        # ~ if recurrences:
+        _logger.error(f"{recurrences._select_new_base_event()=}")
+        _logger.error(f"{recurrences=}")
+        recurrences._select_new_base_event()
+        _logger.error(f"{recurrences._select_new_base_event()=}")
+        self.event_id.write(event_list)
         return res
 
-    def unlink(self,super_unlink=False):
-        if super_unlink == True:    # This prevents self.unlink() from calling itself infinitely when unlink is called within a loop
-            res = super().unlink()
-            return res
-
-        for record in self: # Delete contracts and all their linked calendar events
-            event = record.event_id
-            record.unlink(True)
-
-            if event.recurrency == True:
-                for event_id in event.recurrence_id.calendar_event_ids:
-                    event_id.unlink()
-            else:
-                event.unlink()
-
-
-    def assign_contract(self, event, vals, contract):
-        relevant_recurrency = self.env['calendar.recurrence'].search([('base_event_id', '=', event.id), 
-                                                                      ('mo', '=', event.mo),
-                                                                      ('tu', '=', event.tu),
-                                                                      ('we', '=', event.we),
-                                                                      ('th', '=', event.th),
-                                                                      ('fr', '=', event.fr),
-                                                                      ('sa', '=', event.sa),
-                                                                      ('su', '=', event.su),])
-        # for recurrency in relevant_recurrency: 
-        #     _logger.warning(f"base_event_id_active: {recurrency.mo} {recurrency.tu} {recurrency.we} {recurrency.th} {recurrency.fr} {recurrency.sa} {recurrency.su}")
-        if 'recurrency' in vals and vals['recurrency'] == True:
-            # _logger.warning(f"{event.id} {event.recurrence_id} {event.recurrence_id.calendar_event_ids}")
-            for sub_event in relevant_recurrency.calendar_event_ids:
-                sub_event.contract_id = contract.id
-                if sub_event.start == relevant_recurrency.dtstart:
-                    contract.event_id = sub_event.id
-        if 'recurrency' in vals and vals['recurrency'] == False or 'recurrency' not in vals:
-            event.contract_id = contract.id
-    # _logger.warning(f"EVENT CONTRACT APPEND {event.contract_id} {contract.id} ")
-
-
-
+    def event_vals(self, values):
+        if type(values) == list:
+            _logger.error(f"First{values=}")
+            # ~ _logger.error(f"{values[{'start'}]=}")
+            values2 = []
+            for val2 in values:
+                values2_dict = {}
+                # ~ _logger.error(f"{values2_dict.get('start')=}")
+                _logger.error(f"{val2.get('start')=}")
+                # ~ _logger.error(f"{timedelta(hours=val2.get('duration'))=}")
+                for key_field in val2:
+                    if key_field in self.env['calendar.event']._fields:
+                        values2_dict[key_field] = val2[key_field]
+                        values2_dict.update({
+                                                    'name': self.name, 
+                                                    'duration': self.duration, 
+                                                    'stop': datetime.strptime(str(val2.get('start')), '%Y-%m-%d %H:%M:%S').date() + timedelta(hours=self.duration), 
+                                                    'start': datetime.strptime(str(val2.get('start')), '%Y-%m-%d %H:%M:%S').date(),
+                                                    })
+                        _logger.error(f"{values2_dict=}")
+                values2.append(values2_dict)
+            # ~ values2_dict.update({'name': self.name, 'duration': self.duration, 'stop': self.start + timedelta(hours='duration'),})
+            _logger.error(f"First{values2=}")
+            return values2
+        else:
+            values2 = {}
+            for key_field in values:
+                _logger.error(f"Secund{values=}")
+                if key_field in self.env['calendar.event']._fields:
+                    values2[key_field] = values[key_field]
+            # ~ val_name = {'name': self.name}
+            # ~ _logger.error(f"{val_name=}")
+            values2.update({
+                                'name': self.name, 
+                                'duration': self.duration, 
+                                'stop': datetime.strptime(str(self.start), '%Y-%m-%d %H:%M:%S').date() + timedelta(hours=self.duration),
+                                'start': datetime.strptime(str(self.start), '%Y-%m-%d %H:%M:%S').date(),
+                                })
+            # ~ values2.update({'duration': self.duration})
+            _logger.error(f"Secund{values2=}")
+            # ~ _logger.error(f"{val=}")
+            return values2
+            
 #TODO: is_calendar for contracts that should have calendar_id so that you can show and not show contracts in calendar
+
+
 class ContractLineExtend(models.Model):
     _inherit = 'contract.line'
     
