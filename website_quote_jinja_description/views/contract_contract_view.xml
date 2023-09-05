@@ -1,76 +1,52 @@
-
 <odoo>
-  <data>
-
-    <record id="contract_contract_form_view_jinja" model="ir.ui.view">
-      <field name="name">contract.contract form view jinja</field>
-      <field name="model">contract.contract</field>
-      <field name="inherit_id" ref="contract.contract_contract_form_view" />
-      <field name="arch" type="xml"> 
-        <xpath expr="//form//page[@name='info']" name="info" position="replace">
-            <page name="info" string="Other Information">
-              <field name="create_invoice_visibility" invisible="1" />
-              <group>
-                  <field
-                      name="code"
-                      attrs="{'readonly': [('is_terminated','=',True)]}"
-                  />
-                  <field
-                      name="group_id"
-                      attrs="{'readonly': [('is_terminated','=',True)]}"
-                  />
-                  <field
-                      name="company_id"
-                      attrs="{'readonly': [('is_terminated','=',True)]}"
-                      options="{'no_create': True}"
-                      groups="base.group_multi_company"
-                  />
-                  <field
-                      name="currency_id"
-                      groups="base.group_multi_currency"
-                  />
-                  <field
-                      name="invoice_partner_id"
-                      attrs="{'readonly': [('is_terminated','=',True)]}"
-                      required="1"
-                  />
-              </group>
-              <group
-                  string="Legend (for the markers inside invoice lines description)"
-                  name="group_legend">
-                  <p colspan="2">
-                      <strong>#START#</strong>
-                      : Start
-                      date
-                      of the
-                      invoiced period
-                  </p>
-                  <p colspan="2">
-                  <strong>#END#</strong>
-                      : End date
-                      of
-                      the
-                      invoiced period
-                  </p>
-              </group>
-              <group string="Jinja Legend">
-                <p colspan="2"> 
-                  <strong>${object.field}</strong>
-                  : Input object, followed by the desired field name
-                </p>
-                <p colspan="2">
-                  <strong>${object.id.field}</strong>                
-                  : Sometimes, you need to access a field that lies elsewhere. 
-                  For example, if you want to access the contract name field, 
-                  you would use ${object.contract_id.name}.
-                </p>
-              </group>
-          </page>
-        </xpath>
-      </field>
-    </record>
-  
-      
-  </data>
-  
+    <data>
+        <record id="contract_contract_form_view_jinja" model="ir.ui.view">
+            <field name="name">contract.contract form view jinja</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view" />
+            <field name="analytic_tag_ids" invisible="1" />
+            <field name="arch" type="xml">
+                <xpath expr="//form//page[@name='info']" name="info" position="replace">
+                    <page name="info" string="Other Information">
+                        <field name="create_invoice_visibility" invisible="1" />
+                        <group>
+                            <field name="code" attrs="{'readonly': [('is_terminated','=',True)]}" />
+                            <field name="group_id" attrs="{'readonly': [('is_terminated','=',True)]}" />
+                            <field name="company_id" attrs="{'readonly': [('is_terminated','=',True)]}" options="{'no_create': True}" groups="base.group_multi_company" />
+                            <field name="currency_id" groups="base.group_multi_currency" />
+                            <field name="invoice_partner_id" attrs="{'readonly': [('is_terminated','=',True)]}" required="1" />
+                        </group>
+                        <group string="Legend (for the markers inside invoice lines description)" name="group_legend">
+                            <p colspan="2">
+                                <strong>#START#</strong>
+                                : Start
+                                date
+                                of the
+                                invoiced period
+                            </p>
+                            <p colspan="2">
+                                <strong>#END#</strong>
+                                : End date
+                                of
+                                the
+                                invoiced period
+                            </p>
+                        </group>
+                        <group string="Jinja Legend">
+                            <p colspan="2">
+                                <strong>${object.field}</strong>
+                                : Input object, followed by the desired field name
+                            </p>
+                            <p colspan="2">
+                                <strong>${object.id.field}</strong>
+                                : Sometimes, you need to access a field that lies elsewhere. 
+                                For example, if you want to access the contract name field, 
+                                you would use ${object.contract_id.name}.
+                            </p>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>

@@ -22,17 +22,16 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Website Quote: Jinja Description',
+    'name': 'Contract: Website Quote Jinja Description',
     'version': '14.0.0.0.0',
-    'summary': """
-        Implements Jinja for contracts""",
-    'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
+    'summary': 'Implements Jinja for contracts',
+    'category': 'Sales',
     'description': """
-        Implements Jinja for creating invoices from an already created contract
+    Implements Jinja for creating invoices from an already created contract.
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-contract/website_quote_jinja_description',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
     'depends': ['contract','mail'],
@@ -41,7 +40,7 @@
      #   "python": ["acme_tiny", "IPy",],
      #},
     'data': [
-        'views/contract_contract_view.xml',
+#        'views/contract_contract_view.xml',
         'views/contract_template_view.xml'
     ],
     'demo': [],
