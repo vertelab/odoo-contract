@@ -31,7 +31,7 @@
     """,
     #'sequence': 1,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/website_quote_jinja_description',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_jinja_description',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
     'depends': ['contract','mail'],
