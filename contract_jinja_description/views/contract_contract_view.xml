@@ -4,10 +4,12 @@
             <field name="name">contract.contract form view jinja</field>
             <field name="model">contract.contract</field>
             <field name="inherit_id" ref="contract.contract_contract_form_view" />
-            <field name="analytic_tag_ids" invisible="1" />
             <field name="arch" type="xml">
                 <xpath expr="//form//page[@name='info']" name="info" position="replace">
                     <page name="info" string="Other Information">
+<!--
+                        <field name="company_id" invisible="1" />
+-->
                         <field name="create_invoice_visibility" invisible="1" />
                         <group>
                             <field name="code" attrs="{'readonly': [('is_terminated','=',True)]}" />

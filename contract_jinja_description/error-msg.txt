@@ -1,0 +1,179 @@
+Fel:
+Odoo Server Error
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 677, in _tag_root
+    f(rec)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 580, in _tag_record
+    record = model._load_records([data], self.mode == 'update')
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 4237, in _load_records
+    data['record']._load_records_write(data['values'])
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1858, in _load_records_write
+    super(View, self)._load_records_write(values)
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 4161, in _load_records_write
+    self.write(values)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 507, in write
+    res = super(View, self).write(self._compute_defaults(vals))
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 3720, in write
+    fields[0].determine_inverse(real_recs)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 1207, in determine_inverse
+    determine(self.inverse, records)
+  File "/usr/lib/python3/dist-packages/odoo/fields.py", line 82, in determine
+    return needle(*args)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 307, in _inverse_arch
+    view.write(data)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 507, in write
+    res = super(View, self).write(self._compute_defaults(vals))
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 3710, in write
+    real_recs._validate_fields(vals, inverse_fields)
+  File "/usr/lib/python3/dist-packages/odoo/models.py", line 1270, in _validate_fields
+    check(self)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 415, in _check_xml
+    raise ValidationError(_(
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 398, in _check_xml
+    view.postprocess_and_fields(view_doc, validate=True)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 857, in postprocess_and_fields
+    arch, name_manager = self._postprocess_view(node, model, validate=validate)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 869, in _postprocess_view
+    self.postprocess(node, [], editable, name_manager)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 969, in postprocess
+    self.postprocess(child, current_node_path, node_info['editable'], name_manager)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 969, in postprocess
+    self.postprocess(child, current_node_path, node_info['editable'], name_manager)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 969, in postprocess
+    self.postprocess(child, current_node_path, node_info['editable'], name_manager)
+  [Previous line repeated 1 more time]
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 948, in postprocess
+    postprocessor(node, name_manager, node_info)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 1005, in _postprocess_tag_field
+    xarch, sub_name_manager = self.with_context(
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 871, in _postprocess_view
+    name_manager.check_view_fields(self)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 2025, in check_view_fields
+    view.handle_view_error(msg)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_ui_view.py", line 680, in handle_view_error
+    raise ValueError(formatted_message).with_traceback(from_traceback) from from_exception
+odoo.exceptions.ValidationError: Fel vid validering av vyn:
+
+Field company_id used in field analytic_tag_ids default domain (['|', ('company_id', '=', company_id), ('company_id', '=', False)]) must be present in view but is missing.
+
+
+
+View name: contract.contract form view jinja
+Error context:
+ view: ir.ui.view(817,)
+ xmlid: contract_contract_form_view_jinja
+ view.model: contract.contract
+ view.parent: ir.ui.view(751,)
+ file: /usr/share/odoo-contract/website_quote_jinja_description/views/contract_contract_view.xml
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_http.py", line 237, in _dispatch
+    result = request.dispatch()
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 696, in dispatch
+    result = self._call_function(**self.params)
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 370, in _call_function
+    return checked_call(self.db, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/service/model.py", line 94, in wrapper
+    return f(dbname, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 358, in checked_call
+    result = self.endpoint(*a, **kw)
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 919, in __call__
+    return self.method(*args, **kw)
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 544, in response_wrap
+    response = f(*args, **kw)
+  File "/usr/lib/python3/dist-packages/odoo/addons/web/controllers/main.py", line 1374, in call_button
+    action = self._call_kw(model, method, args, kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/addons/web/controllers/main.py", line 1362, in _call_kw
+    return call_kw(request.env[model], method, args, kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/api.py", line 399, in call_kw
+    result = _call_kw_multi(method, model, args, kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/api.py", line 386, in _call_kw_multi
+    result = method(recs, *args, **kwargs)
+  File "<decorator-gen-78>", line 2, in button_immediate_upgrade
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 72, in check_and_log
+    return method(self, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 634, in button_immediate_upgrade
+    return self._button_immediate_function(type(self).button_upgrade)
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_module.py", line 572, in _button_immediate_function
+    modules.registry.Registry.new(self._cr.dbname, update_module=True)
+  File "/usr/lib/python3/dist-packages/odoo/modules/registry.py", line 89, in new
+    odoo.modules.load_modules(registry._db, force_demo, status, update_module)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 455, in load_modules
+    processed_modules += load_marked_modules(cr, graph,
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 347, in load_marked_modules
+    loaded, processed = load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 222, in load_module_graph
+    load_data(cr, idref, mode, kind='data', package=package)
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 69, in load_data
+    tools.convert_file(cr, package.name, filename, idref, mode, noupdate, kind)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 733, in convert_file
+    convert_xml_import(cr, module, fp, idref, mode, noupdate)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 799, in convert_xml_import
+    obj.parse(doc.getroot())
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 719, in parse
+    self._tag_root(de)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 677, in _tag_root
+    f(rec)
+  File "/usr/lib/python3/dist-packages/odoo/tools/convert.py", line 681, in _tag_root
+    raise ParseError('while parsing %s:%s, near\n%s' % (
+Exception
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 652, in _handle_exception
+    return super(JsonRequest, self)._handle_exception(exception)
+  File "/usr/lib/python3/dist-packages/odoo/http.py", line 317, in _handle_exception
+    raise exception.with_traceback(None) from new_cause
+odoo.tools.convert.ParseError: while parsing /usr/share/odoo-contract/website_quote_jinja_description/views/contract_contract_view.xml:3, near
+<record id="contract_contract_form_view_jinja" model="ir.ui.view">
+            <field name="name">contract.contract form view jinja</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//page[@name='info']" name="info" position="replace">
+                    <page name="info" string="Other Information">
+                        <field name="create_invoice_visibility" invisible="1"/>
+                        <group>
+                            <field name="code" attrs="{'readonly': [('is_terminated','=',True)]}"/>
+                            <field name="group_id" attrs="{'readonly': [('is_terminated','=',True)]}"/>
+                            <field name="company_id" attrs="{'readonly': [('is_terminated','=',True)]}" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="invoice_partner_id" attrs="{'readonly': [('is_terminated','=',True)]}" required="1"/>
+                        </group>
+                        <group string="Legend (for the markers inside invoice lines description)" name="group_legend">
+                            <p colspan="2">
+                                <strong>#START#</strong>
+                                : Start
+                                date
+                                of the
+                                invoiced period
+                            </p>
+                            <p colspan="2">
+                                <strong>#END#</strong>
+                                : End date
+                                of
+                                the
+                                invoiced period
+                            </p>
+                        </group>
+                        <group string="Jinja Legend">
+                            <p colspan="2">
+                                <strong>${object.field}</strong>
+                                : Input object, followed by the desired field name
+                            </p>
+                            <p colspan="2">
+                                <strong>${object.id.field}</strong>
+                                : Sometimes, you need to access a field that lies elsewhere. 
+                                For example, if you want to access the contract name field, 
+                                you would use ${object.contract_id.name}.
+                            </p>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>

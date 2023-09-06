@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Contract: Website Quote Jinja Description',
+    'name': 'Contract: Jinja Description',
     'version': '14.0.0.0.0',
     'summary': 'Implements Jinja for contracts',
     'category': 'Sales',
@@ -40,7 +40,7 @@
      #   "python": ["acme_tiny", "IPy",],
      #},
     'data': [
-#        'views/contract_contract_view.xml',
+        'views/contract_contract_view.xml',
         'views/contract_template_view.xml'
     ],
     'demo': [],
