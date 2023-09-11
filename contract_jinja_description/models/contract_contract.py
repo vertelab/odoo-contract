@@ -21,6 +21,7 @@ class ContractContract(models.Model):
     
     
     def _prepare_recurring_invoices_values(self, date_ref=False):
+        _logger.warning('_prepare_recurring_invoices_values running... date_ref = %s' % date_ref)
         invoices_values = super()._prepare_recurring_invoices_values(date_ref)
 
         invoices_values_json=""
@@ -30,6 +31,7 @@ class ContractContract(models.Model):
         try:
 
             invoices_values_json = json.dumps(invoices_values, cls=DateEncoder)
+            # ~ _logger.warning(f"{invoices_values_json=}")
         
         except TypeError:
             
@@ -53,6 +55,12 @@ class ContractContract(models.Model):
             "contract.line", 
             self.contract_line_fixed_ids.ids
             )
+        invoices_note_json = self._render_template_jinja(
+
+            invoices_values_json,
+            "contract.contract", 
+            [self.id]
+            )
         
         """
         Jinja believes that we have given it uniques strings for each of the ids connected to the module, but we are using this function
@@ -61,7 +69,7 @@ class ContractContract(models.Model):
         That is the reason that we put "0" bellow.
         """
         try:
-
+            # ~ _logger.warning(f"{invoices_values_json=}")
             invoices_values_json = invoices_values_json[self.contract_line_fixed_ids.ids[0]]  
 
             invoices_values = json.loads(
@@ -74,7 +82,9 @@ class ContractContract(models.Model):
             _logger.error("invoice values was empty")
         
 
-           
+        _logger.warning(f"{invoices_values=}")
+        _logger.warning(f"{invoices_note_json=}")
+        invoices_values[0]['narration']=invoices_note_json['note']
         return invoices_values
     
 class DateEncoder(json.JSONEncoder):

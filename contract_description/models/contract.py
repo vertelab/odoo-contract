@@ -12,6 +12,8 @@ class ContractLine(models.Model):
         name = self.name
         name = name.replace("#START#", first_date_invoiced.strftime(date_format))
         name = name.replace("#END#", last_date_invoiced.strftime(date_format))
-        name = name.replace("#YEAR#", last_date_invoiced.strftime(date_format))
-        name = name.replace("#MONTH#", last_date_invoiced.strftime(date_format))
+        # ~ https://www.tutorialspoint.com/How-to-get-formatted-date-and-time-in-Python
+        # ~ name = name.replace("#YEAR#", last_date_invoiced.strftime(date_format))
+        name = name.replace("#YEAR#", last_date_invoiced.strftime("%Y"))
+        name = name.replace("#MONTH#", last_date_invoiced.strftime("%M"))
         return name
