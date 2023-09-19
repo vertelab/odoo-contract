@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="sale timesheet assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+                <script type="text/javascript" src="/contract_overview/static/src/js/overview.js"></script>
+        </xpath>
+    </template>
+
+    <record id="contract_overview_action_client" model="ir.actions.act_window">
+        <field name="name">Contract Overview</field>
+        <field name="res_model">contract.contract</field>
+        <field name="view_mode">qweb</field>
+    </record>
+
+    <record id="contract_overview" model="ir.ui.view">
+        <field name="name">Overview</field>
+        <field name="type">qweb</field>
+        <field name="model">contract.contract</field>
+        <field name="arch" type="xml">
+            <qweb js_class="contract_overview">
+                <div class="o_form_view o_form_readonly o_contract_overview_plan">
+                    <div class="o_form_sheet_bg">
+                        <div class="o_form_sheet o_contract_overview_content">
+                            <div class="o_contract_overview_sale_timesheet">
+                                <div class="o_contract_overview_sale_timesheet_dashboard">
+                                    <div class="o_title">
+                                        <h2>Recorded Hours and Profitability</h2>
+                                    </div>
+
+                                    <div class="o_profitability_wrapper">
+                                         <div class="o_profitability_section">
+                                            <div>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <th>
+                                                            <a>Profitability</a>
+<!--                                                            <a type="action" data-model="project.profitability.report" t-att-data-domain="json.dumps(profitability_domain)" data-context="{'group_by_no_leaf':1, 'group_by':[], 'sale_show_order_product_name': 1}" data-views='[[0, "pivot"], [0, "graph"]]' tabindex="-1">Profitability</a>-->
+                                                        </th>
+                                                        <tr>
+                                                            <td class="o_contract_overview_dashboard_cell">
+                                                                <t t-esc="dashboard['profit']['invoiced']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                                            </td>
+                                                            <td title="Revenues linked to Timesheets already invoiced.">
+                                                                Invoiced
+                                                            </td>
+                                                        </tr>
+<!--                                                        <tr>-->
+<!--                                                            <td class="o_contract_overview_dashboard_cell">-->
+<!--                                                                <t t-esc="dashboard['profit']['to_invoice']" t-options='{"widget": "monetary", "display_currency": currency}'/>-->
+<!--                                                            </td>-->
+<!--                                                            <td title="Revenues linked to Timesheets not yet invoiced.">-->
+<!--                                                                To invoice-->
+<!--                                                            </td>-->
+<!--                                                        </tr>-->
+
+
+<!--                                                        <tr t-if="display_cost">-->
+<!--                                                            <td class="o_contract_overview_dashboard_cell">-->
+<!--                                                                <t t-esc="dashboard['profit']['expense_cost']" t-options='{"widget": "monetary", "display_currency": currency}'/>-->
+<!--                                                            </td>-->
+<!--                                                            <td title="Any cost linked to the Analytic Account of the Project.">-->
+<!--                                                                Other costs-->
+<!--                                                            </td>-->
+<!--                                                        </tr>-->
+
+<!--                                                        <tr>-->
+<!--                                                            <td class="o_contract_overview_dashboard_total">-->
+<!--                                                                <b>-->
+<!--                                                                    <t t-esc="dashboard['profit']['total']" t-options='{"widget": "monetary", "display_currency": currency}'/>-->
+<!--                                                                </b>-->
+<!--                                                            </td>-->
+<!--                                                            <td><b>Total</b></td>-->
+<!--                                                        </tr>-->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </qweb>
+        </field>
+    </record>
+</odoo>

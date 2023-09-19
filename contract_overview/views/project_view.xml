@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="project_project_form_view" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']/button[@name='attachment_tree_view']" position="before">
+                    <button string="Contract Overview" class="oe_stat_button" type="object" name="action_view_contract_overview" icon="fa-puzzle-piece"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
