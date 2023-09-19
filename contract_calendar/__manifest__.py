@@ -33,7 +33,7 @@
     'description': """
     Adds calendar to a contract.
     """,
-    #'sequence': '1',
+    'sequence': '19',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_calendar',
     'images': ['static/description/banner.png'], # 560x280 px.

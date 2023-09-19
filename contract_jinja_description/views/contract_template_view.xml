@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="contract_template_form_view_jinja" model="ir.ui.view">
+            <field name="name">contract.template form view jinja</field>
+            <field name="model">contract.template</field>
+            <field name="inherit_id" ref="contract.contract_template_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="group[@name='group_legend']" name="info" position="replace">
+                    <group name="group_legend" string="Legend (for the markers inside invoice lines description)">
+                        <p>
+                            <strong>#START#</strong>
+                            : Start date of the invoiced period
+                        </p>
+                        <p>
+                            <strong>#END#</strong>
+                            : End date of the invoiced period
+                        </p>
+                    </group>
+                    <group string="Jinja Legend">
+                        <p colspan="2">
+                            <strong>${object.field}</strong>
+                            : Input object, followed by the desired field name
+                        </p>
+                        <p colspan="2">
+                            <strong>${object.id.field}</strong>
+                            : Sometimes, you need to access a field that lies elsewhere. 
+                            For example, if you want to access the contract name field, 
+                            you would use ${object.contract_id.name}.
+                        </p>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

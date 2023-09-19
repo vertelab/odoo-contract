@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    'name': 'Variable quantity in contract recurrent invoicing: Analytics Account Formula',
+    'name': 'Contract: Variable quantity alytics Account Formula',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds a special Formula (quantity) which uses Analytics Account',
@@ -44,7 +44,7 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/contract-cariable-quantity-analytics-account',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_cariable_quantity_analytics_account',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',

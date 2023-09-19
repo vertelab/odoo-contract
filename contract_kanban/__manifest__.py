@@ -23,21 +23,24 @@
     'name': 'Contract: Kanban',
     'version': '14.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds a view that displays man hours per month',
+    'summary': 'Adds a view that displays man hours per month.',
     'category': 'Sales',
     'description': """
-    
+    Adds a view that displays man hours per month.
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/contract_assets',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_kanban',
+    'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     "application": False,
     "installable": True,
-    'depends': ['contract',],
+    'depends': ['contract','sale_contract',
+                'contract_calendar',    # This is probably needed for partner_ids on contract.contract
+                ],
     "auto_install": False,
     "data": [
         'views/contract_view.xml'
