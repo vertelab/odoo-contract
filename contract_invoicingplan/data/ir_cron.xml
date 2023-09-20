@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="ir_cron_contract_account_move_action" model="ir.cron">
+            <field name="name">Invoice Subs: Create Move for Invoice Subs</field>
+            <field name="model_id" ref="model_contract_invoice_stub"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_action_create_move()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+        </record>
+    </data>
+</odoo>

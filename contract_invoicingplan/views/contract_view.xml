@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="contract_contract_form_view" model="ir.ui.view">
+            <field name="name">contract.contract.form_view.form.view</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='recurring_create_invoice']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@name='button_box']/button[@name='action_show_invoices']" position="after">
+                    <button name="action_show_contract_invoice_stub" type="object" icon="fa-list" class="oe_stat_button">
+                        <field string="Invoice Stubs" name="contract_invoice_sub_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+                <xpath expr="//notebook/page[@name='modications']" position="after">
+                    <page name="contract_invoice_sub" string="Invoice Subs">
+                        <button name="compute_contract" type="object" icon="fa-cogs" string=" Compute Contract"/>
+                        <field name="invoice_stub_ids">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="amount"/>
+                                <field name="account_move_id"/>
+                                <button name="action_create_move" type="object" icon="fa-cog" string="Create Move" attrs="{'invisible': [('account_move_id', '!=', False)]}"/>
+                                <button name="action_view_move" type="object" icon="fa-folder-open" string="View Move" attrs="{'invisible': [('account_move_id', '=', False)]}"/>
+                                <button name="action_delete_move" type="object" icon="fa-times" string="Delete/Reverse Move" attrs="{'invisible': [('account_move_id', '=', False)]}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
