@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="contract_monthley_value_inherit" model="ir.ui.view">
+            <field name="name">contract.contract tree view (in contract_delivery_zone)</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_tree_view" />
+            <field name="arch" type="xml">
+                <field name="company_id" position="before">
+                    <field name="monthly_value" optional="view" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
