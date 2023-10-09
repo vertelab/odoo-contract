@@ -49,6 +49,10 @@ class Contract(models.Model):
                 self.env['contract.invoice.stub'].create({
                     'amount': self._compute_contract_lines(),
                     'date': invoicing_date,
+                    'period_date_end': self.get_next_period_date_end(invoicing_date,
+                                                                    self.recurring_rule_type,
+                                                                    self.recurring_interval,
+                                                                    max_date_end=self.date_end),
                     'contract_id': self.id
                 })
             elif contract_invoice_stub_id and not contract_invoice_stub_id.account_move_id:
@@ -76,3 +80,26 @@ class Contract(models.Model):
     def _clear_uninvoiced_lines(self):
         lines = self.invoice_stub_ids.filtered(lambda line: not line.account_move_id)
         lines.unlink()
+
+    def _set_contract_line_next_period_date(self, sub):
+        self.next_period_date_start = sub.date
+        self.next_period_date_end = sub.period_date_end
+        for line in self.contract_line_ids:
+            line.recurring_next_date = sub.date
+            line.next_period_date_start = sub.date
+            line.next_period_date_end = sub.period_date_end
+
+    # ~ def get_strftime_start(self, format_list):
+        # ~ return " ".join([self.next_period_date_start.strftime(f) for f in format_list] )
+
+    # ~ def get_strftime_end(self, format_list):
+        # ~ return " ".join([self.next_period_date_end.strftime(f) for f in format_list] )
+
+
+
+
+
+
+
+        
+    

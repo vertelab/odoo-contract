@@ -87,6 +87,37 @@ class ContractContract(models.Model):
             invoices_values = self._prepare_recurring_invoices_values_jinja(invoices_values)
             contract_lines._update_recurring_next_date()
         return invoices_values
+
+
+    def get_strftime_month(self, format_list):
+        if self.next_period_date_start.strftime("%m") != self.next_period_date_end.strftime("%m"):
+            return  self.get_strftime_start(format_list) + " - " +  self.get_strftime_end(format_list)
+        else:
+            return  self.get_strftime_start(format_list)
+            
+    def get_strftime_start(self, format_list):
+        return " ".join([self.next_period_date_start.strftime(f) for f in format_list] )
+
+    def get_strftime_end(self, format_list):
+        return " ".join([self.next_period_date_end.strftime(f) for f in format_list] )
+
+
+class ContractLine(models.Model):
+    _inherit = 'contract.line'
+
+    def get_strftime_month(self, format_list):
+        if self.next_period_date_start.strftime("%m") != self.next_period_date_end.strftime("%m"):
+            return  self.get_strftime_start(format_list) + " - " +  self.get_strftime_end(format_list)
+        else:
+            return  self.get_strftime_start(format_list)
+
+    def get_strftime_start(self, format_list):
+        return " ".join([self.next_period_date_start.strftime(f) for f in format_list] )
+
+    def get_strftime_end(self, format_list):
+        return " ".join([self.next_period_date_end.strftime(f) for f in format_list] )
+
+    
     
 class DateEncoder(json.JSONEncoder):
 
