@@ -1,6 +1,8 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class ContractInvoiceSub(models.Model):
     _name = 'contract.invoice.stub'
@@ -35,8 +37,37 @@ class ContractInvoiceSub(models.Model):
         ], limit=1)
         return next_contract_invoice_stub
 
+
+    # ~ def recurring_create_invoice(self):
+        # ~ """
+        # ~ This method triggers the creation of the next invoices of the contracts
+        # ~ even if their next invoicing date is in the future.
+        # ~ """
+        # ~ invoices = self._recurring_create_invoice()
+        # ~ for invoice in invoices:
+            # ~ self.message_post(
+                # ~ body=_(
+                    # ~ "Contract manually invoiced: "
+                    # ~ '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
+                    # ~ "</a>"
+                # ~ )
+                # ~ % (invoice._name, invoice.id)
+            # ~ )
+        # ~ return invoices
+
     def action_create_move(self):
-        invoice = self.contract_id.recurring_create_invoice()
+        self.amount = self.contract_id._compute_contract_lines()
+        
+        invoices = self.contract_id._recurring_create_invoice(self.date)
+        for invoice in invoices:
+            self.message_post(
+                body=_(
+                    "Contract manually invoiced visa stubs: "
+                    '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
+                    "</a>"
+                )
+                % (invoice._name, invoice.id)
+            )        
         self.write({
             'account_move_id': invoice.id,
         })
@@ -58,12 +89,28 @@ class ContractInvoiceSub(models.Model):
         return super().unlink()
 
     def _cron_action_create_move(self):
+        _logger.warning(f"Running _cron_action_create_move")
         contract_invoice_stub_ids = self.env['contract.invoice.stub'].search([
             ('date', '=', fields.Date.today()),
             ('account_move_id', '=', False),
+            ('contract_id.active', '=', True)
         ])
         for contract_invoice_stub_id in contract_invoice_stub_ids:
-            invoice_stub_id = contract_invoice_stub_id.contract_id.recurring_create_invoice()
+            _logger.warning(f"Working on stub: {contract_invoice_stub_id=}")
+            invoice = contract_invoice_stub_id.contract_id._recurring_create_invoice(contract_invoice_stub_id.date)
+            contract_invoice_stub_id.contract_id.message_post(
+                body=_(
+                    "Contract automaticly invoiced visa cron: "
+                    '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
+                    "</a>"
+                )
+                % (invoice._name, invoice.id)
+            )   
+            
             contract_invoice_stub_id.write({
-                'account_move_id': invoice_stub_id.id
+                'account_move_id': invoice.id,
+                'amount':  contract_invoice_stub_id.contract_id._compute_contract_lines()
+            })
+            contract_invoice_stub_id.contract_id.write({
+                'recurring_next_date': contract_invoice_stub_id._get_next_recurring_date().date if contract_invoice_stub_id._get_next_recurring_date() else contract_invoice_stub_id.date
             })

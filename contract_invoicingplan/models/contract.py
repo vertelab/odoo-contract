@@ -2,6 +2,10 @@ from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
+import logging
+_logger = logging.getLogger(__name__)
+
+
 
 class Contract(models.Model):
     _inherit = "contract.contract"
@@ -29,8 +33,13 @@ class Contract(models.Model):
     def compute_contract(self):
         self._clear_uninvoiced_lines()
         invoicing_date = self.date_start
-        date_end = self.date_end if self.date_end else self.date_start + relativedelta(months=1)
+        last_invoicing_date = self.date_start
+        if self.invoice_stub_ids:
+            last_invoicing_date = self.invoice_stub_ids.sorted(key=lambda r: r.date)[-1].mapped('date')[0] + relativedelta(months=1)
+        
+        date_end = self.date_end if self.date_end else last_invoicing_date + relativedelta(months=11)
         while invoicing_date <= date_end:
+            _logger.warning(f"Running while with invoicing date: {invoicing_date}")
             contract_invoice_stub_id = self.env['contract.invoice.stub'].search([
                 ('contract_id', '=', self.id),
                 ('date', '=', invoicing_date),
@@ -45,7 +54,14 @@ class Contract(models.Model):
             elif contract_invoice_stub_id and not contract_invoice_stub_id.account_move_id:
                 contract_invoice_stub_id.write({'amount': self._compute_contract_lines()})
 
-            invoicing_date += relativedelta(months=1)
+            _logger.warning(f"{invoicing_date + relativedelta(days=1)=}")
+            _logger.warning(f"{self.recurring_rule_type=}")
+            _logger.warning(f"{self.recurring_interval=}")
+            _logger.warning(f"{self.date_end=}")
+            invoicing_date = self.get_next_period_date_end(invoicing_date + relativedelta(days=1),
+                                                        self.recurring_rule_type,
+                                                        self.recurring_interval,
+                                                        max_date_end=self.date_end)
 
     def _compute_contract_lines(self):
         total_price_subtotal = []
