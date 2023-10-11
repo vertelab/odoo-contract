@@ -12,11 +12,13 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    'depends': ['contract'],
+    'depends': ['contract', 'account'],
     "data": [
         'security/ir.model.access.csv',
         'views/contract_view.xml',
+        'views/account_move.xml',
         'views/contract_invoice_sub_view.xml',
+        'views/account_journal_dashboard.xml',
         'data/ir_cron.xml',
     ],
 }

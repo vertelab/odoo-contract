@@ -19,10 +19,10 @@
         </record>
 
         <record id="contract_invoice_sub_tree_view" model="ir.ui.view">
-            <field name="name">>contract.invoice.stub tree view (in contract)</field>
+            <field name="name">contract.invoice.stub tree view (in contract)</field>
             <field name="model">contract.invoice.stub</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-danger="date &lt; context_today().strftime('%Y-%m-%d')">
                     <field name="date" />
                     <field name="amount" />
                     <field name="account_move_id"/>

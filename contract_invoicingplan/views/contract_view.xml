@@ -5,6 +5,9 @@
             <field name="model">contract.contract</field>
             <field name="inherit_id" ref="contract.contract_contract_form_view"/>
             <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="uninvoiced_stubs"/>
+                </field>
                 <xpath expr="//button[@name='recurring_create_invoice']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
@@ -17,7 +20,7 @@
                     <page name="contract_invoice_sub" string="Invoice Subs">
                         <button name="compute_contract" type="object" icon="fa-cogs" string=" Compute Contract"/>
                         <field name="invoice_stub_ids">
-                            <tree editable="bottom">
+                            <tree editable="bottom" decoration-danger="date &lt; context_today().strftime('%Y-%m-%d')">
                                 <field name="date"/>
                                 <field name="amount"/>
                                 <field name="account_move_id"/>
@@ -28,6 +31,51 @@
                         </field>
                     </page>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="contract_contract_search_view" model="ir.ui.view">
+            <field name="name">contract.contract.search.view</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_search_view"/>
+            <field name="arch" type="xml">
+                <filter name="finished" position="after">
+                    <filter name="uninvoiced_stubs" string="UnInvoiced Stubs" domain="[('uninvoiced_stubs', '=', True)]"/>
+                    <filter name="zero_invoiced_stubs" string="Zero Invoiced Stubs" domain="[('contract_invoice_sub_count', '=', 0)]"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="contract_contract_tree_view" model="ir.ui.view">
+            <field name="name">contract.contract.tree.view</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-danger">uninvoiced_stubs==True</attribute>
+                </xpath>
+                <field name="company_id" position="after">
+                    <field name="contract_invoice_sub_count" string="Invoiced Count" optional="hide"/>
+                    <field name="last_date_invoiced" optional="show"/>
+                    <field name="date_end" optional="show"/>
+                    <field name="next_period_date_start" optional="hide"/>
+                    <field name="recurring_rule_type" optional="hide"/>
+                    <field name="recurring_interval" optional="hide"/>
+                    <field name="invoice_count" optional="hide"/>
+                    <field name="uninvoiced_stubs" invisible="1"/>
+                </field>
+
+                <field name="code" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </field>
+
+                <field name="journal_id" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </field>
+
+                <field name="tag_ids" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </field>
             </field>
         </record>
     </data>

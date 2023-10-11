@@ -11,5 +11,23 @@
             <field name="numbercall">-1</field>
             <field eval="False" name="doall"/>
         </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'contract'), ('name', '=', 'contract_cron_for_invoice')]"/>
+            </function>
+            <value eval="{'noupdate': False}" />
+        </function>
+
+        <record id="contract.contract_cron_for_invoice" model="ir.cron">
+            <field eval="False" name="active"/>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'contract'), ('name', '=', 'contract_cron_for_invoice')]"/>
+            </function>
+            <value eval="{'noupdate': True}" />
+        </function>
     </data>
 </odoo>

@@ -2,14 +2,16 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 import logging
+
 _logger = logging.getLogger(__name__)
+
 
 class ContractInvoiceSub(models.Model):
     _name = 'contract.invoice.stub'
     _description = 'Contract Invoice Stub'
     _order = "date asc"
 
-    #TODO: Rename date to period_date_start
+    # TODO: Rename date to period_date_start
     date = fields.Date(string="Period Date Start")
     period_date_end = fields.Date(string="Period Date End")
     amount = fields.Float(string="Amount")
@@ -39,24 +41,6 @@ class ContractInvoiceSub(models.Model):
         ], limit=1)
         return next_contract_invoice_stub
 
-
-    # ~ def recurring_create_invoice(self):
-        # ~ """
-        # ~ This method triggers the creation of the next invoices of the contracts
-        # ~ even if their next invoicing date is in the future.
-        # ~ """
-        # ~ invoices = self._recurring_create_invoice()
-        # ~ for invoice in invoices:
-            # ~ self.message_post(
-                # ~ body=_(
-                    # ~ "Contract manually invoiced: "
-                    # ~ '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
-                    # ~ "</a>"
-                # ~ )
-                # ~ % (invoice._name, invoice.id)
-            # ~ )
-        # ~ return invoices
-
     def action_create_move(self):
         self.amount = self.contract_id._compute_contract_lines()
 
@@ -69,12 +53,18 @@ class ContractInvoiceSub(models.Model):
                     '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
                     "</a>"
                 )
-                % (invoice._name, invoice.id),
-                subtype_id= self.env['ir.model.data'].xmlid_to_res_id('mail.mt_note'),
-            )        
+                     % (invoice._name, invoice.id),
+                subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_note'),
+            )
         self.write({
             'account_move_id': invoice.id,
         })
+
+        self.account_move_id.write({
+            'contract_stub_id': self.id,
+            'contract_id': self.contract_id.id,
+        })
+
         self.contract_id.write({
             'recurring_next_date': self._get_next_recurring_date().date if self._get_next_recurring_date() else self.date
         })
@@ -107,13 +97,13 @@ class ContractInvoiceSub(models.Model):
                     '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
                     "</a>"
                 )
-                % (invoice._name, invoice.id),
-                subtype_id= self.env['ir.model.data'].xmlid_to_res_id('mail.mt_note'),
-            )   
-            
+                     % (invoice._name, invoice.id),
+                subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_note'),
+            )
+
             contract_invoice_stub_id.write({
                 'account_move_id': invoice.id,
-                'amount':  contract_invoice_stub_id.contract_id._compute_contract_lines()
+                'amount': contract_invoice_stub_id.contract_id._compute_contract_lines()
             })
             contract_invoice_stub_id.contract_id.write({
                 'recurring_next_date': contract_invoice_stub_id._get_next_recurring_date().date if contract_invoice_stub_id._get_next_recurring_date() else contract_invoice_stub_id.date
