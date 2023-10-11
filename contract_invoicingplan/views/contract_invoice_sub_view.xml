@@ -22,7 +22,7 @@
             <field name="name">contract.invoice.stub tree view (in contract)</field>
             <field name="model">contract.invoice.stub</field>
             <field name="arch" type="xml">
-                <tree decoration-danger="date &lt; context_today().strftime('%Y-%m-%d')">
+                <tree decoration-danger="date &lt; context_today().strftime('%Y-%m-%d') and account_move_id == False">
                     <field name="date" />
                     <field name="amount" />
                     <field name="account_move_id"/>

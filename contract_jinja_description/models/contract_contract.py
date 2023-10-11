@@ -8,6 +8,7 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+
 class ContractContract(models.Model):
     _name = "contract.contract"
     _inherit = [
@@ -27,28 +28,28 @@ class ContractContract(models.Model):
             inv['narration'] = self._render_template_jinja(
 
                 inv['narration'],
-                "contract.contract", 
+                "contract.contract",
                 [self.id]
             )
-            tp=str(inv['narration']).split("'",1)
-            tp=tp[1][:-2]
-            tp=tp.replace('\\n', '\n')
-            inv['narration']=tp
-                                
+            tp = str(inv['narration']).split("'", 1)
+            tp = tp[1][:-2]
+            tp = tp.replace('\\n', '\n')
+            inv['narration'] = tp
+
             n = 0
             for line in inv['invoice_line_ids']:
                 line[2]['name'] = self._render_template_jinja(
 
                     line[2]['name'],
-                    "contract.line", 
+                    "contract.line",
                     [self.contract_line_ids[n].id]
                 )
-                tp=str(line[2]['name']).split("'",1)
-                tp=tp[1][:-2]
-                tp=tp.replace('\\n', '\n')
-                line[2]['name']=tp
-                n = n+1
-            
+                tp = str(line[2]['name']).split("'", 1)
+                tp = tp[1][:-2]
+                tp = tp.replace('\\n', '\n')
+                line[2]['name'] = tp
+                n = n + 1
+
         # ~ _logger.warning(f"{invoices_values=}")
         return invoices_values
 
@@ -88,18 +89,17 @@ class ContractContract(models.Model):
             contract_lines._update_recurring_next_date()
         return invoices_values
 
-
     def get_strftime_month(self, format_list):
         if self.next_period_date_start.strftime("%m") != self.next_period_date_end.strftime("%m"):
-            return  self.get_strftime_start(format_list) + " - " +  self.get_strftime_end(format_list)
+            return self.get_strftime_start(format_list) + " - " + self.get_strftime_end(format_list)
         else:
-            return  self.get_strftime_start(format_list)
-            
+            return self.get_strftime_start(format_list)
+
     def get_strftime_start(self, format_list):
-        return " ".join([self.next_period_date_start.strftime(f) for f in format_list] )
+        return " ".join([self.recurring_next_date.strftime(f) for f in format_list])
 
     def get_strftime_end(self, format_list):
-        return " ".join([self.next_period_date_end.strftime(f) for f in format_list] )
+        return " ".join([self.next_period_date_end.strftime(f) for f in format_list])
 
 
 class ContractLine(models.Model):
@@ -107,24 +107,22 @@ class ContractLine(models.Model):
 
     def get_strftime_month(self, format_list):
         if self.next_period_date_start.strftime("%m") != self.next_period_date_end.strftime("%m"):
-            return  self.get_strftime_start(format_list) + " - " +  self.get_strftime_end(format_list)
+            return self.get_strftime_start(format_list) + " - " + self.get_strftime_end(format_list)
         else:
-            return  self.get_strftime_start(format_list)
+            return self.get_strftime_start(format_list)
 
     def get_strftime_start(self, format_list):
-        return " ".join([self.next_period_date_start.strftime(f) for f in format_list] )
+        return " ".join([self.next_period_date_start.strftime(f) for f in format_list])
 
     def get_strftime_end(self, format_list):
-        return " ".join([self.next_period_date_end.strftime(f) for f in format_list] )
+        return " ".join([self.next_period_date_end.strftime(f) for f in format_list])
 
-    
-    
+
 class DateEncoder(json.JSONEncoder):
-
 
     def default(self, obj):
         if isinstance(obj, date):
-            return obj.isoformat()  
+            return obj.isoformat()
         return super().default(obj)
 
     @staticmethod
@@ -135,12 +133,10 @@ class DateEncoder(json.JSONEncoder):
                 dct[key] = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
 
         return dct
-    
-    
+
 
 """
 JSON stringify does not work on the original date format, 
 so we convert it to a date format that works for json stringify, 
 and then convers it back
 """
-

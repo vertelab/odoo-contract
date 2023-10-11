@@ -20,7 +20,7 @@
                     <page name="contract_invoice_sub" string="Invoice Subs">
                         <button name="compute_contract" type="object" icon="fa-cogs" string=" Compute Contract"/>
                         <field name="invoice_stub_ids">
-                            <tree editable="bottom" decoration-danger="date &lt; context_today().strftime('%Y-%m-%d')">
+                            <tree editable="bottom" decoration-danger="date &lt; context_today().strftime('%Y-%m-%d') and account_move_id == False">
                                 <field name="date"/>
                                 <field name="amount"/>
                                 <field name="account_move_id"/>

@@ -34,7 +34,7 @@
     'website': 'https://vertel.se/apps/odoo-contract/contract_jinja_description',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
-    'depends': ['contract','mail'],
+    'depends': ['contract', 'mail'],
      #"external_dependencies": {
      #   "bin": ["openssl",],
      #   "python": ["acme_tiny", "IPy",],
