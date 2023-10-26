@@ -68,6 +68,7 @@ class ContractInvoiceSub(models.Model):
         self.contract_id.write({
             'recurring_next_date': self._get_next_recurring_date().date if self._get_next_recurring_date() else self.date
         })
+        self.contract_id._set_uninvoiced_stubs()
 
     @api.depends('account_move_id')
     def _check_contract_invoice_move(self):
