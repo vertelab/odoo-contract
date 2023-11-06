@@ -33,6 +33,7 @@ class ContractInvoiceSub(models.Model):
 
     def action_delete_move(self):
         self.account_move_id.unlink()
+        self.contract_id._set_uninvoiced_stubs()
 
     def _get_next_recurring_date(self):
         next_contract_invoice_stub = self.env['contract.invoice.stub'].search([
