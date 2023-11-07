@@ -43,6 +43,11 @@ class ContractInvoiceSub(models.Model):
         return next_contract_invoice_stub
 
     def action_create_move(self):
+        self.contract_id.write({
+            'active_stub_start_date': self.date,
+            'active_stub_end_date': self.period_date_end,
+        })
+
         self.amount = self.contract_id._compute_contract_lines()
 
         self.contract_id._set_contract_line_next_period_date(self)
@@ -91,11 +96,15 @@ class ContractInvoiceSub(models.Model):
             ('contract_id.active', '=', True)
         ])
         for contract_invoice_stub_id in contract_invoice_stub_ids:
+            contract_invoice_stub_id.contract_id.write({
+                'active_stub_start_date': contract_invoice_stub_id.date,
+                'active_stub_end_date': contract_invoice_stub_id.period_date_end,
+            })
             contract_invoice_stub_id.contract_id._set_contract_line_next_period_date(contract_invoice_stub_id)
             invoice = contract_invoice_stub_id.contract_id._recurring_create_invoice(contract_invoice_stub_id.date)
             contract_invoice_stub_id.contract_id.message_post(
                 body=_(
-                    "Contract automaticly invoiced by cron: "
+                    "Contract automatically invoiced by cron: "
                     '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
                     "</a>"
                 )

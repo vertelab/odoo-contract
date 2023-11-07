@@ -7,6 +7,8 @@
             <field name="arch" type="xml">
                 <field name="user_id" position="after">
                     <field name="uninvoiced_stubs"/>
+                    <field name="active_stub_start_date"/>
+                    <field name="active_stub_end_date"/>
                 </field>
                 <xpath expr="//button[@name='recurring_create_invoice']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -22,6 +24,7 @@
                         <field name="invoice_stub_ids">
                             <tree editable="bottom" decoration-danger="date &lt; context_today().strftime('%Y-%m-%d') and account_move_id == False">
                                 <field name="date"/>
+                                <field name="period_date_end"/>
                                 <field name="amount"/>
                                 <field name="account_move_id"/>
                                 <button name="action_create_move" type="object" icon="fa-cog" string="Create Invoice" attrs="{'invisible': [('account_move_id', '!=', False)]}"/>

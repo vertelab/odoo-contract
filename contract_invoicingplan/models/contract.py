@@ -7,10 +7,28 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class ContractLine(models.Model):
+    _inherit = "contract.line"
+
+    active_stub_start_date = fields.Date(string="Active Stub Start Date", related='contract_id.active_stub_start_date')
+
+    active_stub_end_date = fields.Date(string="Active Stub End Date", related='contract_id.active_stub_end_date')
+
+    def get_strftime_stub_start(self, format_list):
+        return " ".join([self.active_stub_start_date.strftime(f) for f in format_list])
+
+    def get_strftime_stub_end(self, format_list):
+        return " ".join([self.active_stub_end_date.strftime(f) for f in format_list])
+
+
 class Contract(models.Model):
     _inherit = "contract.contract"
 
     invoice_stub_ids = fields.One2many('contract.invoice.stub', 'contract_id', string="Invoice Stub")
+
+    active_stub_start_date = fields.Date(string="Active Stub Start Date")
+
+    active_stub_end_date = fields.Date(string="Active Stub End Date")
 
     @api.depends('invoice_stub_ids')
     def _set_uninvoiced_stubs(self):
@@ -101,9 +119,3 @@ class Contract(models.Model):
             line.recurring_next_date = sub.date
             line.next_period_date_start = sub.date
             line.next_period_date_end = sub.period_date_end
-
-    # ~ def get_strftime_start(self, format_list):
-    # ~ return " ".join([self.next_period_date_start.strftime(f) for f in format_list] )
-
-    # ~ def get_strftime_end(self, format_list):
-    # ~ return " ".join([self.next_period_date_end.strftime(f) for f in format_list] )
