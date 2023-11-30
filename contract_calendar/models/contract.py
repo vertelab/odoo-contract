@@ -11,10 +11,10 @@ _logger = logging.getLogger(__name__)
 
 # _logger = logging.getLogger("\33[1;37m\33[45m"+__name__+"\33[1;37m\33[42m")
 
-class CalendarRecu(models.Model):
+class RecurrenceRule(models.Model):
     _inherit = "calendar.recurrence"
 
-    contract_id = fields.Many2one('contract.contract')
+    contract_id = fields.Many2one(comodel_name='contract.contract', string='Contract')
 
 
 class Contract(models.Model):
@@ -55,7 +55,6 @@ class Contract(models.Model):
         self.recurrence_event_id = self.event_id.recurrence_id
         return contract
 
-    #
     def write(self, values):
         event_list = self.event_vals(values)
         res = super().write(values)
