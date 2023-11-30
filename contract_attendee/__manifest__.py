@@ -44,7 +44,7 @@
     "application": False,
     "installable": True,
     'depends': ['contract_calendar','calendar_attendee_planning', ],
-    "auto_install": True,
+    "auto_install": False,
     "data": [
         'views/calendar_view.xml'
     ],
