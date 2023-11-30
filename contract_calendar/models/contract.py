@@ -10,14 +10,18 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger("\33[1;37m\33[45m"+__name__+"\33[1;37m\33[42m")
 
 
+class RecurrenceRule(models.Model):
+    _inherit = "calendar.recurrence"
+    contract_id = fields.Many2one(comodel_name='contract.contract', string='Contract')
+
+
 class Contract(models.Model):
     _inherit = "contract.contract"
     _inherits = {'calendar.event': 'event_id'}
     event_id = fields.Many2one(comodel_name='calendar.event', string='Calendar')
-    recurrence_event_id = fields.One2many(comodel_name='calendar.recurrence', string='Recurrence')
-    
+    recurrence_event_id = fields.One2many(comodel_name='calendar.recurrence', inverse_name='contract_id', string='Recurrence')
     duration = fields.Float('Duration', default = 1.0)
-                    
+
     @api.onchange("date_start")
     def _inherit_date(self):
         self.start = self.date_start
@@ -33,7 +37,7 @@ class Contract(models.Model):
         if self.end_type == 'end_date':
             if self.date_end != False:
                 self.until = self.date_end
-                
+
     @api.model_create_multi
     def create(self, vals_list):
         event_list = self.event_vals(vals_list)
@@ -41,7 +45,7 @@ class Contract(models.Model):
         self.event_id.create(event_list)
         self.recurrence_event_id = self.event_id.recurrence_id
         return contract
-    
+
     def write(self, values):
         event_list = self.event_vals(values)
         res = super().write(values)
