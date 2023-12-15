@@ -22,26 +22,22 @@
 from odoo import api, models, fields, _
 from dateutil.relativedelta import relativedelta
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
 class product_template(models.Model):
     _inherit = 'product.template'
-    
+
     is_contract = fields.Boolean(string='Is Contract')
     contract_id = fields.Many2one(comodel_name='contract.template',
-        string='Contract Template', )
-    
+                                  string='Contract Template', )
+
 
 class order_line(models.Model):
     _inherit = 'sale.order.line'
-    
+
     contract_id = fields.Many2one(comodel_name='contract.contract',
-        string='Contract', domain=[('type', '=', 'contract')])
-        
-
-
-
-
+                                  string='Contract', domain=[('type', '=', 'contract')])
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
