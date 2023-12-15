@@ -69,7 +69,8 @@ class Contract(models.Model):
                                       0] + relativedelta(months=1)
 
         date_end = self.date_end if self.date_end else last_invoicing_date + relativedelta(months=11)
-        while invoicing_date <= date_end:
+
+        while invoicing_date and (invoicing_date <= date_end):
             _logger.warning(f"Running while with invoicing date: {invoicing_date}")
             contract_invoice_stub_id = self.env['contract.invoice.stub'].search([
                 ('contract_id', '=', self.id),

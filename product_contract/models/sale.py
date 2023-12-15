@@ -51,7 +51,9 @@ class Sale(models.Model):
     def _prepare_contract_vals_main(self, lines):
         _logger.warning(f"HELLO {lines=}")
         fixed_ids = self._prepare_contract_vals_fixed_ids(lines)
+
         _logger.warning(f"HELLO {fixed_ids=}")
+
         # if line.task_id:
         #     relevant_project_id = line.task_id.project_id
         # else:
@@ -80,7 +82,9 @@ class Sale(models.Model):
             #     "uom_id": line.product_uom.id,
             # })]
         }
+
         values.update(fixed_ids)
+        #raise Exception(values)
         _logger.error("--------------------------------------------------------------------Values:")
         _logger.error(values)
         # _logger.warning(f"inside prepare contract vals {values}")
@@ -91,7 +95,9 @@ class Sale(models.Model):
             "contract_line_fixed_ids": []
         }
         for line in lines:
+
             if line.product_id.uom_id.monthly_bool or line.product_id.uom_id.category_id.sale_order_bool:
+
                 values["contract_line_fixed_ids"].append(
                     (0, 0, {
                         "product_id": line.product_id.id,
@@ -102,6 +108,7 @@ class Sale(models.Model):
                         "sale_order_line_id": line.id,
                     })
                 )
+        #raise Exception(values)
         # if line.task_id:
         #     relevant_project_id = line.task_id.project_id
         # else:
