@@ -53,6 +53,7 @@ class ContractInvoiceSub(models.Model):
         self.contract_id._set_contract_line_next_period_date(self)
         invoices = self.contract_id._recurring_create_invoice(self.date)
         for invoice in invoices:
+            invoice.invoice_date = fields.Date.today()
             invoice.message_post(
                 body=_(
                     "Contract manually invoiced by stubs: "
