@@ -44,9 +44,12 @@ class Contract(models.Model):
                     combined with Invoice the entire month feature.
                     \nKindly turn of Invoice the entire of you want to use another recurring type.
                     """))
-                rec.find_hours_date_start = rec.find_hours_date_start.replace(day=1)
-                rec.find_hours_date_end = rec.find_hours_date_start + relativedelta(months=rec.recurring_interval)
-                rec.find_hours_date_end = rec.find_hours_date_end - timedelta(days=1)
+                if rec.find_hours_date_start:
+                    rec.find_hours_date_start = rec.find_hours_date_start.replace(day=1)
+                    rec.find_hours_date_end = (rec.find_hours_date_start + relativedelta(months=rec.recurring_interval)) - timedelta(days=1)
+                else:
+                    rec.find_hours_date_start = False
+                    rec.find_hours_date_end = False
 
     find_hours_date_start = fields.Date(
         string="Timesheet start date",
