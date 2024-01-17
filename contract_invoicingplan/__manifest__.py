@@ -12,7 +12,7 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    'depends': ['contract', 'account'],
+    'depends': ['contract', 'account', 'account_period'],
     "data": [
         'security/ir.model.access.csv',
         'views/contract_view.xml',

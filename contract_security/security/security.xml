@@ -1,0 +1,97 @@
+<odoo>
+    <data>
+        <record id="contract_contract_sale_salesman" model="ir.rule">
+            <field name="name">Sales Man: can only see his/her contracts</field>
+            <field name="model_id" ref="contract.model_contract_contract"/>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+        </record>
+
+        <record id="contract_contract_salesman_all_leads" model="ir.rule">
+            <field name="name">Sales Man All Leads: can only see all contracts</field>
+            <field name="model_id" ref="contract.model_contract_contract"/>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="contract_contract_sale_manager" model="ir.rule">
+            <field name="name">Sales manager: can only see all contracts</field>
+            <field name="model_id" ref="contract.model_contract_contract"/>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="salesman_access_to_account_move" model="ir.model.access">
+            <field name="name">account.move for salesman user override</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="group_id" ref="sales_team.group_sale_salesman" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_unlink" eval="0" />
+        </record>
+
+        <record id="salesman_access_to_account_move_line" model="ir.model.access">
+            <field name="name">account.move.line for salesman user override</field>
+            <field name="model_id" ref="account.model_account_move_line" />
+            <field name="group_id" ref="sales_team.group_sale_salesman" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="0" />
+            <field name="perm_unlink" eval="0" />
+        </record>
+
+        <record id="salesman_leads_access_to_account_move" model="ir.model.access">
+            <field name="name">account.move for salesman_all_leads user override</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="group_id" ref="sales_team.group_sale_salesman_all_leads" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_unlink" eval="0" />
+        </record>
+
+        <record id="salesman_leads_access_to_account_move_line" model="ir.model.access">
+            <field name="name">account.move.line for salesman_all_leads user override</field>
+            <field name="model_id" ref="account.model_account_move_line" />
+            <field name="group_id" ref="sales_team.group_sale_salesman_all_leads" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="0" />
+            <field name="perm_unlink" eval="0" />
+        </record>
+
+        <record id="salesman_access_to_account_period" model="ir.model.access">
+            <field name="name">account.period for salesman user override</field>
+            <field name="model_id" ref="account_period.model_account_period" />
+            <field name="group_id" ref="sales_team.group_sale_salesman" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="0" />
+            <field name="perm_write" eval="0" />
+            <field name="perm_unlink" eval="0" />
+        </record>
+
+        <record id="salesman_leads_access_to_account_period" model="ir.model.access">
+            <field name="name">account.period for salesman_all_leads user override</field>
+            <field name="model_id" ref="account_period.model_account_period" />
+            <field name="group_id" ref="sales_team.group_sale_salesman_all_leads" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="0" />
+            <field name="perm_write" eval="0" />
+            <field name="perm_unlink" eval="0" />
+        </record>
+
+    </data>
+</odoo>

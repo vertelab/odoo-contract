@@ -1,0 +1,12 @@
+<odoo>
+    <menuitem id="menu_sales_contract_config" parent="sale.menu_sale_config" sequence="4" name="Contracts"/>
+
+    <menuitem id="sale_contract_template_menu" name="Contract Templates" parent="contract_security.menu_sales_contract_config" action="contract.contract_template_action" sequence="1"/>
+
+    <menuitem id="sale_contract_terminate_reason_menu" name="Contract Termination Reason" parent="contract_security.menu_sales_contract_config" action="contract.contract_template_action" sequence="1"/>
+
+    <menuitem id="menu_sale_contract_quantity_formula" action="contract_variable_quantity.action_contract_quantity_formula" parent="contract_security.menu_sales_contract_config" sequence="2"/>
+
+    <menuitem id="sale_contract_tag_menu" name="Contract Tag" parent="contract_security.menu_sales_contract_config" action="contract.contract_tag_act_window" sequence="3"/>
+
+</odoo>

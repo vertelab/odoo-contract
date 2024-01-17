@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"contract_line_qty_formula_manager","Recurring formula sale manager","contract_variable_quantity.model_contract_line_qty_formula","sales_team.group_sale_manager",1,1,1,1
+"contract_line_qty_formula_manager","Recurring formula sale man all leads","contract_variable_quantity.model_contract_line_qty_formula","sales_team.group_sale_salesman_all_leads",1,1,1,1
+"contract_line_qty_formula_user","Recurring formula sales man user","contract_variable_quantity.model_contract_line_qty_formula","sales_team.group_sale_salesman",1,0,0,0
