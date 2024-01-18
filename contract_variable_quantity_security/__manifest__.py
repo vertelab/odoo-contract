@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Security',
+    'name': 'Contract Variable Quantity Security',
     'version': '14.0.0.0.0',
     'summary': 'Adds security layer to Contract',
     'category': 'Sales',
@@ -11,9 +11,8 @@
     'maintainer': 'Vertel AB',
     "auto_install": True,
     "installable": True,
-    'depends': ['contract', 'contract_invoicingplan', 'sales_team'],
+    'depends': ['contract_variable_quantity'],
     "data": [
-        'security/security.xml',
         'security/ir.model.access.csv',
 
         'views/menu.xml',

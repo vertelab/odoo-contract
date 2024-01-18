@@ -1,0 +1,5 @@
+<odoo>
+
+    <menuitem id="menu_sale_contract_quantity_formula" action="contract_variable_quantity.action_contract_quantity_formula" parent="sale.menu_sale_config" sequence="2"/>
+
+</odoo>
