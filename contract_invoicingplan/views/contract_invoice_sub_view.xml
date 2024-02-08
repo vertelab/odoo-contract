@@ -8,13 +8,80 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="date"/>
+                                <field name="contract_id"/>
+                                <field name="user_id"/>
+                                <field name="contract_template_id"/>
+                                <field name="partner_id"/>
                                 <field name="amount"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="period_date_end"/>
+                                <field name="recurring_next_date"/>
                                 <field name="account_move_id"/>
+                                <field name="compute_amount_forecast" invisible="1"/>
+                                <field name="amount_forecast" force_save="1"/>
                             </group>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="contract_invoice_sub_calendar_view">
+            <field name="name">contract.invoice.stub.calendar</field>
+            <field name="model">contract.invoice.stub</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date" date_stop="period_date_end" string="Contract Invoice Stub" mode="month" color="contract_id" event_limit="5">
+                    <field name="contract_id" filters="1" invisible="1"/>
+                    <field name="contract_template_id"/>
+                    <field name="partner_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="contract_invoice_sub_pivot_view" model="ir.ui.view">
+            <field name="name">contract.invoice.stub.pivot.view</field>
+            <field name="model">contract.invoice.stub</field>
+            <field name="arch" type="xml">
+                <pivot string="Contract Invoice Stub" sample="1">
+                    <field name="date" type="col"/>
+                    <field name="period_date_end" type="col"/>
+                    <field name="contract_id" type="row"/>
+                    <field name="contract_template_id" type="row"/>
+                    <field name="amount" type="measure"/>
+                    <field name="amount_forecast" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="contract_invoice_sub_search_view" model="ir.ui.view">
+            <field name="model">contract.invoice.stub</field>
+            <field name="arch" type="xml">
+                <search string="Contract Stubs">
+                    <field name="contract_id"/>
+                    <field name="contract_template_id"/>
+                    <field name="user_id"/>
+
+                    <filter string="My Contracts" name="my_contract" domain="[('user_id', '=', uid)]"/>
+                    <filter
+                        name="not_finished"
+                        string="In progress"
+                        domain="['|', ('period_date_end', '&gt;=', context_today().strftime('%Y-%m-%d')), '&amp;', ('period_date_end', '=', False), ('recurring_next_date', '!=', False)]"
+                    />
+                    <separator />
+                    <filter string="Start Date" name="date" date="date"/>
+                    <filter string="End Date" name="period_date_end" date="period_date_end"/>
+                    <separator />
+
+                    <group expand="0" string="Group By">
+                        <filter string="Contract" name="contract_id" domain="[]" context="{'group_by':'contract_id'}"/>
+                        <filter string="Contract Template" name="contract_template_id" domain="[]" context="{'group_by':'contract_template_id'}"/>
+                        <filter string="Partner" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Start Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="End Date" name="period_date_end" domain="[]" context="{'group_by':'period_date_end'}"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -23,8 +90,13 @@
             <field name="model">contract.invoice.stub</field>
             <field name="arch" type="xml">
                 <tree decoration-danger="date &lt; context_today().strftime('%Y-%m-%d') and account_move_id == False">
+                    <field name="contract_id" />
+                    <field name="contract_template_id" />
                     <field name="date" />
+                    <field name="period_date_end" />
                     <field name="amount" />
+                    <field name="compute_amount_forecast" invisible="1"/>
+                    <field name="amount_forecast" force_save="1"/>
                     <field name="account_move_id"/>
                 </tree>
             </field>
@@ -33,7 +105,7 @@
         <record id="action_customer_contract_lines" model="ir.actions.act_window">
             <field name="name">Contract Invoice Stub</field>
             <field name="res_model">contract.invoice.stub</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">calendar,pivot,tree,form</field>
             <field name="view_id" ref="contract_invoice_sub_tree_view" />
         </record>
 

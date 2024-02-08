@@ -1,4 +1,6 @@
 from odoo import models, fields, api, _
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError, ValidationError
 
 import logging
@@ -14,8 +16,39 @@ class ContractInvoiceSub(models.Model):
     # TODO: Rename date to period_date_start
     date = fields.Date(string="Period Date Start")
     period_date_end = fields.Date(string="Period Date End")
+    recurring_next_date = fields.Date(string="Recurring Next Date",
+                                      related='contract_id.recurring_next_date', store=True)
     amount = fields.Float(string="Amount")
+
+    @api.depends('contract_id', 'account_move_id', 'account_move_id.state')
+    def _compute_amount_forecast(self):
+        for rec in self:
+            if not rec.account_move_id or rec.account_move_id.state == 'draft' and rec.contract_id:
+                previous_contract_stub_id = self.env['contract.invoice.stub'].search([
+                    ('account_move_id', '!=', False),
+                    ('account_move_id.state', 'not in', ['draft', 'cancel']),
+                ], limit=1) - rec
+                # previous_contract_stub_id = self.env['contract.invoice.stub'].browse(rec.id - 1)
+                if previous_contract_stub_id:
+                    rec.compute_amount_forecast = previous_contract_stub_id.account_move_id.amount_untaxed
+                else:
+                    rec.compute_amount_forecast = 0
+            else:
+                rec.compute_amount_forecast = 0
+            rec.onchange_amount_forecast()
+
+    compute_amount_forecast = fields.Float(string="Amount Forecast", compute=_compute_amount_forecast)
+
+    @api.onchange('compute_amount_forecast')
+    def onchange_amount_forecast(self):
+        self.amount_forecast = self.compute_amount_forecast
+
+    amount_forecast = fields.Float(string="Amount Forecast", readonly=True)
     contract_id = fields.Many2one('contract.contract', string="Contract")
+    contract_template_id = fields.Many2one('contract.template', string="Contract Template",
+                                           related='contract_id.contract_template_id', store=True)
+    partner_id = fields.Many2one('res.partner', string="Partner", related='contract_id.partner_id', store=True)
+    user_id = fields.Many2one('res.users', string="Responsible", related='contract_id.user_id', store=True)
     has_move = fields.Boolean(string='Has Move', default=False, compute='_check_contract_invoice_move')
     account_move_id = fields.Many2one('account.move', string="Account")
 
