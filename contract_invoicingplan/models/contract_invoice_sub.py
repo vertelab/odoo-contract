@@ -120,8 +120,9 @@ class ContractInvoiceSub(models.Model):
                 rec.has_move = False
 
     def unlink(self):
-        if self.account_move_id:
-            raise ValidationError("You cannot delete this record because an account move is linked")
+        if self.account_move_id and self.account_move_id.state not in ['draft', 'cancel']:
+            raise ValidationError("You cannot delete this record because a posted account move is linked")
+        self.account_move_id.with_context(force_delete=True).unlink()
         return super().unlink()
 
     def _cron_action_create_move(self):
