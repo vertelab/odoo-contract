@@ -39,11 +39,11 @@ class Contract(models.Model):
                 rec.find_hours_date_end = rec.next_period_date_end
 
             if rec.invoice_all_of_last_month:
-                if rec.recurring_rule_type != "monthly":
-                    raise UserError(_("""I have not implemented the logic for other recurring types then Monthly when 
-                    combined with Invoice the entire month feature.
-                    \nKindly turn of Invoice the entire of you want to use another recurring type.
-                    """))
+                #if rec.recurring_rule_type != "monthly":
+                #    raise UserError(_("""I have not implemented the logic for other recurring types then Monthly when 
+                #    combined with Invoice the entire month feature.
+                #    \nKindly turn of Invoice the entire of you want to use another recurring type.
+                #    """))
                 if rec.find_hours_date_start:
                     rec.find_hours_date_start = rec.find_hours_date_start.replace(day=1)
                     rec.find_hours_date_end = (rec.find_hours_date_start + relativedelta(months=rec.recurring_interval)) - timedelta(days=1)
