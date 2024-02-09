@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
 
 import logging
 
@@ -120,3 +121,15 @@ class Contract(models.Model):
             line.recurring_next_date = sub.date
             line.next_period_date_start = sub.date
             line.next_period_date_end = sub.period_date_end
+
+    def unlink(self):
+        for record in self:
+            stub_ids = record.invoice_stub_ids
+            invoiced_stubs = stub_ids.filtered(
+                lambda stub_line:
+                stub_line.account_move_id and stub_line.account_move_id.state not in ['draft', 'cancel']
+            )
+            if invoiced_stubs:
+                raise ValidationError(_("One of the stubs has a posted invoice."))
+            stub_ids.unlink()
+        return super().unlink()
