@@ -29,22 +29,25 @@
         </record>
 
         <record model="ir.ui.view" id="contract_invoice_sub_calendar_view">
-            <field name="name">contract.invoice.stub.calendar</field>
-            <field name="model">contract.invoice.stub</field>
-            <field name="arch" type="xml">
-                <calendar date_start="date" date_stop="period_date_end" string="Contract Invoice Stub" mode="month" color="contract_id" event_limit="5">
-                    <field name="contract_id" filters="1" invisible="1"/>
-                    <field name="contract_template_id"/>
-                    <field name="partner_id"/>
-                </calendar>
-            </field>
+          <field name="name">contract.invoice.stub.calendar</field>
+          <field name="model">contract.invoice.stub</field>
+          <field name="arch" type="xml">
+            <calendar date_start="date" date_stop="date" string="Invoice" mode="month" color="partner_id" event_limit="5">
+              <field name="contract_id" filters="1" invisible="1" />
+              <field name="contract_template_id" />
+              <field name="contract_id" />
+              <field name="partner_id" />
+              <field name="amount" />
+              <field name="amount_forecast" force_save="1" />
+            </calendar>
+          </field>
         </record>
 
         <record id="contract_invoice_sub_pivot_view" model="ir.ui.view">
             <field name="name">contract.invoice.stub.pivot.view</field>
             <field name="model">contract.invoice.stub</field>
             <field name="arch" type="xml">
-                <pivot string="Contract Invoice Stub" sample="1">
+                <pivot string="Planned Invoices" sample="1">
                     <field name="date" type="col"/>
                     <field name="period_date_end" type="col"/>
                     <field name="contract_id" type="row"/>
@@ -97,20 +100,20 @@
                     <field name="amount" />
                     <field name="compute_amount_forecast" invisible="1"/>
                     <field name="amount_forecast" force_save="1"/>
-                    <field name="account_move_id"/>
+                    <field name="account_move_id" optional="hide"/>
                 </tree>
             </field>
         </record>
 
         <record id="action_customer_contract_lines" model="ir.actions.act_window">
-            <field name="name">Contract Invoice Stub</field>
+            <field name="name">Planned Invoices</field>
             <field name="res_model">contract.invoice.stub</field>
             <field name="view_mode">calendar,pivot,tree,form</field>
             <field name="view_id" ref="contract_invoice_sub_tree_view" />
         </record>
 
         <record model="ir.ui.menu" id="menu_contract_invoice_sub">
-            <field name="name">Contract Invoice Stub</field>
+            <field name="name">Planned Invoices</field>
             <field name="parent_id" ref="contract.menu_contract_reporting" />
             <field name="action" ref="action_customer_contract_lines" />
             <field name="sequence" eval="50" />

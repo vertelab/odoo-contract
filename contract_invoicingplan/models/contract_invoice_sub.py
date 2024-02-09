@@ -19,6 +19,14 @@ class ContractInvoiceSub(models.Model):
     recurring_next_date = fields.Date(string="Recurring Next Date",
                                       related='contract_id.recurring_next_date', store=True)
     amount = fields.Float(string="Amount")
+    
+    def name_get(self):
+        res = []
+        for stub in self:
+            res.append((stub.id,f"[{stub.contract_id.recurring_interval} {stub.contract_id.recurring_rule_type}] {stub.partner_id.name}"))
+        return res
+
+    
 
     @api.depends('contract_id', 'account_move_id', 'account_move_id.state')
     def _compute_amount_forecast(self):
@@ -32,9 +40,9 @@ class ContractInvoiceSub(models.Model):
                 if previous_contract_stub_id:
                     rec.compute_amount_forecast = previous_contract_stub_id.account_move_id.amount_untaxed
                 else:
-                    rec.compute_amount_forecast = 0
+                    rec.compute_amount_forecast = rec.amount
             else:
-                rec.compute_amount_forecast = 0
+                rec.compute_amount_forecast = rec.amount
             rec.onchange_amount_forecast()
 
     compute_amount_forecast = fields.Float(string="Amount Forecast", compute=_compute_amount_forecast)
@@ -44,13 +52,13 @@ class ContractInvoiceSub(models.Model):
         self.amount_forecast = self.compute_amount_forecast
 
     amount_forecast = fields.Float(string="Amount Forecast", readonly=True)
-    contract_id = fields.Many2one('contract.contract', string="Contract")
-    contract_template_id = fields.Many2one('contract.template', string="Contract Template",
+    contract_id = fields.Many2one(comodel_name='contract.contract', string="Contract")
+    contract_template_id = fields.Many2one(comodel_name='contract.template', string="Contract Template",
                                            related='contract_id.contract_template_id', store=True)
-    partner_id = fields.Many2one('res.partner', string="Partner", related='contract_id.partner_id', store=True)
-    user_id = fields.Many2one('res.users', string="Responsible", related='contract_id.user_id', store=True)
+    partner_id = fields.Many2one(comodel_name='res.partner', string="Partner", related='contract_id.partner_id', store=True)
+    user_id = fields.Many2one(comodel_name='res.users', string="Responsible", related='contract_id.user_id', store=True)
     has_move = fields.Boolean(string='Has Move', default=False, compute='_check_contract_invoice_move')
-    account_move_id = fields.Many2one('account.move', string="Account")
+    account_move_id = fields.Many2one(comodel_name='account.move', string="Account")
 
     def action_view_move(self):
         view_id = self.env.ref('account.view_move_form').id
