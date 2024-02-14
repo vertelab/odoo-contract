@@ -96,7 +96,7 @@ class Sale(models.Model):
         }
         for line in lines:
 
-            if line.product_id.uom_id.monthly_bool or line.product_id.uom_id.category_id.sale_order_bool:
+            if line.product_id.uom_id.category_id.sale_order_bool:
 
                 values["contract_line_fixed_ids"].append(
                     (0, 0, {
