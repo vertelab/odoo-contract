@@ -22,7 +22,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Contract Monthly Value',
+    'name': 'Contract: Invoice recurring values in a plan',
     'version': '14.0.0.0.0',
     'summary': 'Contract invoicing plan',
     'description': """
