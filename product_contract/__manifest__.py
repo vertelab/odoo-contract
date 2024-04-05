@@ -51,7 +51,7 @@
         "project",
         "sale_project",
         "website_quote_contract_project",
-        "website_quote_monthly_uom",
+        #"website_quote_monthly_uom",
     ],
     "data": [
         "views/product_view.xml",
