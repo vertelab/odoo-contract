@@ -30,9 +30,12 @@ class Contract(models.Model):
     def _find_hours_date(self):
 
         for rec in self:
-            if rec.recurring_invoicing_type == "post-paid": # TODO: Does not work yet
-                rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
-                    months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
+            if rec.recurring_invoicing_type == "post-paid":
+                if not rec.recurring_next_date or not recurring_interval:
+                    rec.find_hours_date_start = rec.recurring_next_date
+                else:
+                    rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
+                        months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
                 rec.find_hours_date_end = rec.recurring_next_date
             elif rec.recurring_invoicing_type == "pre-paid":
                 rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
