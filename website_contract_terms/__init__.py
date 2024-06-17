@@ -1,1 +1,0 @@
-import website_contract_terms
