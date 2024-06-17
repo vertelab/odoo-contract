@@ -1,0 +1,27 @@
+<odoo>
+    <record id="account_journal_dashboard_kanban_view" model="ir.ui.view">
+        <field name="name">account.journal.dashboard.kanban</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//templates/t[@t-name='JournalBodySalePurchase']/div[hasclass('o_kanban_primary_right')]" position="inside">
+                <div class="row" t-if="dashboard.number_uninvoiced_stubs">
+                    <div class="col overflow-hidden text-left">
+                        <a type="object" t-if="journal_type == 'sale'" name="open_uninvoiced_subs_contract_action">
+                            <t t-esc="dashboard.number_uninvoiced_stubs"/> UnInvoiced Stubs
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row" t-if="dashboard.number_zero_invoice_stubs">
+                    <div class="col overflow-hidden text-left">
+                        <a type="object" t-if="journal_type == 'sale'" name="open_invoiced_subs_contract_action">
+                            <t t-esc="dashboard.number_zero_invoice_stubs"/> Zero Invoiced Stubs
+                        </a>
+                    </div>
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

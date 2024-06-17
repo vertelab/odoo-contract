@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,44 +18,32 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Product Contract',
-    'version': '16.0.1.0.0',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds contract functionality to a product.',
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Sales',
+    'name': 'Contract: Invoice recurring values in a plan',
+    'version': '16.0.0.0.0',
+    'summary': 'Contract invoicing plan',
     'description': """
-    Adds contract functionality to a product.
+    Create plan using stubbs for invoicing.
     """,
-    #'sequence': '1',
+    'category': 'Sales',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/product_contract',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_invoicingplan',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
-    'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-contract',
-    # Any module necessary for this one to work correctly
     "application": False,
     "auto-install": False,
     "installable": True,
-    "depends": [
-        "contract",
-        "product",
-        "sale",
-        #"project",
-        #"sale_project",
-        #"website_quote_contract_project",
-        #"website_quote_monthly_uom",
-    ],
+    'depends': ['contract', 'account', 'account_period_vrtl'],
     "data": [
-        "views/product_view.xml",
-        "views/contract.xml",
+        'security/ir.model.access.csv',
+        'views/contract_view.xml',
+        'views/account_move.xml',
+        'views/contract_invoice_sub_view.xml',
+        'views/account_journal_dashboard.xml',
+        'data/ir_cron.xml',
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
