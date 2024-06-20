@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError
 from odoo.tools import float_is_zero
 from odoo.tools.safe_eval import safe_eval
+from collections import defaultdict
 
 _logger = logging.getLogger(__name__)
 
@@ -20,8 +21,7 @@ class Contract(models.Model):
         for move in moves:
             for line in move.line_ids:
                 for time_report_line in line.analytic_line_ids_time_report:
-                    time_report_line.move_id = line.id
-                    move.write({"timesheet_ids": [(4, time_report_line.id, 0)]})
+                    time_report_line.timesheet_invoice_id = move.id
 
         return moves
 
@@ -31,16 +31,12 @@ class Contract(models.Model):
 
         for rec in self:
             if rec.recurring_invoicing_type == "post-paid":
-                if not rec.recurring_next_date or not recurring_interval:
-                    rec.find_hours_date_start = rec.recurring_next_date
-                else:
-                    rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
-                        months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
-                rec.find_hours_date_end = rec.recurring_next_date
-            elif rec.recurring_invoicing_type == "pre-paid":
                 rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
                     months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
-                # rec.find_hours_date_end = rec.next_period_date_end We don't need to set this one
+                rec.find_hours_date_end = rec.recurring_next_date
+            elif rec.recurring_invoicing_type == "pre-paid":
+                rec.find_hours_date_start = rec.recurring_next_date
+                rec.find_hours_date_end = rec.next_period_date_end
 
             if rec.invoice_all_of_last_month:
                 #if rec.recurring_rule_type != "monthly":
@@ -77,6 +73,7 @@ class Contract(models.Model):
             ('account_id', '=', line.analytic_account_id.id),
           #  ('date', '>=', self.find_hours_date_start),
             ('date', '<=', self.find_hours_date_end),
+            ('timesheet_invoice_id', '=', False),
         ]
 
     def _get_time_amount_fields(self, line, context, user, period_first_date, period_last_date):
