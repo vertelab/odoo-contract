@@ -31,22 +31,27 @@ class Contract(models.Model):
 
         for rec in self:
             if rec.recurring_invoicing_type == "post-paid":
-                rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
-                    months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
+                if not rec.recurring_next_date or not rec.recurring_interval:
+                    rec.find_hours_date_start = rec.recurring_next_date
+                else:
+                    rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
+                        months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
                 rec.find_hours_date_end = rec.recurring_next_date
             elif rec.recurring_invoicing_type == "pre-paid":
-                rec.find_hours_date_start = rec.recurring_next_date
-                rec.find_hours_date_end = rec.next_period_date_end
+                rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
+                    months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
+                # rec.find_hours_date_end = rec.next_period_date_end We don't need to set this one
 
             if rec.invoice_all_of_last_month:
-                #if rec.recurring_rule_type != "monthly":
+                # if rec.recurring_rule_type != "monthly":
                 #    raise UserError(_("""I have not implemented the logic for other recurring types then Monthly when 
                 #    combined with Invoice the entire month feature.
                 #    \nKindly turn of Invoice the entire of you want to use another recurring type.
                 #    """))
                 if rec.find_hours_date_start:
                     rec.find_hours_date_start = rec.find_hours_date_start.replace(day=1)
-                    rec.find_hours_date_end = (rec.find_hours_date_start + relativedelta(months=rec.recurring_interval)) - timedelta(days=1)
+                    rec.find_hours_date_end = (rec.find_hours_date_start + relativedelta(
+                        months=rec.recurring_interval)) - timedelta(days=1)
                 else:
                     rec.find_hours_date_start = False
                     rec.find_hours_date_end = False
