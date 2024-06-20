@@ -69,8 +69,9 @@ class Contract(models.Model):
     def _get_time_amount_domain(self, line):
         return [
             ('product_id', '=', False),
-            ('project_id', '=', line.project_id.id),
-            #('date', '>=', self.find_hours_date_start),
+            #('project_id', '=', line.project_id.id),
+            ('account_id', '=', line.analytic_account_id.id),
+          #  ('date', '>=', self.find_hours_date_start),
             ('date', '<=', self.find_hours_date_end),
             ('timesheet_invoice_id', '=', False),
         ]
@@ -126,14 +127,11 @@ class ContractLine(models.Model):
                 nocopy=True,
             )  # nocopy for returning result
             time_report_lines_domain = eval_context.get("time_report_lines_domain", False)
-
-
             _logger.warning(f"{time_report_lines_domain=}")
             if time_report_lines_domain:
                 vals['analytic_line_ids_time_report'] = self.env["account.analytic.line"].search(
                     time_report_lines_domain)
         _logger.warning(f"{vals=}")
-
         return vals
 
 
@@ -142,82 +140,7 @@ class AccountMoveLine(models.Model):
     analytic_line_ids_time_report = fields.One2many('account.analytic.line', 'move_id_time_report',
                                                     string='Analytic lines Timereports')
 
-    def unlink(self):
-        """
-                                TODO YOU WATCHMAN:
-        this function was override from, odoo.addons.sale_timesheet.models.account_move,
-        it initially works with sale order, but with the introduction on contract, we need to observe it still works,
-        both with contract and with sales.
-        """
-        move_line_read_group = self.env['account.move.line'].search_read([
-            ('move_id.move_type', '=', 'out_invoice'),
-            ('move_id.state', '=', 'draft'),
-            ('sale_line_ids.product_id.invoice_policy', '=', 'delivery'),
-            ('sale_line_ids.product_id.service_type', '=', 'timesheet'),
-            ('id', 'in', self.ids)],
-            ['move_id', 'sale_line_ids', 'contract_line_ids'])
 
-        # moves for sale order
-        sale_line_ids_per_move = defaultdict(lambda: self.env['sale.order.line'])
-
-        # moves for contracts
-        contract_line_ids_per_move = defaultdict(lambda: self.env['contract.line'])
-
-        for move_line in move_line_read_group:
-            # moves for sale order line
-            sale_line_ids_per_move[move_line['move_id'][0]] += self.env['sale.order.line'].browse(
-                move_line['sale_line_ids']
-            )
-
-            # moves for contract line
-            contract_line_ids_per_move[move_line['move_id'][0]] += self.env['contract.line'].browse(
-                move_line['contract_line_ids']
-            )
-
-        timesheet_read_group = self.sudo().env['account.analytic.line'].read_group([
-            ('timesheet_invoice_id.move_type', '=', 'out_invoice'),
-            ('timesheet_invoice_id.state', '=', 'draft'),
-            ('timesheet_invoice_id', 'in', self.move_id.ids)],
-            ['timesheet_invoice_id', 'so_line', 'ids:array_agg(id)'],
-            ['timesheet_invoice_id', 'so_line', 'contract_line_id'],
-            lazy=False)
-
-        timesheet_ids = []
-        for timesheet in timesheet_read_group:
-            move_id = timesheet['timesheet_invoice_id'][0]
-
-            # timesheet for sale order
-            if timesheet['so_line'] and timesheet['so_line'][0] in sale_line_ids_per_move[move_id].ids:
-                timesheet_ids += timesheet['ids']
-
-            # timesheet for contract
-            if timesheet['contract_line_id'] and timesheet['contract_line_id'][0] in contract_line_ids_per_move[
-                move_id].ids:
-                timesheet_ids += timesheet['ids']
-
-        self.sudo().env['account.analytic.line'].browse(timesheet_ids).write({'timesheet_invoice_id': False})
-        return super(AccountMoveLine, self).unlink()
-
-class AccountMove(models.Model):
-    _inherit = "account.move"
-    def _reset_invoice(self):
-        AccountMoveLine = self.env['account.move.line']
-        excluded_move_ids = []
-
-        if self._context.get('suspense_moves_mode'):
-            excluded_move_ids = AccountMoveLine.search(
-                AccountMoveLine._get_suspense_moves_domain() + [('move_id', 'in', self.ids)]).mapped('move_id').ids
-
-        for move in self:
-            if move in move.line_ids.mapped('full_reconcile_id.exchange_move_id'):
-                raise UserError(_('You cannot reset to draft an exchange difference journal entry.'))
-            if move.tax_cash_basis_rec_id:
-                raise UserError(_('You cannot reset to draft a tax cash basis journal entry.'))
-            if move.restrict_mode_hash_table and move.state == 'posted' and move.id not in excluded_move_ids:
-                raise UserError(_('You cannot modify a posted entry of this journal because it is in strict mode.'))
-
-        self.mapped('line_ids').remove_move_reconcile()
-        self.write({'state': 'draft', 'is_move_sent': False})
 class AccountAnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
     move_id_time_report = fields.Many2one('account.move.line', string='Journal Item', ondelete='cascade', index=True,
