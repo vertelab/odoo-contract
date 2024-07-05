@@ -1,4 +1,4 @@
-from distutils.util import Mixin2to3
+#from distutils.util import Mixin2to3
 import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
