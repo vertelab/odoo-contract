@@ -37,10 +37,9 @@ class Contract(models.Model):
                     rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
                         months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
                 rec.find_hours_date_end = rec.recurring_next_date
-            elif rec.recurring_invoicing_type == "pre-paid":
+            elif rec.recurring_invoicing_type == "pre-paid" and rec.recurring_next_date:
                 rec.find_hours_date_start = rec.recurring_next_date - relativedelta(
-                    months=rec.recurring_interval)  ###Not done here!!!!!!!!! Need some way
-                # rec.find_hours_date_end = rec.next_period_date_end We don't need to set this one
+                    months=rec.recurring_interval)  
 
             if rec.invoice_all_of_last_month:
                 # if rec.recurring_rule_type != "monthly":
