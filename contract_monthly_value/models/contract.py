@@ -24,4 +24,4 @@ class ContractContract(models.Model):
             else:
                 contract.monthly_value = 0.0
     
-    monthly_value=fields.Float(string='Mothly Value', compute='_monthly_value',stored=True)
+    monthly_value=fields.Float(string='Mothly Value', compute='_monthly_value',store=True)
