@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       
+        <record id="contract_line_qty_formula_ai_quests" model="contract.line.qty.formula">
+            <field name="name">AI Quests</field>
+            <field name="code">result = contract.get_quests()</field>
+        </record>
+
+    </data>
+</odoo>

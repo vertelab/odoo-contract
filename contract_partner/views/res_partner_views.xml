@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+
+    <record id="res_partner_form" model="ir.ui.view">
+      <field name="name">res.partner.form.rpc</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <group name="misc" position="after">
+          <group name="rpc" string="RPC">
+            <field name="customer_url" string="Customer Endpoint"/>
+            <field name="customer_db" string="Customer Database"/>
+          </group>
+        </group>
+      </field>
+    </record>
+
+  </data>
+</odoo>

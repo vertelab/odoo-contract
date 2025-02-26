@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_template_paid_user" model="product.template">
+            <field name="name">Active Paid User</field>
+            <field name="list_price">125</field>
+        </record>
+
+    </data>
+</odoo>

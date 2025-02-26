@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       
+        <record id="contract_line_qty_formula_active_paid_users" model="contract.line.qty.formula">
+            <field name="name">Active Paid Users</field>
+            <field name="code">result = contract.get_paid_users()</field>
+        </record>
+
+    </data>
+</odoo>
