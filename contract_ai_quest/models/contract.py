@@ -13,5 +13,9 @@ class Contract(models.Model):
     def get_quests(self):
         if self.partner_id:
             odoo = self.get_rpc_connection()
-            quests = odoo.env["ai.quest"].get_xmlrpc_quests()
+            quests = 0
+            try:
+                quests = odoo.env["ai.quest"].get_xmlrpc_quests()
+            except:
+                raise UserError("Could not get quest information. Make sure ai_agent is installed on the customer machine.")
             return quests

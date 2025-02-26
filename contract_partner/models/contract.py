@@ -27,7 +27,10 @@ class Contract(models.Model):
             if not password:
                 raise UserError(_("There doesn't seem to be any customer password set in the odoo.conf file for this customer."))
 
-            odoo.login(db, 'admin', f'{password}')
+            try:
+                odoo.login(db, 'admin', f'{password}')
+            except ValueError:
+                raise UserError(_("Login failed. Are you sure you have the correct password for the specified customer in the odoo.conf file?"))
 
             return odoo
     
