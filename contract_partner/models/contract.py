@@ -38,8 +38,14 @@ class Contract(models.Model):
 
     def get_paid_users(self):
         if self.partner_id:
-            odoo = self.get_rpc_connection()
-            users = odoo.env["res.users"].search_count([("login", "!=", "admin")])
+            odoo = self.get_rpc_connection() 
+            users = 0
+            try:
+                users = odoo.env["res.users"].active_paying_users()
+            except:
+                _logger.warning("active_paying_users method culdent  customer machine run Pleas install it on customer machine")
+                group = odoo.env.ref('base.group_user')
+                users = odoo.env["res.users"].search_count([("groups_id", "=", group.id), ("login", "!=", "admin")])
             return users
 
 
