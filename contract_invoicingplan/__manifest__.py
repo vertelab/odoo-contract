@@ -23,7 +23,7 @@
 
 {
     'name': 'Contract: Invoice recurring values in a plan',
-    'version': '16.0.0.0.0',
+    'version': '18.0.0.0.0',
     'summary': 'Contract invoicing plan',
     'description': """
     Create plan using stubbs for invoicing.

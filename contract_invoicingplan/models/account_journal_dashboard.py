@@ -12,7 +12,7 @@ import random
 import ast
 
 
-class account_journal(models.Model):
+class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     def _get_open_uninvoiced_stubs_query(self):
