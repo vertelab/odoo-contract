@@ -27,9 +27,9 @@
                                 <field name="period_date_end"/>
                                 <field name="amount"/>
                                 <field name="account_move_id"/>
-                                <button name="action_create_move" type="object" icon="fa-cog" string="Create Invoice" attrs="{'invisible': [('account_move_id', '!=', False)]}"/>
-                                <button name="action_view_move" type="object" icon="fa-folder-open" string="View Invoice" attrs="{'invisible': [('account_move_id', '=', False)]}"/>
-                                <button name="action_delete_move" type="object" icon="fa-times" string="Delete/Reverse Invoice" attrs="{'invisible': [('account_move_id', '=', False)]}"/>
+                                <button name="action_create_move" type="object" icon="fa-cog" string="Create Invoice" invisible="account_move_id"/>
+                                <button name="action_view_move" type="object" icon="fa-folder-open" string="View Invoice" invisible="not account_move_id"/>
+                                <button name="action_delete_move" type="object" icon="fa-times" string="Delete/Reverse Invoice" invisible="not account_move_id"/>
                             </list>
                         </field>
                     </page>

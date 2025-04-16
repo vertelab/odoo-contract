@@ -54,11 +54,11 @@ class Contract(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Contract Invoice Stubs'),
-            'view_mode': 'tree',
+            'view_mode': 'list',
             'res_model': 'contract.invoice.stub',
             'target': 'current',
             'domain': [('contract_id', '=', self.id)],
-            'views': [[False, 'tree']],
+            'views': [[False, 'list']],
         }
 
     def compute_contract(self):

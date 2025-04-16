@@ -23,10 +23,11 @@ class ContractInvoiceSub(models.Model):
     def name_get(self):
         res = []
         for stub in self:
-            res.append((stub.id,f"[{stub.contract_id.recurring_interval} {stub.contract_id.recurring_rule_type}] {stub.partner_id.name}"))
+            res.append((
+                stub.id,
+                f"[{stub.contract_id.recurring_interval} {stub.contract_id.recurring_rule_type}] {stub.partner_id.name}"
+            ))
         return res
-
-    
 
     @api.depends('contract_id', 'account_move_id', 'account_move_id.state')
     def _compute_amount_forecast(self):
@@ -53,10 +54,16 @@ class ContractInvoiceSub(models.Model):
 
     amount_forecast = fields.Float(string="Amount Forecast", readonly=True)
     contract_id = fields.Many2one(comodel_name='contract.contract', string="Contract")
-    contract_template_id = fields.Many2one(comodel_name='contract.template', string="Contract Template",
-                                           related='contract_id.contract_template_id', store=True)
-    partner_id = fields.Many2one(comodel_name='res.partner', string="Partner", related='contract_id.partner_id', store=True)
-    user_id = fields.Many2one(comodel_name='res.users', string="Responsible", related='contract_id.user_id', store=True)
+    contract_template_id = fields.Many2one(
+        comodel_name='contract.template', string="Contract Template",
+        related='contract_id.contract_template_id', store=True
+    )
+    partner_id = fields.Many2one(
+        comodel_name='res.partner', string="Partner", related='contract_id.partner_id', store=True
+    )
+    user_id = fields.Many2one(
+        comodel_name='res.users', string="Responsible", related='contract_id.user_id', store=True
+    )
     has_move = fields.Boolean(string='Has Move', default=False, compute='_check_contract_invoice_move')
     account_move_id = fields.Many2one(comodel_name='account.move', string="Account")
 
@@ -84,6 +91,8 @@ class ContractInvoiceSub(models.Model):
         return next_contract_invoice_stub
 
     def action_create_move(self):
+        if self.account_move_id:
+            return
         self.contract_id.write({
             'active_stub_start_date': self.date,
             'active_stub_end_date': self.period_date_end,
@@ -105,9 +114,9 @@ class ContractInvoiceSub(models.Model):
                      % (invoice._name, invoice.id),
                 subtype_id=self.env['ir.model.data']._xmlid_to_res_id('mail.mt_note'),
             )
-        self.write({
-            'account_move_id': invoice.id,
-        })
+            self.write({
+                'account_move_id': invoice.id,
+            })
 
         self.account_move_id.write({
             'contract_stub_id': self.id,
