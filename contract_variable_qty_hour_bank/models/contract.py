@@ -103,7 +103,7 @@ class Contract(models.Model):
 class ContractLine(models.Model):
     _inherit = "contract.line"
 
-    def _prepare_invoice_line(self, move_form):
+    def _prepare_invoice_line(self):
         ## Need some smart way of connecting analytic lines with the invoice line.
         ## What I opted for is to reuse these varable formulas but look for a new variable called time_report_lines_domain.
         ## This way we can define in the formulas when it is relevant to connect an invoice line to account.analytic.lines.
@@ -116,7 +116,7 @@ class ContractLine(models.Model):
         quantity = self._get_quantity_to_invoice(period_first_date, period_last_date, invoice_date)
         _logger.warning(f"{quantity=}, {period_first_date=}, {period_last_date=}, {invoice_date=}")
 
-        vals = super()._prepare_invoice_line(move_form)
+        vals = super()._prepare_invoice_line()
         if vals and self.qty_type == "variable":
             eval_context = {
                 "env": self.env,
