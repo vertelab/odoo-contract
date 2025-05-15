@@ -23,7 +23,7 @@
 
 {
     'name': 'Contract: Invoice AAW Tasks',
-    'version': '18.0.0.0.0',
+    'version': '1.0',
     'summary': 'Contract invoicing plan',
     'description': """
         Invoice AAW Tasks.
@@ -37,7 +37,8 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    'depends': ['project', 'account', 'contract_variable_quantity', 'contract_invoicingplan', 'hr_timesheet', 'hr'],
+    # ~ 'depends': ['project', 'account', 'contract_variable_quantity', 'contract_invoicingplan', 'hr_timesheet', 'hr'],
+    'depends': ['project', 'account', 'contract_invoicingplan', 'hr_timesheet', 'hr'],
     "data": [
         'views/project_task_view.xml'
     ],

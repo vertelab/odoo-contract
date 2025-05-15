@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* contract_aaw
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250512\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-14 14:59+0000\n"
+"PO-Revision-Date: 2025-05-15 10:29+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: contract_aaw
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_abstract_contract_line__qty_type__aaw
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_line__qty_type__aaw
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_template_line__qty_type__aaw
+msgid "AAW"
+msgstr ""
+
+#. module: contract_aaw
+#. odoo-python
+#: code:addons/contract_aaw/models/contract_line.py:0
+msgid "AAW module can't handle other types of intervals yet."
+msgstr "AAW-modulen kan ännu inte hantera andra typer av intervall."
+
+#. module: contract_aaw
+#: model:ir.model,name:contract_aaw.model_contract_abstract_contract_line
+msgid "Abstract Recurring Contract Line"
+msgstr "Abstrakt återkommande kontraktslinje"
+
+#. module: contract_aaw
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_abstract_contract_line__qty_type__bar
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_line__qty_type__bar
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_template_line__qty_type__bar
+msgid "Bar"
+msgstr ""
+
+#. module: contract_aaw
+#: model:ir.model,name:contract_aaw.model_contract_contract
+msgid "Contract"
+msgstr "Kontrakt"
+
+#. module: contract_aaw
+#: model:ir.model,name:contract_aaw.model_contract_line
+msgid "Contract Line"
+msgstr "Kontraktslinje"
+
+#. module: contract_aaw
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_abstract_contract_line__qty_type__foo
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_line__qty_type__foo
+#: model:ir.model.fields.selection,name:contract_aaw.selection__contract_template_line__qty_type__foo
+msgid "Foo"
+msgstr ""
+
+#. module: contract_aaw
+#: model:ir.model.fields,field_description:contract_aaw.field_project_task__is_aaw
+msgid "Is AAW"
+msgstr ""
+
+#. module: contract_aaw
+#: model:ir.model.fields,field_description:contract_aaw.field_contract_abstract_contract_line__qty_type
+#: model:ir.model.fields,field_description:contract_aaw.field_contract_line__qty_type
+#: model:ir.model.fields,field_description:contract_aaw.field_contract_template_line__qty_type
+msgid "Quantity Type"
+msgstr ""
+
+#. module: contract_aaw
+#: model:ir.model,name:contract_aaw.model_project_task
+msgid "Task"
+msgstr "Aktivitet"
