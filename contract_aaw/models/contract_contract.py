@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import ValidationError, UserError
-
+import logging
 
 class Contract(models.Model):
     _inherit = "contract.contract"
@@ -62,9 +62,9 @@ class Contract(models.Model):
         """Prepare stock information for the task"""
         if not task or not hasattr(task, 'move_ids'):
             return
-
         move_line_vals = []
         for move in task.move_ids: # we can filter this line .filtered(lambda mv: mv.state == 'done')
+            logging.warning(f"{move=}")
             invoice_line_vals = {
                 'name': f"Stock - {task.name}: {move.name}",
                 'product_id': move.product_id.id,
