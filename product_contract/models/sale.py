@@ -24,7 +24,6 @@ class Sale(models.Model):
         """ On SO confirmation, some lines should generate a contract. """
         result = super(Sale, self)._action_confirm()
         for order in self:
-            # _logger.warning(f"action confirm order: {order}")
             self.create_contracts(order)
         return result
 
@@ -38,7 +37,7 @@ class Sale(models.Model):
             "sale_id": self.id,
             "user_id": self.user_id.id,
             "project_id": self.sale_created_project_id.id,
-            "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
+            # "contract_template_id": line.product_id.product_tmpl_id.contract_id.id,
             "recurring_next_date": fields.Date.today(),
             "date_start": self.date_order.date(),
             "date_end": self.date_order.date() + relativedelta(years=3),
@@ -120,19 +119,15 @@ class Sale(models.Model):
         return action
 
     def create_contracts(self, order):
-         # _logger.warning("create_contracts og"*100)
          contracts = self.env["contract.contract"]
          for line in order.order_line:
              _logger.warning(f"{line=}")
              if line.product_id.is_contract:
                  prepare_vals = self._prepare_contract_vals(line)
                  contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
-                 # _logger.warning(f"after contract.contract create {contract_id}")
                  contract_id.recurring_next_date = contract_id.get_first_invoice_date()
                  order.contract_ids = [(4, contract_id.id)]
                  line.contract_id = contract_id
                  contract_id._onchange_contract_template_id()
-                 # for cline in contract_id.contract_line_fixed_ids:
-                 #     cline.quantity *= line.product_uom_qty
                  contracts += contract_id
          return contracts

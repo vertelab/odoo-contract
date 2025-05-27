@@ -9,6 +9,23 @@ from odoo.exceptions import ValidationError, UserError
 class ContractLine(models.Model):
     _inherit = "contract.line"
 
+    def _insert_markers(self, first_date_invoiced, last_date_invoiced):
+        self.ensure_one()
+        lang_obj = self.env["res.lang"]
+        lang = lang_obj.search([("code", "=", self.contract_id.partner_id.lang)])
+        date_format = lang.date_format or "%m/%d/%Y"
+        name = self.name
+        name = name.replace("#START#", first_date_invoiced.strftime(date_format))
+        if last_date_invoiced:
+            name = name.replace("#END#", last_date_invoiced.strftime(date_format))
+        name = name.replace(
+            "#INVOICEMONTHNAME#",
+            self.with_context(lang=lang.code)._translate_marker_month_name(
+                first_date_invoiced.strftime("%m")
+            ),
+        )
+        return name
+
 
     def _prepare_invoice_line(self):
         res = super()._prepare_invoice_line()
@@ -28,6 +45,9 @@ class ContractLine(models.Model):
                 if analytic_line_id:
                     res["quantity"] = sum(analytic_line_id.mapped('unit_amount'))
                     res['timesheet_ids'] = analytic_line_id.ids
+
+        if self.qty_type == "aaw" and self.analytic_distribution and not res.get('timesheet_ids', False):
+            return None
         return res
 
     def _analytic_domain(self, invoice_from_date, invoice_to_date):

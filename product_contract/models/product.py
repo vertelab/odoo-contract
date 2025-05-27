@@ -26,7 +26,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     is_contract = fields.Boolean(string='Is Contract')
@@ -34,7 +34,7 @@ class product_template(models.Model):
                                   string='Contract Template', )
 
 
-class order_line(models.Model):
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     contract_id = fields.Many2one(comodel_name='contract.contract',

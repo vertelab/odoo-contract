@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="contract_contract_form_view" model="ir.ui.view">
+            <field name="name">contract.contract.form</field>
+            <field name="model">contract.contract</field>
+            <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+            <field name="arch" type="xml">
+                <group name="recurring_invoices" position="after">
+                    <group string="Payment Structure" name="payment_structure">
+                        <group>
+                            <field name="contract_payment_type"/>
+                            <field name="down_payment" invisible="contract_payment_type == 'fixed'"/>
+                            <field name="fixed_amount" invisible="contract_payment_type == 'percentage'"/>
+                        </group>
+                        <group>
+                            <field name="final_payment" invisible="contract_payment_type == 'fixed'"/>
+                            <field name="total_amount"/>
+                        </group>
+                    </group>
+                </group>
+            </field>
+
+        </record>
+    </data>
+</odoo>

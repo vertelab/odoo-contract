@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="hr_timesheet.act_hr_timesheet_line_by_project" model="ir.actions.act_window">
+            <field name="domain">[('project_id', '=', active_id), ('task_id.is_aaw', '=', False)]</field>
+        </record>
+
+        <record id="act_hr_timesheet_line_by_aaw_project" model="ir.actions.act_window">
+            <field name="name">AAW Timesheets</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="path">project-aaw-timesheets</field>
+            <field name="view_mode">list,kanban,pivot,graph,form</field>
+            <field name="view_id" ref="hr_timesheet.timesheet_view_tree_user"/>
+            <field name="domain">[('project_id', '=', active_id), ('task_id.is_aaw', '=', True)]</field>
+            <field name="context">{"default_project_id": active_id,  "is_timesheet": 1, }</field>
+            <field name="search_view_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Record a new activity
+                </p>
+                <p>
+                    Track your working hours by projects every day and invoice this time to your customers.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

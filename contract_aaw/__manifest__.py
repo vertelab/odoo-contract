@@ -37,9 +37,14 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    'depends': ['project', 'account', 'contract_variable_quantity', 'contract_invoicingplan', 'hr_timesheet', 'hr', 'sale_timesheet', 'project_task_stock'],
-    #'depends': ['project', 'account', 'contract_invoicingplan', 'hr_timesheet', 'hr'],
+    'depends': [
+        'project', 'account', 'contract_variable_quantity', 'contract_invoicingplan', 'hr_timesheet',
+        'hr', 'sale_timesheet', 'project_task_stock', 'sale'
+    ],
     "data": [
-        'views/project_task_view.xml'
+        'views/contract_contract_view.xml',
+        'views/contract_template_view.xml',
+        'views/project_task_view.xml',
+        'views/hr_timesheet_views.xml',
     ],
 }
