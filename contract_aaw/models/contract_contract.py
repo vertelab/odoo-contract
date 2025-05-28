@@ -102,7 +102,7 @@ class Contract(models.Model):
 
     def _get_payment_structure(self):
         """Calculate the payment structure and return payment schedule"""
-        if not self.contract_payment_type or self.contract_payment_type == 'regular':
+        if not self.contract_payment_type:
             return None
 
         start_date = self.date_start
@@ -173,10 +173,15 @@ class Contract(models.Model):
     def _compute_contract_lines(self):
         """Compute contract lines amount based on contract line configuration"""
 
-        # For percentage-based contracts, check payment schedule if we have an active stub date
-        if (self.contract_payment_type and self.contract_payment_type != 'regular'
-                and self.active_stub_start_date):
+        # Handle fixed payment type contracts
+        if self.contract_payment_type == 'fixed':
+            return self.fixed_amount
 
+        # For percentage-based contracts, check payment schedule if we have an active stub date
+        if self.contract_payment_type == 'percentage' and not self.date_end:
+            raise UserError(_("Kindly set an end date for this contract."))
+
+        if self.contract_payment_type == 'percentage' and self.active_stub_start_date:
             payment_schedule = self._get_payment_structure()
             if payment_schedule:
                 # Find the payment for the active stub date or within the same month
@@ -194,25 +199,6 @@ class Contract(models.Model):
             total_price_subtotal.append(line._get_quantity_to_invoice(*dates) * line.price_unit)
 
         return sum(total_price_subtotal)
-
-    # def _get_amount_for_stub_date(self, stub_date):
-    #     """Get the appropriate amount for a specific stub date based on payment structure"""
-    #     if self.contract_payment_type == 'regular':
-    #         # Use the regular calculation
-    #         return self._compute_contract_lines()
-    #
-    #     payment_schedule = self._get_payment_structure()
-    #     if not payment_schedule:
-    #         return self._compute_contract_lines()
-    #
-    #     # Find the payment for this specific date or within the same month
-    #     for payment in payment_schedule:
-    #         # Check if stub_date is within the same month as payment['date']
-    #         if is_date := self._is_date_in_same_month(stub_date, payment['date']):
-    #             return payment['amount']
-    #
-    #     # If no specific payment found for this date, use regular calculation
-    #     return self._compute_contract_lines()
 
     def _is_date_in_same_month(self, date1, date2):
         """Check if date1 is within the same month and year as date2"""
