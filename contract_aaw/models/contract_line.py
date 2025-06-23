@@ -9,6 +9,11 @@ from odoo.exceptions import ValidationError, UserError
 class ContractLine(models.Model):
     _inherit = "contract.line"
 
+    qty_type = fields.Selection(selection_add=[
+        ('aaw', 'AAW'), ('fixed/percentage', 'Fixed/Percentage')
+    ], ondelete={'aaw': 'cascade', 'fixed/percentage': 'cascade'}, fixed='percentage')
+
+
     def _insert_markers(self, first_date_invoiced, last_date_invoiced):
         self.ensure_one()
         lang_obj = self.env["res.lang"]
