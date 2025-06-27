@@ -51,5 +51,5 @@ class Sale(models.Model):
             "context": ctx,
         }
         if tree_view and form_view:
-            action["views"] = [(tree_view.id, "tree"), (form_view.id, "form")]
+            action["views"] = [(tree_view.id, "list"), (form_view.id, "form")]
         return action

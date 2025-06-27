@@ -140,10 +140,10 @@ class Contract(models.Model):
             "type": "ir.actions.act_window",
             "name": "Contract Schedule",
             "res_model": "calendar.event",
-            "view_mode": "calendar,tree,form",
+            "view_mode": "calendar,list,form",
             "domain": [("id", "in", self.calendar_ids.ids)],
             "context": ctx,
         }
         if tree_view and form_view and calendar_view:
-            action["views"] = [(calendar_view.id, "calendar"), (tree_view.id, "tree"), (form_view.id, "form")]
+            action["views"] = [(calendar_view.id, "calendar"), (tree_view.id, "list"), (form_view.id, "form")]
         return action
