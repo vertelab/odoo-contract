@@ -24,7 +24,7 @@
 {
     'name': 'Contract: Invoice Alter and Additional Work Tasks',
     'version': '1.0',
-    'summary': 'Contract invoicing plan',
+    'summary': 'Invoice Alter and Additional Work , AAW',
     'description': """
         Invoice AAW Tasks.
     """,
