@@ -4,12 +4,22 @@
         <template id="portal_my_task" inherit_id="project.portal_my_task" name="Portal: AAW Task">
             <xpath expr="//div[@id='task-nav']" position="before">
                 <t t-if="task.is_aaw and not task.is_signed">
-                    <form t-attf-action="/my/tasks/sign/#{task.id}" method="post">
-                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <button type="submit" class="btn btn-primary o_sign_btn d-block o_print_btn" title="Sign this task" style="width: 100%">
-                            <i class="fa fa-pencil"/> Sign this AAW
-                        </button>
-                    </form>
+                    <t t-if="task.is_signed">
+                        <div class="alert alert-success" role="alert">
+                            <i class="fa fa-check-circle"/> You have signed this task
+                        </div>
+                        <span class="btn btn-success o_sign_btn d-block" disabled="disabled">
+                            <i class="fa fa-check"/> Signed
+                        </span>
+                    </t>
+                    <t t-else="">
+                        <form t-attf-action="/my/tasks/sign/#{task.id}" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <button type="submit" class="btn btn-primary o_sign_btn d-block o_print_btn" title="Sign this task" style="width: 100%">
+                                <i class="fa fa-pencil"/> Sign this AAW
+                            </button>
+                        </form>
+                    </t>
                 </t>
             </xpath>
         </template>

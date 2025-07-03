@@ -21,8 +21,9 @@ class ProjectCustomerPortalExtended(ProjectCustomerPortal):
             if task_sudo.is_aaw and request.httprequest.method == 'POST':
                 task_sudo.is_signed = True
                 task_sudo.message_post(
-                    body=f"Task signed by {request.env.user.partner_id.name}",
-                    message_type='notification',
+                    body=f"You have agreed to this AAW Task.",
+                    message_type='comment',
+                    subtype_xmlid='mail.mt_comment',
                     author_id=request.env.user.partner_id.id
                 )
                 # Redirect back to task with success message
