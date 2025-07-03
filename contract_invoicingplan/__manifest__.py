@@ -37,7 +37,7 @@
     "application": False,
     "auto-install": False,
     "installable": True,
-    'depends': ['contract', 'account', 'account_period_vrtl'],
+    'depends': ['contract', 'account'],
     "data": [
         'security/ir.model.access.csv',
         'views/contract_view.xml',

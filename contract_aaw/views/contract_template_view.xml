@@ -6,6 +6,7 @@
             <field name="inherit_id" ref="contract.contract_template_form_view"/>
             <field name="arch" type="xml">
                 <field name="pricelist_id" position="after">
+                    <field name="is_aaw"/>
                     <field name="contract_payment_type"/>
                     <field name="down_payment" invisible="contract_payment_type == 'fixed'"/>
                     <field name="final_payment" invisible="contract_payment_type == 'fixed'"/>

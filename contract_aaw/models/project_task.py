@@ -4,7 +4,9 @@ from odoo import models, fields, api, _
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
+    ## Need to be set by task
     is_aaw = fields.Boolean(string="Is AAW")
+
 
     def _compute_remaining_hours_so(self):
         # TODO This is not yet perfectly working as timesheet.so_line stick to its old value although changed

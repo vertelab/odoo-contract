@@ -5,6 +5,8 @@ from odoo import models, api, fields, _
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
+    is_aaw = fields.Boolean(string="Is AAW")
+
     total_aaw_timesheet_time = fields.Integer(
         compute='_compute_total_aaw_timesheet_time', groups='hr_timesheet.group_hr_timesheet_user',
         string="Total number of time (in the proper UoM) recorded in the project, rounded to the unit.",

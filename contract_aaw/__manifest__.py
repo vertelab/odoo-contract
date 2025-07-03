@@ -22,7 +22,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Invoice AAW Tasks',
+    'name': 'Contract: Invoice Alter and Additional Work Tasks',
     'version': '1.0',
     'summary': 'Contract invoicing plan',
     'description': """
@@ -39,12 +39,13 @@
     "installable": True,
     'depends': [
         'project', 'account', 'contract_variable_quantity', 'contract_invoicingplan', 'hr_timesheet',
-        'hr', 'sale_timesheet', 'project_task_stock', 'sale'
+        'hr', 'sale_timesheet', 'project_task_stock', 'sale', 'sign_project_task'
     ],
     "data": [
         'views/contract_contract_view.xml',
         'views/contract_template_view.xml',
         'views/project_task_view.xml',
+        'views/project_project_view.xml',
         'views/hr_timesheet_views.xml',
     ],
 }
