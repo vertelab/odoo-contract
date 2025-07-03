@@ -1,0 +1,28 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* contract_monthly_value
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250702\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-03 11:30+0000\n"
+"PO-Revision-Date: 2025-07-03 13:31+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: contract_monthly_value
+#: model:ir.model,name:contract_monthly_value.model_contract_contract
+msgid "Contract"
+msgstr "Kontrakt"
+
+#. module: contract_monthly_value
+#: model:ir.model.fields,field_description:contract_monthly_value.field_contract_contract__monthly_value
+msgid "Mothly Value"
+msgstr "Månadsvärde"
