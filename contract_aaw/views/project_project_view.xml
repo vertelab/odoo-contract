@@ -1,26 +1,26 @@
 <odoo>
-  <record id="project_project_view_form_simplified" model="ir.ui.view">
-    <field name="name">project.project.form.is_aaw</field>
-    <field name="model">project.project</field>
-    <field name="inherit_id" ref="project.project_project_view_form_simplified" />
-    <field name="arch" type="xml">
-      <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
-        <setting string="Is Alter and Additional Work" help="Ensure all altered or additional tasks outside the original fixed-price agreement are formally approved before proceeding.">
-          <field name="is_aaw" />
-        </setting>
-      </xpath>
-    </field>
-  </record>
-  <record id="edit_project" model="ir.ui.view">
-    <field name="name">project.project.form.is_aaw</field>
-    <field name="model">project.project</field>
-    <field name="inherit_id" ref="project.edit_project" />
-    <field name="arch" type="xml">
-      <xpath expr="//group[@name='group_tasks_managment']" position="inside">
-        <setting class="col-lg-12" id="aaw_settings" string="Alter and Additional Work" help="Ensure all altered or additional tasks outside the original fixed-price agreement are formally approved before proceeding.">
-          <field name="is_aaw" />
-        </setting>
-      </xpath>
-    </field>
-  </record>
+    <record id="project_project_view_form_simplified" model="ir.ui.view">
+        <field name="name">project.project.form.is_aaw</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
+                <setting string="Is Alter and Additional Work" help="Ensure all altered or additional tasks outside the original fixed-price agreement are formally approved before proceeding.">
+                    <field name="is_aaw" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+    <record id="edit_project" model="ir.ui.view">
+        <field name="name">project.project.form.is_aaw</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_tasks_managment']" position="inside">
+                <setting class="col-lg-12" id="aaw_settings" string="Alter and Additional Work" help="Ensure all altered or additional tasks outside the original fixed-price agreement are formally approved before proceeding.">
+                    <field name="is_aaw" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
 </odoo>

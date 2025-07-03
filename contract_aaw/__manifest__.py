@@ -44,6 +44,7 @@
     "data": [
         'views/contract_contract_view.xml',
         'views/contract_template_view.xml',
+        'views/project_portal_project_task_templates.xml',
         'views/project_task_view.xml',
         'views/project_project_view.xml',
         'views/hr_timesheet_views.xml',

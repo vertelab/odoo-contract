@@ -7,6 +7,32 @@ class ProjectTask(models.Model):
     ## Need to be set by task
     is_aaw = fields.Boolean(string="Is AAW")
 
+    is_signed = fields.Boolean(string="AAW Signed", readonly=True)
+
+    def action_request_signature(self):
+        self.ensure_one()
+
+        render_result = self.env["ir.qweb"]._render(
+            "contract_aaw.aaw_sign_template_mail",
+            {
+                "record": self.partner_id,
+                "link": self.access_url,
+                "sender": self.env.user
+            },
+            engine="ir.qweb",
+            minimal_qcontext=True,
+        )
+
+        self.message_post(
+            author_id=self.partner_id.id,
+            partner_ids=self.partner_id.ids,
+            subject=self.env._("New document to sign"),
+            body=render_result,
+            message_type="notification",
+            mail_auto_delete=False,
+            email_layout_xmlid="mail.mail_notification_light"
+        )
+
 
     def _compute_remaining_hours_so(self):
         # TODO This is not yet perfectly working as timesheet.so_line stick to its old value although changed
