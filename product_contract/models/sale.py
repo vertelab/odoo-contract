@@ -8,16 +8,19 @@ from odoo import models, fields, api, _
 class Sale(models.Model):
     _inherit = "sale.order"
 
-    contract_ids = fields.Many2many("contract.contract", string="Contract")
+    contract_ids = fields.Many2many("contract.contract", string="Contract", copy=False)
 
     @api.depends("contract_ids")
     def _compute_contract_count(self):
         for rec in self:
             if rec.contract_ids:
                 rec.contract_count = len(rec.contract_ids)
+                rec.is_contract = True
             else:
                 rec.contract_count = 0
+                rec.is_contract = False
 
+    is_contract = fields.Boolean(string="Has Contract")
     contract_count = fields.Integer(string="Contract Count", compute=_compute_contract_count)
 
     def _action_confirm(self):
@@ -84,21 +87,24 @@ class Sale(models.Model):
         # _logger.warning(f"inside prepare contract vals {values}")
         return values
 
-    def _prepare_contract_vals(self, line):
-         values = {
-             "name": f"{self.name} - {self.partner_id.name}",
-             "partner_id": self.partner_id.id,
-             "invoice_partner_id": self.partner_id.id,
-             "sale_id": self.id,
-             "user_id": self.user_id.id,
-             "contract_line_fixed_ids": [(0, 0, {
-                 "product_id": line.product_id.id,
-                 "name": line.product_id.name,
-                 "quantity": line.product_uom_qty,
-                 "price_unit": line.price_unit,
-             }) for line in self.order_line]
-         }
-         return values
+    def _prepare_contract_vals(self, order_line):
+        print("order_line", order_line)
+        values = {
+            "name": f"{self.name} - {self.partner_id.name}",
+            "partner_id": self.partner_id.id,
+            "invoice_partner_id": self.partner_id.id,
+            "sale_id": self.id,
+            "user_id": self.user_id.id,
+            "contract_line_fixed_ids": [(0, 0, {
+                "product_id": line.product_id.id,
+                "name": line.product_id.name,
+                "quantity": line.product_uom_qty,
+                "price_unit": line.price_unit,
+                "sale_order_line_id": line.id
+            }) for line in order_line]
+        }
+        print("values", values)
+        return values
 
     def action_view_contract(self):
         self.ensure_one()
@@ -122,8 +128,12 @@ class Sale(models.Model):
          contracts = self.env["contract.contract"]
          for line in order.order_line:
              _logger.warning(f"{line=}")
+             print(line.product_id)
+             print(line.product_id.is_contract)
+             print("=====================================")
              if line.product_id.is_contract:
                  prepare_vals = self._prepare_contract_vals(line)
+                 print("prepare_vals", prepare_vals)
                  contract_id = self.env["contract.contract"].with_context({'from_sale_order': True}).create(prepare_vals)
                  contract_id.recurring_next_date = contract_id.get_first_invoice_date()
                  order.contract_ids = [(4, contract_id.id)]

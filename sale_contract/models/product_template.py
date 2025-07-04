@@ -33,11 +33,5 @@ class ProductTemplate(models.Model):
     contract_id = fields.Many2one(comodel_name='contract.template', string='Contract Template', )
 
 
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
-
-    contract_id = fields.Many2one(
-        comodel_name='contract.contract', string='Contract', domain=[('type', '=', 'contract')]
-    )
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

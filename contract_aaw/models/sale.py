@@ -6,12 +6,16 @@ from odoo.osv import expression
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    def _prepare_contract_line_vals(self, line):
+        vals = super()._prepare_contract_line_vals(line)
+        if line.project_id.account_id:
+            vals['analytic_distribution'] = {str(line.project_id.account_id.id): 100.00}
+        return vals
+
     def _prepare_contract_vals(self, line):
+        vals = super()._prepare_contract_vals(line)
         contract_id = self.order_line.mapped('product_id')[-1].mapped('contract_id')
-        values = {
-            "name": f"{self.name} - {self.partner_id.name}",
-            "partner_id": self.partner_id.id,
-            "invoice_partner_id": self.partner_id.id,
+        vals.update({
             "sale_id": self.id,
             "user_id": self.user_id.id,
             "total_amount": self.amount_total,
@@ -26,8 +30,9 @@ class SaleOrder(models.Model):
                 "price_unit": contract_line.price_unit,
                 "uom_id": contract_line.uom_id.id,
             }) for contract_line in contract_id.contract_line_ids]
-        }
-        return values
+        })
+        return vals
+
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'

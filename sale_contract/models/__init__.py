@@ -1,3 +1,4 @@
 from . import contract
 from . import sale
-from . import calendar
+from . import product_template
+

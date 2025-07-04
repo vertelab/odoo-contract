@@ -18,42 +18,33 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Contract: Product Contract [DEPRECATED]',
-    'version': '18.0.1.0.0',
+    'name': 'Contract: Contract Recurring Event',
+    'version': '1.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds contract functionality to a product.',
+    'summary': 'Manage your Contract Recurring Event',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Sales',
+    'category': 'Calendar',
     'description': """
-    Adds contract functionality to a product.
+        Manage your Contract Recurring Event.
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-contract/product_contract',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_recurring_event',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-    "application": False,
-    "auto-install": False,
-    "installable": True,
-    "depends": [
-        # "contract",
-        # "product",
-        # "sale",
-        # "sale_project",
+    'depends': ['contract', 'sale', 'calendar', 'contract_termination'],
+    'data': [
+        "views/contract_view.xml",
+        "views/calendar_view.xml",
     ],
-    "data": [
-        # "views/product_view.xml",
-        # "views/contract.xml",
-        # "views/sale_order.xml",
-    ],
+    'installable': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
