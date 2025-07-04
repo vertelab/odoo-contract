@@ -29,7 +29,7 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    is_contract = fields.Boolean(string='Is Contract')
+    # is_contract = fields.Boolean(string='Is Contract')
     contract_id = fields.Many2one(comodel_name='contract.template', string='Contract Template', )
 
 

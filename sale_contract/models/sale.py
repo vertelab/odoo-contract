@@ -19,16 +19,16 @@ class Sale(models.Model):
     is_contract = fields.Boolean(string="Has Contract")
     contract_count = fields.Integer(string="Contract Count", compute=_compute_contract_count)
 
-    def _action_confirm(self):
-        """ On SO confirmation, some lines should generate a contract. """
-        result = super(Sale, self)._action_confirm()
-        self.action_create_contract()
-        return result
+    # def _action_confirm(self):
+    #     """ On SO confirmation, some lines should generate a contract. """
+    #     result = super(Sale, self)._action_confirm()
+    #     self.action_create_contract()
+    #     return result
 
-    def action_create_contract(self):
-        contract_id = self.env["contract.contract"].create(self._prepare_contract_vals())
-        self.contract_ids = [(4, contract_id.id)]
-        return contract_id
+    # def action_create_contract(self):
+    #     contract_id = self.env["contract.contract"].create(self._prepare_contract_vals())
+    #     self.contract_ids = [(4, contract_id.id)]
+    #     return contract_id
 
     def _prepare_contract_vals(self):
         values = {
@@ -51,23 +51,23 @@ class Sale(models.Model):
         }
 
 
-    def action_view_contract(self):
-        self.ensure_one()
-        tree_view = self.env.ref("contract.contract_contract_tree_view", raise_if_not_found=False)
-        form_view = self.env.ref("contract.contract_contract_customer_form_view", raise_if_not_found=False)
-        ctx = dict(self.env.context)
-
-        action = {
-            "type": "ir.actions.act_window",
-            "name": "Sale Contracts",
-            "res_model": "contract.contract",
-            "view_mode": "form",
-            "domain": [("id", "in", self.contract_ids.ids)],
-            "context": ctx,
-        }
-        if tree_view and form_view:
-            action["views"] = [(tree_view.id, "list"), (form_view.id, "form")]
-        return action
+    # def action_view_contract(self):
+    #     self.ensure_one()
+    #     tree_view = self.env.ref("contract.contract_contract_tree_view", raise_if_not_found=False)
+    #     form_view = self.env.ref("contract.contract_contract_customer_form_view", raise_if_not_found=False)
+    #     ctx = dict(self.env.context)
+    #
+    #     action = {
+    #         "type": "ir.actions.act_window",
+    #         "name": "Sale Contracts",
+    #         "res_model": "contract.contract",
+    #         "view_mode": "form",
+    #         "domain": [("id", "in", self.contract_ids.ids)],
+    #         "context": ctx,
+    #     }
+    #     if tree_view and form_view:
+    #         action["views"] = [(tree_view.id, "list"), (form_view.id, "form")]
+    #     return action
 
 
 class SaleOrderLine(models.Model):

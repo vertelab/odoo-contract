@@ -12,8 +12,8 @@ class SaleOrder(models.Model):
             vals['analytic_distribution'] = {str(line.project_id.account_id.id): 100.00}
         return vals
 
-    def _prepare_contract_vals(self, line):
-        vals = super()._prepare_contract_vals(line)
+    def _prepare_contract_vals(self):
+        vals = super()._prepare_contract_vals()
         contract_id = self.order_line.mapped('product_id')[-1].mapped('contract_id')
         vals.update({
             "sale_id": self.id,
