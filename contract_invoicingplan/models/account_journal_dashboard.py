@@ -65,7 +65,7 @@ class AccountJournal(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Contracts'),
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'res_model': 'contract.contract',
             'target': 'self',
             'views': [[tree_view_id, 'list'], [False, 'form']],
