@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* agreement_property
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20211214\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-25 06:46+0000\n"
+"PO-Revision-Date: 2022-01-25 07:47+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: sv\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: agreement_property
+#: model:ir.model,name:agreement_property.model_agreement
+msgid "Agreement Property"
+msgstr "Relaterad fastighet"
+
+#. module: agreement_property
+#: model_terms:ir.ui.view,arch_db:agreement_property.agreement_property_pivot_view
+msgid "Agreements"
+msgstr "Avtal"
+
+#. module: agreement_property
+#: model:ir.model.fields,field_description:agreement_property.field_agreement__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: agreement_property
+#: model:ir.model.fields,field_description:agreement_property.field_agreement__employees
+msgid "Employees"
+msgstr "Anställda"
+
+#. module: agreement_property
+#: model:ir.model.fields,field_description:agreement_property.field_agreement__id
+msgid "ID"
+msgstr "ID"
+
+#. module: agreement_property
+#: model:ir.model.fields,field_description:agreement_property.field_agreement____last_update
+msgid "Last Modified on"
+msgstr "Senast ändrad den"
+
+#. module: agreement_property
+#: model:ir.model.fields,field_description:agreement_property.field_agreement__municipality_id
+msgid "Municipality"
+msgstr "Kommun"
+
+#. module: agreement_property
+#: model:ir.model.fields,field_description:agreement_property.field_agreement__property_id
+msgid "Property"
+msgstr "Fastighet"
