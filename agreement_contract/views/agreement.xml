@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <function model="agreement" name="update_cron_job"/>
+    <record id="contract_wizard" model="ir.ui.view">
+        <field name="name">link.to.contract.view</field>
+        <field name="model">agreement.contract.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="recurring_start_date"/>
+                    </group>
+                    <group>
+                        <field name="recurring_interval"/>
+                        <field name="recurring_rule_type"/>
+                    </group>
+                    <group>
+                        <field name="cost_per_recurrance"/>
+                        <field name="type_of_cost_increase"/>
+                        <field name="consumer_index_base_year" invisible="type_of_cost_increase != 'index'" required="type_of_cost_increase == 'index'"/>
+                        <field name="cost_index" invisible="type_of_cost_increase != 'percent'" required="type_of_cost_increase == 'percent'"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="save_button" type="object" string="Save" class="btn-primary"/>
+                    <button name="cancel_button" type="object" string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="open_link_to_contract_wizard">
+        <field name="name">open.link.to.contract.wizard</field>
+        <field name="res_model">agreement.contract.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="contract_wizard"/>
+    </record>
+
+    <record id="agreement_contract_pivot_view" model="ir.ui.view">
+        <field name="name">Agreement Pivot View</field>
+        <field name="model">agreement</field>
+        <field name="inherit_id" ref="agreement_legal.agreement_pivot_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//pivot" position="inside">
+                <field name="contract_yearly_cost"/>
+                <field name="contract_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="partner_agreement_form_view" model="ir.ui.view">
+        <field name="name">Agreement Form</field>
+        <field name="model">agreement</field>
+        <field name="inherit_id" ref="agreement_legal.partner_agreement_form_view"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="%(open_link_to_contract_wizard)d" invisible="contract_id and start_date and end_date" string="Generate contract &amp; invoices" type="action"/>
+            </header>
+            <field name="assigned_user_id" position="after">
+                <field name="contract_id" required="False"/>
+            </field>
+
+            <field name="code" position="before">
+                <field name="contract_yearly_cost" required="False" groups="base.group_no_one"/>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <!--
+                TODO: Move to new module?
+            -->
+            <xpath expr="//group[@name='term_information']" position="inside">
+                <group name="extra_fields" string="Extra fields">
+                    <field name="agreement_number"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account.move.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="default_order">invoice_date_due</attribute>
+            </xpath>
+            <xpath expr="//list/field[@name='invoice_date_due']" position="before">
+                <field name="agreement_agreement_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="agreement_dashboard_agreement_contracts">
+        <field name="name">Agreements</field>
+        <field name="res_model">account.move</field>
+        <field name="domain">[('agreement_agreement_id', '!=', None)]</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                <span>No matching invoices related to agreements</span>
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Agreement contracts" id="dashboard_agreement_contracts" parent="agreement_legal.agreement_dashboard" sequence="11" action="agreement_dashboard_agreement_contracts"/>
+
+    <!-- TODO :This should be to the normal form view instead of wiz. view"
+    <record id="contract_wizard" model="ir.ui.view">
+        <field name="name">link.to.contract.view</field>
+        <field name="model">agreement.contract.wizard</field>
+        <field name="reference_id" ref=""/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']/../.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record> -->
+</odoo>
