@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="consumer_price_index_tree" model="ir.actions.act_window">
+        <field name="name">Consumer Price Index act window</field>
+        <field name="res_model">consumer.price.index</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="offer_model_view_tree_table" model="ir.ui.view">
+        <field name="name">Create new Consumer Price Index</field>
+        <field name="model">consumer.price.index</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="year" style="width: 33%"/>
+                    <field name="index" style="width: 33%"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="offer_model_view_tree" model="ir.ui.view">
+        <field name="name">Consumer Price Indexes</field>
+        <field name="model">consumer.price.index</field>
+        <field name="arch" type="xml">
+            <list default_order="year, index" decoration-danger="is_negative">
+                <field name="is_negative" invisible="1"/>
+                <field name="year"/>
+                <field name="index"/>
+            </list>
+        </field>
+    </record>
+
+    <menuitem
+        name="Consumer Price Index"
+        id="dashboard_agreement_cpi"
+        parent="agreement_legal.agreement_dashboard"
+        sequence="12"
+        action="consumer_price_index_tree"
+        />
+</odoo>
+
+
