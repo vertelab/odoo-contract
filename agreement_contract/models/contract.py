@@ -67,7 +67,7 @@ class ContractRecurrencyMixin(models.AbstractModel):
         recurring_invoicing_type=False,
         recurring_invoicing_offset=False,
     ):
-        next_period_date_end = super(AgreementContract, self).get_next_period_date_end(
+        next_period_date_end = super(ContractRecurrencyMixin, self).get_next_period_date_end(
                 next_period_date_start,
                 recurring_rule_type,
                 recurring_interval,

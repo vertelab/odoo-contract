@@ -2,10 +2,9 @@ import logging
 import datetime
 
 from odoo import models, fields, api, _
-
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
-
 
 class AgreementContractWizard(models.TransientModel):
     _name = "agreement.contract.wizard"
@@ -106,6 +105,10 @@ class AgreementContractWizard(models.TransientModel):
             )
 
     def _generate_contract(self, agreement, price_list):
+
+        if not agreement.partner_id:
+            raise UserError("In order to create a contract a partner needs to be specified on the agreement.")
+
         return self.env["contract.contract"].sudo().create({
             "name": self._get_contract_name(agreement.name),
             "partner_id": agreement.partner_id.id,
@@ -221,6 +224,7 @@ def type_per_year(recurring_rule_type):
         return 1/4
     elif recurring_rule_type == "semesterly":
         return 1/2
+
     else:
         return 1
 
