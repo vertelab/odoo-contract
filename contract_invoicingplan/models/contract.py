@@ -20,15 +20,6 @@ class ContractLine(models.Model):
 
     def get_strftime_stub_end(self, format_list):
         return " ".join([self.active_stub_end_date.strftime(f) for f in format_list])
-    
-    def _prepare_invoice_line(self):
-        invoice_line_vals = super()._prepare_invoice_line()
-        if self.qty_type == 'fixed/percentage':
-            invoice_sub_line = self.contract_id.invoice_stub_ids.filtered(
-                lambda sub: sub.date == self.active_stub_start_date
-            )
-            invoice_line_vals['price_unit'] = invoice_sub_line.amount
-        return invoice_line_vals
 
 
 class Contract(models.Model):

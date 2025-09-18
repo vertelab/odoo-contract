@@ -13,6 +13,15 @@ class ContractLine(models.Model):
         ('aaw', 'AAW'), ('fixed/percentage', 'Fixed/Percentage')
     ], ondelete={'aaw': 'cascade', 'fixed/percentage': 'cascade'}, fixed='percentage')
 
+    def _prepare_invoice_line(self):
+        invoice_line_vals = super()._prepare_invoice_line()
+        if self.qty_type == 'fixed/percentage':
+            invoice_sub_line = self.contract_id.invoice_stub_ids.filtered(
+                lambda sub: sub.date == self.active_stub_start_date
+            )
+            invoice_line_vals['price_unit'] = invoice_sub_line.amount
+        return invoice_line_vals
+
 
     def _insert_markers(self, first_date_invoiced, last_date_invoiced):
         self.ensure_one()
