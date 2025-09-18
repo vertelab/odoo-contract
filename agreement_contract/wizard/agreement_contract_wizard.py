@@ -111,7 +111,7 @@ class AgreementContractWizard(models.TransientModel):
             "date_end": self.end_date,
             "pricelist_id": price_list.id,
             "contract_template_id": self.contract_template_id.id,
-            "consumer_index_base_year_id": self.consumer_index_base_year.id,
+            "consumer_index_base_year_id": self.consumer_index_base_year.id
         })
 
         contract_id._onchange_contract_template_id()

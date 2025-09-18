@@ -13,6 +13,7 @@ class Contract(models.Model):
             lambda item: item.date_start.date() <= sub_line.period_date_end and
                          sub_line.date <= item.date_end.date()
         )
+        print("price_rule", price_rule)
         return price_rule
 
     def _index_computation(self, stub_line):
