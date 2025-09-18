@@ -50,6 +50,7 @@
         "security/ir.model.access.csv",
         "wizard/agreement_contract_wizard_views.xml",
         "views/agreement.xml",
+        "views/contract.xml",
     ],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
