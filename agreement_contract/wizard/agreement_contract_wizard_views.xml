@@ -10,15 +10,17 @@
                         <field name="start_date"/>
                         <field name="end_date"/>
                         <separator/>
-                        <field name="recurring_start_date"/>
-                        <field name="cost_per_recurrance"/>
+                        <field name="agreement_id" invisible="1"/>
+                        <field name="recurring_start_date" required="type_of_cost_increase == 'index'"/>
+                        <field name="cost_per_recurrence" invisible="type_of_cost_increase == 'index'"/>
+                        <field name="contract_yearly_cost"/>
                         <field name="type_of_cost_increase"/>
                         <field name="consumer_index_base_year" invisible="type_of_cost_increase != 'index'" required="type_of_cost_increase == 'index'"/>
                         <field name="cost_index" invisible="type_of_cost_increase != 'percent'" required="type_of_cost_increase == 'percent'"/>
                     </group>
                     <group>
-                        <field name="recurring_interval"/>
-                        <field name="recurring_rule_type"/>
+                        <field name="recurring_interval" invisible="type_of_cost_increase == 'index'"/>
+                        <field name="recurring_rule_type" invisible="type_of_cost_increase == 'index'"/>
                         <field name="contract_template_id"/>
                     </group>
                 </group>

@@ -42,7 +42,7 @@ class AgreementContract(models.Model):
 
     contract_yearly_cost = fields.Float(
             string="Contracts Yearly cost",
-            compute="_contract_yearly_cost",
+            # compute="_contract_yearly_cost",
             )
 
     @api.model
@@ -69,6 +69,21 @@ class AgreementContract(models.Model):
                 record._yearly_cost()
             except AttributeError:
                 _logger.warning("Missing module defining function _yearly_cost()")
+
+    def action_create_agreement_contract(self):
+        view_id = self.env.ref('agreement_contract.contract_wizard')
+        return {
+            'view_mode': 'form',
+            'res_model': 'agreement.contract.wizard',
+            'views': [(view_id.id, 'form')],
+            'type': 'ir.actions.act_window',
+            'context': {
+                'default_agreement_id': self.id,
+                'default_start_date': self.start_date,
+                'default_end_date': self.end_date
+            },
+            'target': 'new'
+        }
 
 
 # TODO: Move to new module?

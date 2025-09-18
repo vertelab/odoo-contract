@@ -5,12 +5,26 @@
         <field name="model">product.pricelist.item</field>
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='base_pricelist_id']" position="after">
-                <field name="agreement_year" invisible="compute_price != 'by_index'" required="compute_price == 'by_index'"/>
-                <field name="index_year" invisible="compute_price != 'by_index'" required="compute_price == 'by_index'"/>
+            <field name="min_quantity" position="after">
+                 <field name="fixed_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+            </field>
+
+            <xpath expr="//label[@for='fixed_price']" position="replace">
+                <label for="fixed_price" invisible="compute_price not in ['fixed', 'index']"/>
+            </xpath>
+
+            <xpath expr="//div[hasclass('o_row')][1]" position="replace">
+                <div class="o_row" invisible="compute_price not in ['fixed', 'index']" style="width: 60% !important;">
+                    <field name="fixed_price"
+                        widget="monetary"
+                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                    <span class="d-flex gap-2 p-0" invisible="not product_uom">per<field
+                            name="product_uom"/></span>
+                </div>
             </xpath>
         </field>
     </record>
+
     <!--record id="consumer_price_index_tree" model="ir.actions.act_window">
         <field name="name">Consumer Price Index act window</field>
         <field name="res_model">consumer.price.index</field>

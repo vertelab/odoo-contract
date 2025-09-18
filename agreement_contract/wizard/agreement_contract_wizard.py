@@ -15,18 +15,15 @@ class AgreementContractWizard(models.TransientModel):
     def _get_product_title(self):
         return self.default_product_title
 
-    def _get_current_agreement(self):
-        return self.env["agreement"].browse(self.env.context.get('active_ids'))
-
     def _initialize_start_date(self):
         try:
-            return self._get_current_agreement().start_date
+            return self.agreement_id.start_date
         except AttributeError:
             return None
 
     def _initialize_end_date(self):
         try:
-            return self._get_current_agreement().end_date
+            return self.agreement_id.end_date
         except AttributeError:
             return None
 
@@ -72,20 +69,15 @@ class AgreementContractWizard(models.TransientModel):
             required=False,
             help="Specify if different to start date",
             )
-    cost_per_recurrance = fields.Float(
-            string="Cost per recurrance",
+    cost_per_recurrence = fields.Float(
+            string="Cost per recurrence",
             required=True,
             )
-    type_of_cost_increase = fields.Selection(
-            [
-                ("none","None"),
-                ("index", "Index increase"),
-                ("percent", "Percentual increase"),
-                ],
-            default="none",
-            string="Type of cost increase",
-            required=True,
-            )
+    type_of_cost_increase = fields.Selection([
+        ("index", "Index increase"),
+        ("percent", "Percent increase"),
+    ], string="Type of cost increase", required=True,
+    )
     cost_index = fields.Float(
             string="Cost increase per year in percent (Triggered at 1/1 every year)",
             required=False,
@@ -96,6 +88,14 @@ class AgreementContractWizard(models.TransientModel):
             required=False,
             )
     contract_template_id = fields.Many2one(comodel_name="contract.template")
+
+    agreement_id = fields.Many2one('agreement', string="Agreement")
+
+    contract_yearly_cost = fields.Float(
+        string="Contracts Yearly cost",
+        related='agreement_id.contract_yearly_cost',
+        readonly=False
+    )
 
     def _generate_contract(self, agreement, price_list):
 
@@ -111,7 +111,8 @@ class AgreementContractWizard(models.TransientModel):
             "date_end": self.end_date,
             "pricelist_id": price_list.id,
             "contract_template_id": self.contract_template_id.id,
-            })
+            "consumer_index_base_year_id": self.consumer_index_base_year
+        })
 
         contract_id._onchange_contract_template_id()
         return contract_id
@@ -171,12 +172,13 @@ class AgreementContractWizard(models.TransientModel):
     def _get_price_list_items(self, year):
         items = []
         for year in range(self.start_date.year, self.end_date.year + 1):
-            item ={
+            item = {
                 "applied_on": "3_global",
                 "date_start": datetime.datetime(year, 1, 1),
                 "date_end": datetime.datetime(year, 12, 31),
                 "fixed_price": self._get_price(year),
-                "agreement_year": self.consumer_index_base_year.year
+                # "agreement_year": self.consumer_index_base_year.year,
+
             }
             _logger.error(f"{self.type_of_cost_increase=}")
             if self.type_of_cost_increase == "index":
@@ -192,7 +194,7 @@ class AgreementContractWizard(models.TransientModel):
             return price
         elif self.type_of_cost_increase in ('index','none'):
             #base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
-            return self.cost_per_recurrance
+            return self.contract_yearly_cost
         else:
             raise NotImplementedError       
 
@@ -220,7 +222,7 @@ class AgreementContractWizard(models.TransientModel):
             "recurring_rule_type": self.recurring_rule_type,
             "recurring_interval": self.recurring_interval,
             "automatic_price": True,
-            })
+        })
 
 
 
@@ -231,11 +233,10 @@ class AgreementContractWizard(models.TransientModel):
 
         _logger.warning("Save button pressed")
 
-        agreement = self._get_current_agreement()
-        price_list = self._create_price_list(agreement)
-        contract_id = self._generate_contract(agreement, price_list)
-        self.store_contract_id(agreement, contract_id)
-        contract = self.env["contract.contract"].browse(contract_id)
+
+        price_list = self._create_price_list(self.agreement_id)
+        contract_id = self._generate_contract(self.agreement_id, price_list)
+        self.store_contract_id(self.agreement_id, contract_id)
         contract_line_id = self._create_contract_line(contract_id)
 
         # This is a bad idea:
