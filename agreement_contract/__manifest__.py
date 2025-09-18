@@ -48,8 +48,8 @@
     'depends': ['account','agreement_legal','contract','account_agreement','pricelist_cpi',],
     "data": [
         "security/ir.model.access.csv",
-        "views/agreement.xml",
         "wizard/agreement_contract_wizard_views.xml",
+        "views/agreement.xml",
     ],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
