@@ -10,7 +10,7 @@ class AgreementContractWizard(models.TransientModel):
     _name = "agreement.contract.wizard"
     _description = "Agreement Contract Wizard"
 
-    default_product_title = _("Rent (automatically created)")
+    default_product_title = "Rent (automatically created)"
 
     def _get_product_title(self):
         return self.default_product_title
