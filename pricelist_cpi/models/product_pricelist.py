@@ -19,19 +19,33 @@ class PricelistConsumerPriceIndexItem(models.Model):
         default='fixed', 
         required=True)
 
-    year = fields.Integer(
-            string="Year",
+    agreement_year = fields.Integer(
+            string="Agreement Year",
+            )
+    index_year = fields.Integer(
+            string="Index Year",
+            compute="_compute_index_year"
             )
 
-    def _get_multiplier_for_year(self, year):
+    def _compute_index_year(self):
+        for item in self:
+            if item.agreement_year:
+                item.index_year = item.date_start.year - 1
+            else:
+                item.index_year = False
+
+    def _get_year_index(self, year):
         try:
             return self.env["consumer.price.index"].search([('year', '=', year)]).index
         except BaseException as e:
             _logger.warning(e)
         return 0
 
-    def _compute_price(self, product, quantity, uom, date, currency=None):
-        _logger.warning("Computing price")
+    def _compute_price(self, product, quantity, uom, date, currency=None):        
+        self and self.ensure_one()  # self is at most one record
+        product.ensure_one()
+        uom.ensure_one()
+
         if self.compute_price != 'by_index':
             _logger.warning("Uninteresting calculation")
             return super(PricelistConsumerPriceIndexItem, self)._compute_price(
@@ -40,13 +54,14 @@ class PricelistConsumerPriceIndexItem(models.Model):
                     uom,
                     date,
                     currency)
-        self.ensure_one()
+
         base_price = self.fixed_price
-        price = (product.uom_id._compute_price(base_price, uom) *
-                 self._get_multiplier_for_year(self.date_start.year))
-        _logger.warning(f"Got the {price=} from {base_price=}, {uom=} {self._get_multiplier_for_year(self.date_start.year)=}")
-        return price
+        agreement_index = self._get_year_index(self.agreement_year)
+        index = self._get_year_index(self.index_year)
 
-
-
-
+        if index <= agreement_index or (not self.agreement_year and not self.index_year):
+            return base_price
+        
+        index_diff = index - agreement_index
+        index_quota = index_diff / agreement_index
+        return base_price + (index_quota * base_price) 

@@ -24,6 +24,18 @@
             </xpath>
         </field>
     </record>
+    
+    
+    <record id="property_property_form_view" model="ir.ui.view">
+        <field name="name">property.property.form</field>
+        <field name="model">property.property</field>
+        <field name="inherit_id" ref="property_mgmt.property_property_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_agreement" icon="fa-life-bouy" string="Agreements"/>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
 

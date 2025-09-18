@@ -112,54 +112,89 @@ class AgreementContractWizard(models.TransientModel):
             "pricelist_id": price_list.id,
             "contract_template_id": self.contract_template_id.id,
             })
-            
+
         contract_id._onchange_contract_template_id()
         return contract_id
 
-    def _generate_price_list_row(self, year, price, indexed=False):
-        data = {
-            "applied_on": "3_global",
-            "date_start": datetime.datetime(year, 1, 1),
-            "date_end": datetime.datetime(year, 12, 31),
-            "fixed_price": price,
+    # def _generate_price_list_row(self, year, price, indexed=False):
+    #     data = {
+    #         "applied_on": "3_global",
+    #         "date_start": datetime.datetime(year, 1, 1),
+    #         "date_end": datetime.datetime(year, 12, 31),
+    #         "fixed_price": price,
+    #         }
+
+    #     if indexed is False:
+    #         data["compute_price"] = "fixed"
+    #     else:
+    #         data["compute_price"] = "by_index"
+    #         if self.env["consumer.price.index"].search([('year', '=', year)]).id is False:
+    #             # TODO: Somehow inform user that this has been setup and remind that it has to be filled.
+    #             cpi_row = self.env["consumer.price.index"].sudo().create(
+    #                     {
+    #                         'year': year,
+    #                         'index': -1,
+    #                         }).id
+    #         data["year"] = year
+
+    #     return data
+
+    # def _calculate_price_list_row(self, year):
+        # if self.type_of_cost_increase == 'index':
+        #     base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
+        #     # TODO: Error if year has negative index
+        #     return self._generate_price_list_row(year, base_price, indexed=True)
+        # elif self.type_of_cost_increase == 'percent':
+        #     #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
+        #     quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
+        #     price = self.cost_per_recurrance * quota
+        #     return self._generate_price_list_row(year, price)
+        # elif self.type_of_cost_increase == 'none':
+        #     return self._generate_price_list_row(year, self.cost_per_recurrance)
+        # else:
+        #     raise NotImplementedError
+
+    # def _generate_price_list(self, agreement):
+    #     return self.env["product.pricelist"].sudo().create({
+    #         "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific agreement.
+    #         "item_ids": [(0, 0, self._calculate_price_list_row(year))
+    #                      for year in range(self.start_date.year, self.end_date.year + 1)],
+    #         })
+
+    def _create_price_list(self,agreement):
+        start_year = self.recurring_start_date.year
+        return self.env["product.pricelist"].sudo().create({
+            "name": _(f"Price list for {agreement.name}"),
+            "item_ids": self._get_price_list_items(start_year),
+        })
+
+    def _get_price_list_items(self, year):
+        items = []
+        for year in range(self.start_date.year, self.end_date.year + 1):
+            item ={
+                "applied_on": "3_global",
+                "date_start": datetime.datetime(year, 1, 1),
+                "date_end": datetime.datetime(year, 12, 31),
+                "fixed_price": self._get_price(year),
+                "agreement_year": self.consumer_index_base_year.year
             }
+            _logger.error(f"{self.type_of_cost_increase=}")
+            if self.type_of_cost_increase == "index":
+                item["compute_price"] = "by_index"
+            items.append((0,0,item))
+        return items
 
-        if indexed is False:
-            data["compute_price"] = "fixed"
-        else:
-            data["compute_price"] = "by_index"
-            if self.env["consumer.price.index"].search([('year', '=', year)]).id is False:
-                # TODO: Somehow inform user that this has been setup and remind that it has to be filled.
-                cpi_row = self.env["consumer.price.index"].sudo().create(
-                        {
-                            'year': year,
-                            'index': -1,
-                            }).id
-            data["year"] = year
-
-        return data
-
-    def _calculate_price_list_row(self, year):
-        if self.type_of_cost_increase == 'index':
-            base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
-            # TODO: Error if year has negative index
-            return self._generate_price_list_row(year, base_price, indexed=True)
-        elif self.type_of_cost_increase == 'percent':
+    def _get_price(self,year):
+        if self.type_of_cost_increase == 'percent':
             #TODO: This assumes the formulae COST * (1 + INDEX)  ^ YEAR-DIFF
             quota = (1.0 + self.cost_index / 100) ** (year - self.start_date.year)
             price = self.cost_per_recurrance * quota
-            return self._generate_price_list_row(year, price)
-        elif self.type_of_cost_increase == 'none':
-            return self._generate_price_list_row(year, self.cost_per_recurrance)
+            return price
+        elif self.type_of_cost_increase in ('index','none'):
+            #base_price = self.cost_per_recurrance / self.consumer_index_base_year.index
+            return self.cost_per_recurrance
         else:
-            raise NotImplementedError
-
-    def _generate_price_list(self, agreement):
-        return self.env["product.pricelist"].sudo().create({
-            "name": _("Price list for {}").format(agreement.name), #TODO: Possibly add some other identification, so that we can find the correct one for a specific agreement.
-            "item_ids": [(0, 0, self._calculate_price_list_row(year))
-                         for year in range(self.start_date.year, self.end_date.year + 1)],
-            })
+            raise NotImplementedError       
 
     def _create_product(self):
         product = self.env["product.product"].search([("name", "=", self._get_product_title())])
@@ -187,6 +222,8 @@ class AgreementContractWizard(models.TransientModel):
             "automatic_price": True,
             })
 
+
+
     def store_contract_id(self, agreement, contract_id):
         agreement.contract_id = contract_id
 
@@ -195,7 +232,7 @@ class AgreementContractWizard(models.TransientModel):
         _logger.warning("Save button pressed")
 
         agreement = self._get_current_agreement()
-        price_list = self._generate_price_list(agreement)
+        price_list = self._create_price_list(agreement)
         contract_id = self._generate_contract(agreement, price_list)
         self.store_contract_id(agreement, contract_id)
         contract = self.env["contract.contract"].browse(contract_id)
