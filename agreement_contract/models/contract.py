@@ -29,13 +29,16 @@ class ContractAbstractContractLine(models.AbstractModel):
         super(ContractAbstractContractLine, self)._compute_price_unit()
 
         for line in self:
+            _logger.warning(f"{line=}")
             if line.automatic_price:
+                _logger.warning(f"{line.automatic_price=}")
                 pricelist = (
                     line.contract_id.pricelist_id
                     or line.contract_id.partner_id.with_company(
                         line.contract_id.company_id
                     ).property_product_pricelist
                 )
+                _logger.warning(f"{pricelist=}")
                 product = line.product_id.with_context(
                     quantity=line.env.context.get(
                         "contract_line_qty",
@@ -47,6 +50,7 @@ class ContractAbstractContractLine(models.AbstractModel):
                         "old_date", self._compute_date(line)
                     ),
                 )
+                _logger.warning(f"{product=}")
                 if line.price_unit != product.price:
                     line.price_unit = product.price
 

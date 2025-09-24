@@ -73,7 +73,11 @@ class AgreementContractWizard(models.TransientModel):
             string="Cost per recurrence",
             required=True,
             )
+
+    cost_increase = fields.Boolean()
+
     type_of_cost_increase = fields.Selection([
+        ("none", "No increase"),
         ("index", "Index increase"),
         ("percent", "Percent increase"),
     ], string="Type of cost increase", required=True,
@@ -109,9 +113,9 @@ class AgreementContractWizard(models.TransientModel):
             "recurring_rule_type": self.recurring_rule_type,
             "date_start": self.start_date,
             "date_end": self.end_date,
-            "pricelist_id": price_list.id,
+            "pricelist_id": price_list.id if price_list else False,
             "contract_template_id": self.contract_template_id.id,
-            "consumer_index_base_year_id": self.consumer_index_base_year.id
+            "consumer_index_base_year_id": self.consumer_index_base_year.id if self.type_of_cost_increase == "index" else False
         })
 
         contract_id._onchange_contract_template_id()
@@ -230,12 +234,12 @@ class AgreementContractWizard(models.TransientModel):
         agreement.contract_id = contract_id
 
     def save_button(self):
-
         _logger.warning("Save button pressed")
-
-
-        price_list = self._create_price_list(self.agreement_id)
-        contract_id = self._generate_contract(self.agreement_id, price_list)
+        if self.type_of_cost_increase == "index":
+           price_list = self._create_price_list(self.agreement_id)
+        else:
+           price_list = False
+        contract_id = self._generate_contract(self.agreement_id, price_list) 
         self.store_contract_id(self.agreement_id, contract_id)
         contract_line_id = self._create_contract_line(contract_id)
 

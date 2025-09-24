@@ -13,16 +13,20 @@ class Contract(models.Model):
             lambda item: item.date_start.date() <= sub_line.period_date_end and
                          sub_line.date <= item.date_end.date()
         )
-        print("price_rule", price_rule)
+
         return price_rule
 
     def _index_computation(self, stub_line):
+        
         price_rule = self._get_price_rule(stub_line)
 
         agreement_index = self.consumer_index_base_year_id.index
+        _logger.warning(f"{agreement_index=}")
         current_index = self.env['consumer.price.index'].search([('year', '=', stub_line.date.year - 1)]).index # subline year - 1
-
+        _logger.warning(f"{current_index=}")
+        _logger.warning(f"{price_rule.fixed_price=}")
         if current_index <= agreement_index:
+            
             return price_rule.fixed_price
 
         index_diff = current_index - agreement_index
@@ -30,6 +34,10 @@ class Contract(models.Model):
         return price_rule.fixed_price + (index_quota * price_rule.fixed_price)
 
     def compute_contract(self):
+        if not self.consumer_index_base_year_id:
+           return super(Contract, self).compute_contract()
+           
+        _logger.warning("compute_contract inherited "*100)
         """Main method to compute contract invoice stubs"""
         self._clear_uninvoiced_lines()
 
@@ -40,22 +48,27 @@ class Contract(models.Model):
             _logger.warning(f"Running while with invoicing date: {invoicing_date}")
 
             stub_line = self._process_stub_for_date(invoicing_date)
+            _logger.warning(f"{stub_line=}")
             if stub_line:
                 index_amount = self._index_computation(stub_line)
-                stub_line.write({'amount': index_amount})
+                stub_line.write({'amount': index_amount/12})
 
             invoicing_date = self._get_next_invoicing_date(invoicing_date)
 
 
     def _process_stub_for_date(self, invoicing_date):
+        if not self.consumer_index_base_year_id:
+           return super(Contract, self)._process_stub_for_date(invoicing_date)
+           
         """Create or update stub for given date"""
         existing_stub = self.env['contract.invoice.stub'].search([
             ('contract_id', '=', self.id),
             ('date', '=', invoicing_date),
         ])
+        _logger.warning(f"_process_stub_for_date {existing_stub=}")
 
         stub_amount = self._compute_contract_lines()
-
+        _logger.warning(f"{stub_amount=}")
         if not existing_stub:
             stub_line = self.env['contract.invoice.stub'].create({
                 'amount': stub_amount,
@@ -66,6 +79,7 @@ class Contract(models.Model):
                 ),
                 'contract_id': self.id
             })
+            _logger.warning(f"{stub_line=}")
             return stub_line
         elif not existing_stub.account_move_id:
             existing_stub.write({'amount': stub_amount})
