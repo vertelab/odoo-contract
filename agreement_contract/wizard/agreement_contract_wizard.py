@@ -100,13 +100,9 @@ class AgreementContractWizard(models.TransientModel):
         related='agreement_id.contract_yearly_cost',
         readonly=False
     )
-
-    def _generate_contract(self, agreement, price_list):
-
-        if not agreement.partner_id:
-            raise UserError("In order to create a contract a partner needs to be specified on the agreement.")
-
-        contract_id = self.env["contract.contract"].sudo().create({
+    
+    def _get_contract_values(self,agreement,price_list):
+        contract_values = {
             "name": self._get_contract_name(agreement.name),
             "partner_id": agreement.partner_id.id,
             "recurring_interval": self.recurring_interval,
@@ -116,8 +112,15 @@ class AgreementContractWizard(models.TransientModel):
             "pricelist_id": price_list.id if price_list else False,
             "contract_template_id": self.contract_template_id.id,
             "consumer_index_base_year_id": self.consumer_index_base_year.id if self.type_of_cost_increase == "index" else False
-        })
+        }
+        return contract_values
 
+    def _generate_contract(self, agreement, price_list):
+
+        if not agreement.partner_id:
+            raise UserError("In order to create a contract a partner needs to be specified on the agreement.")
+        contract_values = self._get_contract_values(agreement,price_list)
+        contract_id = self.env["contract.contract"].sudo().create(contract_values)
         contract_id._onchange_contract_template_id()
         return contract_id
 
