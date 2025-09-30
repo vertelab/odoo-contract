@@ -46,6 +46,8 @@
     'depends': ['base_booking','agreement_legal', 'agreement_contract'],
     "data": [
         "views/agreement.xml",
+        "wizard/agreement_open_space_view.xml",
+        "security/ir.model.access.csv"
     ],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

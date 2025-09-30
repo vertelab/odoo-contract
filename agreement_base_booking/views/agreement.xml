@@ -12,6 +12,9 @@
                 <button type="object" name="make_resource_unavailable" invisible="calender_event_agreement_booking_id != False"  string="Make Resource Unavailable"/>
                 <field name="calender_event_agreement_booking_id"/>
             </field>
+            <xpath expr="//button[last()]" position="after">
+                <button class="oe_stat_button" type="object" name="action_open_resource" string="Open Resource"/>
+            </xpath>
         </field>
     </record>
 

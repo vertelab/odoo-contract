@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+agreement_base_booking.access_agreement_open_space,access_agreement_open_space,agreement_base_booking.model_agreement_open_space,base.group_user,1,1,1,0
+
+

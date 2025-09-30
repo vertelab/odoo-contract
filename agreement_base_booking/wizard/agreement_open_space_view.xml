@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="agreement_open_space_form_view" model="ir.ui.view">
+            <field name="name">agreement.open.space</field>
+            <field name="model">agreement.open.space</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="agreement_id" invisible="1"/>
+                            <field name="start_date" widget="daterange" options="{'end_date_field': 'end_date'}"/>
+                            <field name="end_date" invisible="1"/>
+                            <div>
+                                <span class="fw-bold text-nowrap mb-2">Repeat on</span>
+                                <div><widget name="calendar_week_days"/></div>
+                            </div>
+                        </group>
+
+                    </sheet>
+                    <footer>
+                        <button string="Open Resource" name="action_open_resource" type="object" class="oe_highlight" data-hotkey="q"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

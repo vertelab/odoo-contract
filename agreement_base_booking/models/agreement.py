@@ -54,7 +54,9 @@ class Agreement(models.Model):
             readonly=True
             )
     
-    calender_event_agreement_booking_id = fields.Many2one('calendar.event',help="used to make resource unavailable during agreement")
+    calender_event_agreement_booking_id = fields.Many2one(
+        'calendar.event', help="used to make resource unavailable during agreement"
+    )
     
     def get_calendar_values(self):
         vals = {
@@ -110,12 +112,22 @@ class Agreement(models.Model):
         for record in self:
             if record.booking_resource_id and not record.second_hand_booking_resource_id:
                record.second_hand_booking_resource_id = self.booking_resource_id.copy()
-               record.second_hand_booking_resource_id.name = f"{self.booking_resource_id.name} - open booking"
-               record.second_hand_booking_resource_id.resource_calendar_id = self.env['resource.calendar'].create({'name':record.second_hand_booking_resource_id.name}) 
+               record.second_hand_booking_resource_id.name = f"{self.booking_resource_id.name} - Open Booking"
+               record.second_hand_booking_resource_id.resource_calendar_id = self.env['resource.calendar'].create({
+                   'name':record.second_hand_booking_resource_id.name
+               })
                record.second_hand_booking_resource_id.resource_calendar_id.attendance_ids = False
                
 
- 
 
-
-
+    def action_open_resource(self):
+        return {
+            'name': _("Open Resource"),
+            'type': 'ir.actions.act_window',
+            'res_model':'agreement.open.space',
+            'view_mode': 'form',
+            'context': {
+                'default_agreement_id': self.id,
+            },
+            'target': 'new'
+        }
