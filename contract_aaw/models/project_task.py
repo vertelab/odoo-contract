@@ -17,7 +17,7 @@ class ProjectTask(models.Model):
             {
                 "record": self.partner_id,
                 "link": self.access_url,
-                "sender": self.env.user
+                "sender": self.env.user or self.env.user.partner_id
             },
             engine="ir.qweb",
             minimal_qcontext=True,
