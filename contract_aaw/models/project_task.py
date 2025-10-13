@@ -1,5 +1,7 @@
+import logging
 from odoo import models, fields, api, _
 
+_logger = logging.getLogger(__name__)
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
@@ -11,6 +13,10 @@ class ProjectTask(models.Model):
 
     def action_request_signature(self):
         self.ensure_one()
+        _logger.info(f"Sender: {self.env.user.name}")
+        _logger.info(f"Sender: {self.env.user.email}")
+        _logger.info(f"Sender: {self.env.user.partner_id.name}")
+        _logger.info(f"Sender: {self.env.user.partner_id.email}")
 
         render_result = self.env["ir.qweb"]._render(
             "contract_aaw.aaw_sign_template_mail",
