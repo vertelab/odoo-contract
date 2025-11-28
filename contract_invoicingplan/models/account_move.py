@@ -15,7 +15,7 @@ import ast
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    contract_stub_id = fields.Many2one('contract.invoice.stub', string="Contract Stub")
+    contract_stub_id = fields.Many2one('contract.invoice.stub', string="Contract Stub", copy=False)
 
-    contract_id = fields.Many2one('contract.contract', string="Contract")
+    contract_id = fields.Many2one('contract.contract', string="Contract", copy=False)
 

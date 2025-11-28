@@ -79,11 +79,33 @@ class Contract(models.Model):
         invoicing_date = self._get_starting_date()
         date_end = self._get_end_date(invoicing_date)
 
-        while invoicing_date and (invoicing_date <= date_end):
+        while invoicing_date and (invoicing_date < date_end):
             _logger.warning(f"Running while with invoicing date: {invoicing_date}")
 
             self._process_stub_for_date(invoicing_date)
             invoicing_date = self._get_next_invoicing_date(invoicing_date)
+
+    # def _process_stub_for_date(self, invoicing_date):
+    #     """Create or update stub for given date"""
+    #     existing_stub = self.env['contract.invoice.stub'].search([
+    #         ('contract_id', '=', self.id),
+    #         ('date', '=', invoicing_date),
+    #     ])
+    #
+    #     stub_amount = self._compute_contract_lines()
+    #
+    #     if not existing_stub:
+    #         self.env['contract.invoice.stub'].create({
+    #             'amount': stub_amount,
+    #             'date': invoicing_date,
+    #             'period_date_end': self.get_next_period_date_end(invoicing_date,
+    #                                                              self.recurring_rule_type,
+    #                                                              self.recurring_interval,
+    #                                                              max_date_end=self.date_end),
+    #             'contract_id': self.id
+    #         })
+    #     elif not existing_stub.account_move_id:
+    #         existing_stub.write({'amount': stub_amount})
 
     def _process_stub_for_date(self, invoicing_date):
         """Create or update stub for given date"""
@@ -94,14 +116,31 @@ class Contract(models.Model):
 
         stub_amount = self._compute_contract_lines()
 
+        # Calculate next invoicing date to check if this is the last period
+        next_invoicing_date = self._get_next_invoicing_date(invoicing_date)
+
+        # Calculate period_date_end
+        if self.recurring_rule_type == 'monthly':
+            period_date_end = invoicing_date + relativedelta(months=self.recurring_interval, days=-1)
+        elif self.recurring_rule_type == 'yearly':
+            period_date_end = invoicing_date + relativedelta(years=self.recurring_interval, days=-1)
+        elif self.recurring_rule_type == 'weekly':
+            period_date_end = invoicing_date + relativedelta(weeks=self.recurring_interval, days=-1)
+        else:  # daily
+            period_date_end = invoicing_date + relativedelta(days=self.recurring_interval - 1)
+
+        # If this is the last period (next would exceed end date), extend to end date
+        if self.date_end:
+            if not next_invoicing_date or next_invoicing_date >= self.date_end:
+                period_date_end = self.date_end
+            elif period_date_end > self.date_end:
+                period_date_end = self.date_end
+
         if not existing_stub:
             self.env['contract.invoice.stub'].create({
                 'amount': stub_amount,
                 'date': invoicing_date,
-                'period_date_end': self.get_next_period_date_end(invoicing_date,
-                                                                 self.recurring_rule_type,
-                                                                 self.recurring_interval,
-                                                                 max_date_end=self.date_end),
+                'period_date_end': period_date_end,
                 'contract_id': self.id
             })
         elif not existing_stub.account_move_id:
