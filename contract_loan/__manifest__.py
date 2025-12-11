@@ -38,7 +38,9 @@
     "auto-install": False,
     "installable": True,
     'depends': [
-        'account', 'contract_invoicingplan', "account_loan",
+        'account', 
+        'contract_invoicingplan', 
+        'account_loan',
     ],
     "data": [
         'views/contract_contract_view.xml',

@@ -33,7 +33,7 @@ class ConsumerPriceIndex(models.Model):
 
     is_negative = fields.Boolean(
             string="True if index is negative",
-            compute="_is_negative",
+            compute='_is_negative',
             )
 
     @api.depends("index")

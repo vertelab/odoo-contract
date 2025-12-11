@@ -12,43 +12,43 @@ class AgreementReport(models.Model):
 
     yearly_cost = fields.Float(
             "Yearly cost",
-            compute="_yearly_cost",
+            compute='_yearly_cost',
             store=True,
             )
 
     expiry_date = fields.Date(
             "Expiry date",
-            compute="_expiry_date",
+            compute='_expiry_date',
             store=True,
             )
 
     square_meter_per_employee = fields.Float(
             "Square meter/Employee",
-            compute="_square_meter_per_employee",
+            compute='_square_meter_per_employee',
             store=True,
             )
 
     square_meter_per_workplace = fields.Float(
             "Square meter/Workplace",
-            compute="_square_meter_per_workplace",
+            compute='_square_meter_per_workplace',
             store=True,
             )
 
     yearly_cost_per_square_meter = fields.Float(
             "Yearly cost/Square meter",
-            compute="_yearly_cost_per_square_meter",
+            compute='_yearly_cost_per_square_meter',
             store=True,
             )
 
     yearly_cost_per_employee = fields.Float(
             "Yearly cost/Employee",
-            compute="_yearly_cost_per_employee",
+            compute='_yearly_cost_per_employee',
             store=True,
             )
 
     yearly_cost_per_workplace = fields.Float(
             "Yearly cost/Workplace",
-            compute="_yearly_cost_per_workplace",
+            compute='_yearly_cost_per_workplace',
             store=True,
             )
 
