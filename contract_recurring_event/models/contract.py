@@ -49,12 +49,29 @@ class Contract(models.Model):
 
     duration = fields.Float('Duration')
 
+
+    @api.model
+    def _default_start(self):
+        return fields.Datetime.now()
+
+    @api.model
+    def _default_stop(self):
+        return fields.Datetime.now() + timedelta(hours=1)
+
     start = fields.Datetime(
-        'Start', required=True, tracking=True, default=fields.Date.today,
+        string='Start',
+        required=True, 
+        tracking=True, 
+        default='_default_start',
         help="Start date of an event, without time for full days events")
+
     stop = fields.Datetime(
-        'Stop', required=True, tracking=True, default=lambda self: fields.Datetime.today() + timedelta(hours=1),
-        readonly=False, store=True,
+        string='Stop',
+        required=True, 
+        tracking=True, 
+        default='_default_stop',
+        readonly=False, 
+        store=True,
         help="Stop date of an event, without time for full days events")
 
 

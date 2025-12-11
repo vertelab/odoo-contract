@@ -18,8 +18,19 @@ class AgreementOpenSpace(models.TransientModel):
 
     agreement_id = fields.Many2one('agreement', string="Agreement")
 
-    start_date = fields.Date(string="Start Date", default=_default_start, required=True)
-    end_date = fields.Date(string="End Date", default=_default_stop, required=True)
+
+    @api.model
+    def _default_start(self):
+        # Din befintliga _default_start() logik här, eller:
+        return fields.Date.context_today(self)
+
+    @api.model
+    def _default_stop(self):
+        return fields.Date.context_today(self) + timedelta(days=30)
+
+    start_date = fields.Date(string="Start Date", default='_default_start', required=True)
+    end_date = fields.Date(string="End Date", default='_default_stop', required=True)
+
 
     mon = fields.Boolean(readonly=False)
     tue = fields.Boolean(readonly=False)
