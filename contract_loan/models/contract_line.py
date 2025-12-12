@@ -1,7 +1,3 @@
-from datetime import timedelta
-
-from dateutil.relativedelta import relativedelta
-
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import ValidationError, UserError
 
@@ -42,7 +38,7 @@ class ContractLine(models.Model):
         )
 
         # Build invoice lines: section with total + loan lines
-        lines = self._description(base_sequence, total_amount)
+        lines = self._get_loan_description_lines(base_sequence, total_amount)
 
         # Add all loan lines (principal and interest)
         for idx, loan_line_vals in enumerate(loan_line_vals_list):
@@ -51,7 +47,7 @@ class ContractLine(models.Model):
             lines.append(loan_line_vals)
         return lines
 
-    def _description(self, base_sequence, total_amount):
+    def _get_loan_description_lines(self, base_sequence, total_amount):
         lines = [{
             'display_type': 'line_section',
             'name': _('Loan Details for: %s - Total: %.2f kr') % (

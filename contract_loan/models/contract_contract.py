@@ -1,13 +1,5 @@
-from calendar import month
-from datetime import timedelta
-
-from dateutil.relativedelta import relativedelta
-
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import ValidationError, UserError
-import logging
-import pandas as pd
-from datetime import datetime
 
 
 class Contract(models.Model):
