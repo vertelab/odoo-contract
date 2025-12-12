@@ -30,18 +30,26 @@ class AgreementContractWizard(models.TransientModel):
     def _get_contract_name(self, name):
         return _("Contract for {}").format(name)
 
+    @api.model
+        def _default_start_date(self):
+        return self._initialize_start_date()
+
     start_date = fields.Date(
-            string="Start date",
-            default=_initialize_start_date,
-            required=True,
-            readonly=True,
-            )
+        default='_default_start_date',  # ← STRÄNG-referens till metod!
+        required=True,
+        readonly=True,
+        )
+
+    @api.model
+    def _default_end_date(self):
+        return self._initialize_end_date()
+
     end_date = fields.Date(
-            string="End date",
-            default=_initialize_end_date,
-            required=True,
-            readonly=True,
-            )
+        default='_default_end_date',  # ← STRÄNG-referens!
+        required=True,
+        readonly=True,
+        )
+
     recurring_interval = fields.Integer(
             string="Recurring interval",
             default=1,
@@ -63,10 +71,14 @@ class AgreementContractWizard(models.TransientModel):
             help="Specify Interval for automatic invoice generation.",
             required=True,
             )
+    @api.model
+        def _default_start_date(self):
+        return self._initialize_start_date()
+        
     recurring_start_date = fields.Date(
             string="Start of next invoice",
-            default=None,
-            required=False,
+            default='_default_start_date', 
+           required=False,
             help="Specify if different to start date",
             )
     cost_per_recurrence = fields.Float(

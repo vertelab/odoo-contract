@@ -39,7 +39,7 @@ class Contract(models.Model):
                 for item in rec.invoice_stub_ids if item.date
             )
 
-    uninvoiced_stubs = fields.Boolean(string="UnInvoiced Stubs", default=False, compute=_set_uninvoiced_stubs,
+    uninvoiced_stubs = fields.Boolean(string="UnInvoiced Stubs", default=False, compute='_set_uninvoiced_stubs',
                                       store=True)
 
     @api.depends('invoice_stub_ids')

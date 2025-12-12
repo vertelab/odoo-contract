@@ -23,7 +23,7 @@ class Contract(models.Model):
 
     sale_id = fields.Many2one(comodel_name='sale.order')
     sale_order_line_id = fields.Many2one(comodel_name='sale.order.line')
-    #project_id = fields.Many2one(comodel_name="project.project", compute="compute_project_id", store=True)
+    #project_id = fields.Many2one(comodel_name="project.project", compute='compute_project_id', store=True)
 
     def get_first_invoice_date(self):
         """Return the date of the first invoice"""

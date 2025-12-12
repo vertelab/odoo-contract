@@ -42,7 +42,7 @@ class AgreementContract(models.Model):
 
     contract_yearly_cost = fields.Float(
             string="Contracts Yearly cost",
-            # compute="_contract_yearly_cost",
+            compute='_contract_yearly_cost',
             )
 
     @api.model

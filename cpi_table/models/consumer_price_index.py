@@ -19,9 +19,12 @@ class ConsumerPriceIndex(models.Model):
     #       Then give users posibilities to create tables, name them, and use them when calc. costs.
     # TODO: Stop users from creating duplicate values for year (or at least unique for months?)
 
+    @api.model
+    def _default_year(self):
+        return datetime.now().year
     year = fields.Integer(
             string="Year",
-            default=lambda _: datetime.datetime.now().year,
+            default='_default_year',
             )
 
     index = fields.Float(
@@ -30,7 +33,7 @@ class ConsumerPriceIndex(models.Model):
 
     is_negative = fields.Boolean(
             string="True if index is negative",
-            compute="_is_negative",
+            compute='_is_negative',
             )
 
     @api.depends("index")

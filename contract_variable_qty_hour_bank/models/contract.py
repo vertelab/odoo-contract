@@ -61,11 +61,11 @@ class Contract(models.Model):
 
     find_hours_date_start = fields.Date(
         string="Timesheet start date",
-        compute="_find_hours_date",
+        compute='_find_hours_date',
     )
     find_hours_date_end = fields.Date(
         string="Timesheet end date",
-        compute="_find_hours_date",
+        compute='_find_hours_date',
     )
 
     invoice_all_of_last_month = fields.Boolean(default=True, String="Invoice the entire month",
