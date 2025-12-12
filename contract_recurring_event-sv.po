@@ -1,0 +1,305 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* contract_recurring_event
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20251110\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-13 14:02+0000\n"
+"PO-Revision-Date: 2025-11-13 14:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: contract_recurring_event
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.contract_contract_recurring_form_view
+msgid "Add to Calendar"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__byday
+msgid "Byday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__calendar_count
+msgid "Calendar Count"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model,name:contract_recurring_event.model_calendar_event
+msgid "Calendar Event"
+msgstr "Kalenderhändelse"
+
+#. module: contract_recurring_event
+#: model:ir.model,name:contract_recurring_event.model_contract_contract
+#: model:ir.model.fields,field_description:contract_recurring_event.field_calendar_event__contract_id
+msgid "Contract"
+msgstr "Kontrakt"
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_calendar_event__contract_count
+msgid "Contract Count"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.calendar_event_form_view
+msgid "Contracts"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__day
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__month_by__date
+msgid "Date of month"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.contract_contract_recurring_form_view
+msgid "Day of Month"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__month_by__day
+msgid "Day of month"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__rrule_type__daily
+msgid "Days"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__duration
+msgid "Duration"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__end_type__end_date
+msgid "End date"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__byday__1
+msgid "First"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__end_type__forever
+msgid "Forever"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__byday__4
+msgid "Fourth"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__fr
+msgid "Fri"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__fri
+msgid "Friday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__byday__-1
+msgid "Last"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,help:contract_recurring_event.field_contract_contract__rrule_type
+msgid "Let the event automatically repeat at that interval"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.view_calendar_event_calendar_month_mode
+msgid "Meetings"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__mo
+msgid "Mon"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__mon
+msgid "Monday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__rrule_type__monthly
+msgid "Months"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__end_type__count
+msgid "Number of repetitions"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__month_by
+msgid "Option"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__rrule_type
+msgid "Recurrence"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__end_type
+msgid "Recurrence Termination"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__recurrency
+msgid "Recurrent"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,help:contract_recurring_event.field_contract_contract__recurrency
+msgid "Recurrent Event"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__count
+msgid "Repeat"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__interval
+msgid "Repeat Every"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,help:contract_recurring_event.field_contract_contract__interval
+msgid "Repeat every (Days/Week/Month/Year)"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,help:contract_recurring_event.field_contract_contract__count
+msgid "Repeat x times"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.view_calendar_event_calendar_month_mode
+msgid "Responsible"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__sa
+msgid "Sat"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__sat
+msgid "Saturday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__calendar_ids
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.contract_contract_recurring_form_view
+msgid "Schedule"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__byday__2
+msgid "Second"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__start
+msgid "Start"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,help:contract_recurring_event.field_contract_contract__start
+msgid "Start date of an event, without time for full days events"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__stop
+msgid "Stop"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,help:contract_recurring_event.field_contract_contract__stop
+msgid "Stop date of an event, without time for full days events"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__su
+msgid "Sun"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__sun
+msgid "Sunday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.contract_contract_recurring_form_view
+msgid "The"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__byday__3
+msgid "Third"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__th
+msgid "Thu"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__thu
+msgid "Thursday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__tu
+msgid "Tue"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__tue
+msgid "Tuesday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__until
+#: model_terms:ir.ui.view,arch_db:contract_recurring_event.contract_contract_recurring_form_view
+msgid "Until"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__we
+msgid "Wed"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__weekday__wed
+msgid "Wednesday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields,field_description:contract_recurring_event.field_contract_contract__weekday
+msgid "Weekday"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__rrule_type__weekly
+msgid "Weeks"
+msgstr ""
+
+#. module: contract_recurring_event
+#: model:ir.model.fields.selection,name:contract_recurring_event.selection__contract_contract__rrule_type__yearly
+msgid "Years"
+msgstr ""
