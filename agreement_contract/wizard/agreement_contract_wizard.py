@@ -31,7 +31,7 @@ class AgreementContractWizard(models.TransientModel):
         return _("Contract for {}").format(name)
 
     @api.model
-        def _default_start_date(self):
+    def _default_start_date(self):
         return self._initialize_start_date()
 
     start_date = fields.Date(
@@ -72,7 +72,7 @@ class AgreementContractWizard(models.TransientModel):
             required=True,
             )
     @api.model
-        def _default_start_date(self):
+    def _default_start_date(self):
         return self._initialize_start_date()
         
     recurring_start_date = fields.Date(
