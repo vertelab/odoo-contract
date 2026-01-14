@@ -1,15 +1,15 @@
 <odoo>
     <data>
         <record id="contract_variable_qty_hour_bank_contract_contract_form_view" model="ir.ui.view">
-            <field name="name">Contract Calendar</field>
+            <field name="name">contract.contract.form.hour_bank</field>
             <field name="model">contract.contract</field>
             <field name="inherit_id" ref="contract.contract_contract_form_view" />
             <field name="arch" type="xml">
-                <field name="recurring_invoicing_type" position="after">
+                <xpath expr="//page[@name='invoicing']//field[@name='recurring_invoicing_type']" position="after">
                     <field name="invoice_all_of_last_month"/>
                     <field name="find_hours_date_start"/>
                     <field name="find_hours_date_end"/>
-                </field>
+                </xpath>
             </field>
         </record>
     </data>

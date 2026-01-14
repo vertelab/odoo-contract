@@ -68,7 +68,7 @@ class Contract(models.Model):
         compute='_find_hours_date',
     )
 
-    invoice_all_of_last_month = fields.Boolean(default=True, String="Invoice the entire month",
+    invoice_all_of_last_month = fields.Boolean(default=True, string="Invoice the entire month",
                                                help="If this is turned on we will create invoices and grab time "
                                                     "reports for the entirety of last month, so for example we have "
                                                     "the next invoice date 2023-02-12 than we will create an invoice "
