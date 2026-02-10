@@ -40,7 +40,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-contract',
     # Any module necessary for this one to work correctly
-    'depends': ['contract', 'sale', 'sale_project', 'product'],
+    'depends': ['contract', 'sale', 'sale_project', 'product_contract'],
     'data': [
         "views/sale_view.xml",
         "views/contract_view.xml",
