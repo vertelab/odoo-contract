@@ -30,7 +30,7 @@ class Sale(models.Model):
     #     self.contract_ids = [(4, contract_id.id)]
     #     return contract_id
 
-    def _prepare_contract_vals(self):
+    def _prepare_contract_vals(self, line):
         values = {
             "name": f"{self.name} - {self.partner_id.name}",
             "partner_id": self.partner_id.id,
