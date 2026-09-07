@@ -34,7 +34,7 @@
      Connect a booking type and resource to a agreement.
     """,
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/agreement_property',
     'license': 'AGPL-3',
     'contributor': '',

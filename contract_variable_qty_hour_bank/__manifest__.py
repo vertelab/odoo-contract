@@ -34,7 +34,7 @@
     Adds timesheet to contract.
     """,
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_variable_qty_hour_bank',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

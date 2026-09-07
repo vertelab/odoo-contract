@@ -30,7 +30,7 @@
     # for the full list
     'category': 'Sales',
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_edit_active_lines',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

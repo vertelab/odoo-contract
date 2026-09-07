@@ -29,7 +29,7 @@
     Create plan using stubbs for invoicing.
     """,
     'category': 'Sales',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_invoicingplan',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

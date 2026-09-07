@@ -29,7 +29,7 @@
         Invoice AAW Tasks.
     """,
     'category': 'Sales',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_aaw',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',

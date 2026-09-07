@@ -34,7 +34,7 @@
     Adds the value of all items in a contract and divide to get the monthly fee for every contract.
     """,
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_monthly_value',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
