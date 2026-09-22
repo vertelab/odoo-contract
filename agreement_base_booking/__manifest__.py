@@ -35,7 +35,7 @@
     """,
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-contract/agreement_property',
+    'website': 'https://vertel.se/apps/odoo-contract/agreement_base_booking',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',

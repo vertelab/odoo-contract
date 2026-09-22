@@ -44,7 +44,7 @@
     """,
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
-    'website': 'https://vertel.se/apps/odoo-contract/contract_cariable_quantity_analytics_account',
+    'website': 'https://vertel.se/apps/odoo-contract/contract_variable_quantity_analytics_account',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
