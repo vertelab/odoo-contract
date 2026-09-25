@@ -23,16 +23,24 @@
 
 {
     'name': 'Contract: Monthly Value',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Will generate monthly value of each contract.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'description': """
+    'description': '''
+Monthly Value
+=============
+
     Adds the value of all items in a contract and divide to get the monthly fee for every contract.
-    """,
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on contract.contract.
+    ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_monthly_value',

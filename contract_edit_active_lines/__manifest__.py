@@ -22,9 +22,19 @@
 
 {
     'name': 'Contract: Allow Lines Edit',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'This module will let us show the cancel button on active contract.lines and removes the user error that prevents us from cancelling an active line.',
+    'description': '''
+Allow Lines Edit
+================
+
+    This module will let us show the cancel button on active contract.lines and removes the user error that prevents us from cancelling an active line.
+
+    Features:
+
+        - Extends Odoo: Builds on contract.line.
+    ''',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list

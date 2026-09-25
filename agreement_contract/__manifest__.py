@@ -23,16 +23,25 @@
 
 {
     'name': 'Contract: Agreement Contract',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Agreement - Contract integration.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'description': """
-    Inherit variables from contract into agreement.
-    """,
+    'description': '''
+Agreement Contract
+==================
+
+    Agreement - Contract integration.
+
+    Features:
+
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on agreement, contract.recurring.mixin.
+    ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/agreement_contract',

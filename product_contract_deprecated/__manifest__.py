@@ -29,9 +29,17 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'description': """
+    'description': '''
+Product Contract [DEPRECATED]
+=============================
+
     Adds contract functionality to a product.
-    """,
+
+    Features:
+
+        - UI Integration: Extends 3 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on contract.contract, contract.template, product.template, project.project.
+    ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/product_contract_deprecated',

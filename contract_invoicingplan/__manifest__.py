@@ -23,11 +23,20 @@
 
 {
     'name': 'Contract: Invoice recurring values in a plan',
-    'version': '1.0',
-    'summary': 'Contract invoicing plan',
-    'description': """
-    Create plan using stubbs for invoicing.
-    """,
+    'version': '18.0.1.0.0',
+    'summary': 'Contract invoicing plan.',
+    'description': '''
+Invoice recurring values in a plan
+==================================
+
+    Contract invoicing plan.
+
+    Features:
+
+        - Automation: Scheduled jobs: Invoice Subs: Create Move for Invoice Subs.
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.journal, account.move, contract.contract, contract.invoice.stub.
+    ''',
     'category': 'Sales',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_invoicingplan',

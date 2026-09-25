@@ -23,16 +23,24 @@
 
 {
     'name': 'Contract: Variable Qty Hour Bank',
-    'version': '1.1',
+    'version': '18.0.1.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Invoice hours exceeding an hour bank.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Sales',
-    'description': """
-    Adds timesheet to contract.
-    """,
+    'description': '''
+Variable Qty Hour Bank
+======================
+
+    Invoice hours exceeding an hour bank.
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.analytic.line, account.move.line, contract.contract, contract.line.
+    ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_variable_qty_hour_bank',

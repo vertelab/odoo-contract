@@ -23,11 +23,19 @@
 
 {
     'name': 'Contract: Loan',
-    'version': '1.0',
-    'summary': 'Contract Loan',
-    'description': """
-        Contract Loan.
-    """,
+    'version': '18.0.1.0.0',
+    'summary': 'Contract Loan.',
+    'description': '''
+Loan
+====
+
+    Contract Loan.
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on contract.contract, contract.line.
+    ''',
     'category': 'Sales',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_loan',

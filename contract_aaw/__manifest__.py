@@ -23,11 +23,19 @@
 
 {
     'name': 'Contract: Invoice Alter and Additional Work Tasks',
-    'version': '1.0',
-    'summary': 'Invoice Alter and Additional Work , AAW',
-    'description': """
-        Invoice AAW Tasks.
-    """,
+    'version': '18.0.1.0.0',
+    'summary': 'Invoice Alter and Additional Work , AAW.',
+    'description': '''
+Invoice Alter and Additional Work Tasks
+=======================================
+
+    Invoice Alter and Additional Work , AAW.
+
+    Features:
+
+        - UI Integration: Extends 6 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on contract.contract, contract.line, contract.template, contract.template.line.
+    ''',
     'category': 'Sales',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_aaw',

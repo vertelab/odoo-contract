@@ -21,27 +21,35 @@
 
 {
     'name': 'Contract: Variable quantity alytics Account Formula',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds a special Formula (quantity) which uses Analytics Account',
+    'summary': 'Adds a special Formula (quantity) which uses Analytics Account.',
     'category': 'Sales',
-    'description': """
-        This module adds a new Formula (quantity) for variable quantity in contract.
-        This formula is intended to be used when one wants to use a contract,
-        to onward bill a invoice.
-        
-        This Formula will look in all posted in-invoices for any line that refers to:
-        the same produkt as in contract line,
-        the same analytics account as in the contract line,
-        that has not been invoiced by this formula before,
-        and that is from before the contract lines end date.
+    'description': '''
+Variable quantity alytics Account Formula
+=========================================
 
-        To know if a invoice line has been invoiced already,
-        a link between invoice lines and contracts as been created.
-        This field will be set when the formula fetches the quantity from a invoice line.
-        This is to ensure a invoice line's quantity is only fetched once,
-        and thus not billed onwards more then once.
-    """,
+    This module adds a new Formula (quantity) for variable quantity in contract.
+            This formula is intended to be used when one wants to use a contract,
+            to onward bill a invoice.
+
+    This Formula will look in all posted in-invoices for any line that refers to:
+            the same produkt as in contract line,
+            the same analytics account as in the contract line,
+            that has not been invoiced by this formula before,
+            and that is from before the contract lines end date.
+
+    To know if a invoice line has been invoiced already,
+            a link between invoice lines and contracts as been created.
+            This field will be set when the formula fetches the quantity from a invoice line.
+            This is to ensure a invoice line's quantity is only fetched once,
+            and thus not billed onwards more then once.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.move.line, contract.line.
+    ''',
     #'sequence': '1',
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-contract/contract_variable_quantity_analytics_account',
