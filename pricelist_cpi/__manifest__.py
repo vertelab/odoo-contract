@@ -60,4 +60,3 @@ Pricelist CPI, Consumer Price Index
         "views/product_pricelist.xml",
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

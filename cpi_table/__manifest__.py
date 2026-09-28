@@ -59,4 +59,3 @@ CPI Table, Consumer Price Index
         "views/consumer_price_index.xml",
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

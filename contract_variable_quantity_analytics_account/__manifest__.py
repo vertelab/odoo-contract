@@ -69,4 +69,3 @@ Variable quantity alytics Account Formula
         "data/contract_line_qty_formula.xml",
     ],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
