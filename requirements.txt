@@ -1,1 +1,10 @@
-##
+# Odoo Contract (vertelab/odoo-contract) — Python-beroenden
+#
+# Installeras av repo_apply (salt odoo.repo_apply) tillsammans med alla
+# andra /usr/share/odoo-*/requirements.txt (dedup på paketnamn).
+#
+# Inventering 2026-11-13: filen innehöll tidigare bara "##" (en platshållare)
+# medan contract_aaw importerar pandas på modulnivå.
+
+# contract_aaw — pandas används för att räkna avtalsvärden (AWS/AWA)
+pandas
