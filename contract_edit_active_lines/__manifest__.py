@@ -22,7 +22,7 @@
 
 {
     'name': 'Contract: Allow Lines Edit',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'This module will let us show the cancel button on active contract.lines and removes the user error that prevents us from cancelling an active line.',
     'description': '''

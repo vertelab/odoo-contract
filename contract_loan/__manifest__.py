@@ -23,7 +23,7 @@
 
 {
     'name': 'Contract: Loan',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Contract Loan.',
     'description': '''
 Loan

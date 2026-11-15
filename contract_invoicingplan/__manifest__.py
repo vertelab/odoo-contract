@@ -23,7 +23,7 @@
 
 {
     'name': 'Contract: Invoice recurring values in a plan',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Contract invoicing plan.',
     'description': '''
 Invoice recurring values in a plan

@@ -21,7 +21,7 @@
 
 {
     'name': 'Contract: Contract Recurring Event',
-    'version': '18.0.1.1.0',
+    'version': '1.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Manage your Contract Recurring Event.',
     # Categories can be used to filter modules in modules listing

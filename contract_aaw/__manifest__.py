@@ -23,7 +23,7 @@
 
 {
     'name': 'Contract: Invoice Alter and Additional Work Tasks',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'Invoice Alter and Additional Work , AAW.',
     'description': '''
 Invoice Alter and Additional Work Tasks
