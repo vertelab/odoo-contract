@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from babel.dates import format_datetime, format_date
 from odoo import models, api, _, fields
-from odoo.osv import expression
+# odoo.osv was removed in 20.0; this module does not use expression.
 from odoo.release import version
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from odoo.tools.misc import formatLang, format_date as odoo_format_date, get_lang

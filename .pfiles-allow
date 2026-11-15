@@ -2,6 +2,7 @@ account_agreement/models/account_move.py
 account_agreement/static/description/index.html
 account_agreement/views/account_move.xml
 agreement_base_booking/models/agreement.py
+agreement_base_booking/security/ir.access.csv
 agreement_base_booking/security/ir.model.access.csv
 agreement_base_booking/static/description/index.html
 agreement_base_booking/views/agreement.xml
@@ -13,6 +14,7 @@ agreement_calculate/static/description/index.html
 agreement_calculate/views/agreement.xml
 agreement_contract/models/agreement.py
 agreement_contract/models/contract.py
+agreement_contract/security/ir.access.csv
 agreement_contract/security/ir.model.access.csv
 agreement_contract/static/description/index.html
 agreement_contract/views/agreement.xml
@@ -29,7 +31,6 @@ contract_aaw/models/contract_template.py
 contract_aaw/models/contract_template_line.py
 contract_aaw/models/project_project.py
 contract_aaw/models/project_task.py
-contract_aaw/models/sale.py
 contract_aaw/static/description/index.html
 contract_aaw/views/contract_contract_view.xml
 contract_aaw/views/contract_template_view.xml
@@ -40,11 +41,10 @@ contract_aaw/views/project_task_view.xml
 contract_edit_active_lines/models/contract_line.py
 contract_edit_active_lines/static/description/index.html
 contract_invoicingplan/data/ir_cron.xml
-contract_invoicingplan/models/account_journal_dashboard.py
-contract_invoicingplan/models/account_move.py
 contract_invoicingplan/models/contract.py
 contract_invoicingplan/models/contract_invoice_sub.py
 contract_invoicingplan/models/contract_recurrency_mixin.py
+contract_invoicingplan/security/ir.access.csv
 contract_invoicingplan/security/ir.model.access.csv
 contract_invoicingplan/static/description/index.html
 contract_invoicingplan/views/account_journal_dashboard.xml
@@ -78,6 +78,7 @@ contract_variable_quantity_analytics_account/models/contract_line.py
 contract_variable_quantity_analytics_account/static/description/index.html
 contract_variable_quantity_analytics_account/views/account_move_view.xml
 cpi_table/models/consumer_price_index.py
+cpi_table/security/ir.access.csv
 cpi_table/security/ir.model.access.csv
 cpi_table/static/description/index.html
 cpi_table/views/consumer_price_index.xml

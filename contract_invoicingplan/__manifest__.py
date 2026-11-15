@@ -48,7 +48,7 @@ Invoice recurring values in a plan
     "installable": True,
     'depends': ['contract', 'account'],
     "data": [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/contract_view.xml',
         'views/account_move.xml',
         'views/contract_invoice_sub_view.xml',

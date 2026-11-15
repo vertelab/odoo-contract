@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+agreement_base_booking.access_agreement_open_space,access_agreement_open_space,agreement.open.space,base.group_user,cru,

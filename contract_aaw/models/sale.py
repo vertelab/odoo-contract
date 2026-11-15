@@ -1,6 +1,6 @@
 from collections import defaultdict
 from odoo import models, fields, api
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class SaleOrder(models.Model):
@@ -50,7 +50,7 @@ class SaleOrderLine(models.Model):
             return result
 
         # group analytic lines by product uom and so line
-        domain = expression.AND([[('so_line', 'in', self.ids), ('task_id.is_aaw', '=', False)], additional_domain])
+        domain = Domain.AND([Domain([('so_line', 'in', self.ids), ('task_id.is_aaw', '=', False)]), Domain(additional_domain)])
         data = self.env['account.analytic.line']._read_group(
             domain,
             ['product_uom_id', 'so_line'],

@@ -56,6 +56,6 @@ Base Booking
     "data": [
         "views/agreement.xml",
         "wizard/agreement_open_space_view.xml",
-        "security/ir.model.access.csv"
+        "security/ir.access.csv"
     ],
 }

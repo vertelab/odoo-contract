@@ -56,7 +56,7 @@ Agreement Contract
     "installable": True,
     'depends': ['account','agreement_legal','contract','account_agreement','pricelist_cpi',],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/agreement_contract_wizard_views.xml",
         "views/agreement.xml",
         "views/contract.xml",

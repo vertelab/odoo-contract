@@ -55,7 +55,7 @@ CPI Table, Consumer Price Index
     "installable": True,
     'depends': ['base','agreement_legal',],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/consumer_price_index.xml",
     ],
 }

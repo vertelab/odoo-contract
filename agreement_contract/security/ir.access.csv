@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_agreement_contract_wizard,agreement.contract.wizard,agreement.contract.wizard,base.group_user,crud,
