@@ -5,7 +5,8 @@ from odoo import fields
 from odoo.tests import common
 
 
-class TestContractVariableQtyTimesheet(common.SavepointCase):
+# 20.0: SavepointCase is gone; TransactionCase is the replacement.
+class TestContractVariableQtyTimesheet(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
