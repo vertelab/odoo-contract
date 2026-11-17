@@ -91,13 +91,14 @@ class Contract(models.Model):
     def _get_time_amount(self, line, context, user, period_first_date, period_last_date):
         _logger.warning(f"{line=},{context=},{user=},{period_first_date=},{period_last_date=}")
         fields = self._get_time_amount_fields(line, context, user, period_first_date, period_last_date)
+        # 20.0 returns a list of tuples: (groupby values..., aggregate values...)
         res = self.env['account.analytic.line'].read_group(
             self._get_time_amount_domain(line),
-            fields=fields,
+            aggregates=fields,
             groupby=[])
-        if res[0]['unit_amount'] == None:
+        if not res or res[0][0] is None:
             return 0
-        return res[0]['unit_amount']
+        return res[0][0]
 
 
 class ContractLine(models.Model):

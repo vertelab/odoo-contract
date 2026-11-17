@@ -77,13 +77,11 @@
                     <filter string="End Date" name="period_date_end" date="period_date_end"/>
                     <separator />
 
-                    <group expand="0" string="Group By">
                         <filter string="Contract" name="contract_id" domain="[]" context="{'group_by':'contract_id'}"/>
                         <filter string="Contract Template" name="contract_template_id" domain="[]" context="{'group_by':'contract_template_id'}"/>
                         <filter string="Partner" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
                         <filter string="Start Date" name="date" domain="[]" context="{'group_by':'date'}"/>
                         <filter string="End Date" name="period_date_end" domain="[]" context="{'group_by':'period_date_end'}"/>
-                    </group>
                 </search>
             </field>
         </record>
